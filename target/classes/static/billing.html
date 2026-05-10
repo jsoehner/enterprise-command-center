@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Department - REST API Aggregator</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body onload="if(window.self !== window.top) document.body.classList.add('minimal')">
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+    <div class="container animate-fade">
+        <nav class="nav-bar">
+            <a href="/" class="nav-link">Dashboard</a>
+            <a href="/entry.html" class="nav-link">Order Entry</a>
+            <a href="/billing.html" class="nav-link active">Billing</a>
+            <a href="/shipping.html" class="nav-link">Shipping</a>
+        </nav>
+        <header>
+            <h1>Billing Department</h1>
+            <p>Process pending invoices</p>
+        </header>
+
+        <div id="order-list" class="dashboard-grid">
+            <!-- Orders will appear here -->
+        </div>
+    </div>
+
+    <script>
+        async function fetchBilling() {
+            const res = await fetch('/camel/orders/billing');
+            const orders = await res.json();
+            const list = document.getElementById('order-list');
+            list.innerHTML = orders.length ? '' : '<div class="card">No pending bills.</div>';
+            
+            orders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h3>${order.id}</h3>
+                    <p style="color: var(--text-dim)">Customer: ${order.customer}</p>
+                    <p style="font-size: 1.5rem; margin: 1rem 0;">$${order.amount.toFixed(2)}</p>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+
+        fetchBilling();
+        setInterval(fetchBilling, 2000);
+    </script>
+</body>
+</html>

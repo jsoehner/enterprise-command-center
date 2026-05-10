@@ -1,0 +1,11 @@
+type Query {
+    aggregatedData: AggregatedResponse
+}
+
+type AggregatedResponse {
+    status: String
+    data: DataMap
+    timestamp: Float
+}
+
+scalar DataMap

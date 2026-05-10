@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Department - REST API Aggregator</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body onload="if(window.self !== window.top) document.body.classList.add('minimal')">
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+    <div class="container animate-fade">
+        <nav class="nav-bar">
+            <a href="/" class="nav-link">Dashboard</a>
+            <a href="/entry.html" class="nav-link">Order Entry</a>
+            <a href="/billing.html" class="nav-link">Billing</a>
+            <a href="/shipping.html" class="nav-link active">Shipping</a>
+        </nav>
+        <header>
+            <h1>Shipping Department</h1>
+            <p>Fulfill billed orders</p>
+        </header>
+
+        <div id="order-list" class="dashboard-grid">
+            <!-- Orders will appear here -->
+        </div>
+    </div>
+
+    <script>
+        async function fetchShipping() {
+            const res = await fetch('/camel/orders/shipping');
+            const orders = await res.json();
+            const list = document.getElementById('order-list');
+            list.innerHTML = orders.length ? '' : '<div class="card">No orders ready to ship.</div>';
+            
+            orders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h3>${order.id}</h3>
+                    <p style="color: var(--text-dim)">Customer: ${order.customer}</p>
+                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                        <strong>Shipping Instructions:</strong><br>
+                        Handle with care. Standard delivery to ${order.customer}.
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+
+        fetchShipping();
+        setInterval(fetchShipping, 2000);
+    </script>
+</body>
+</html>

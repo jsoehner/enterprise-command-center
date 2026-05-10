@@ -1,0 +1,6 @@
+com/camel/aggregator/service/CacheService.class
+com/camel/aggregator/routes/AggregatorRoute.class
+com/camel/aggregator/CamelAggregatorApplication.class
+com/camel/aggregator/service/ExternalApiService.class
+com/camel/aggregator/service/MapAggregationStrategy.class
+com/camel/aggregator/dto/AggregatedResponse.class
