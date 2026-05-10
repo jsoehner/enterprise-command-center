@@ -6,12 +6,15 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ServiceHealthMonitor {
+    private static final Logger log = LoggerFactory.getLogger(ServiceHealthMonitor.class);
     
     private final Map<String, String> serviceStatus = new ConcurrentHashMap<>();
-    private final Random random = new Random();
+    private final Random random = new java.security.SecureRandom();
     
     public ServiceHealthMonitor() {
         serviceStatus.put("User API", "UP");
@@ -35,12 +38,12 @@ public class ServiceHealthMonitor {
             String current = serviceStatus.get(targetService);
             String newStatus = "UP".equals(current) ? "DOWN" : "UP";
             serviceStatus.put(targetService, newStatus);
-            System.out.println("[HealthMonitor] " + targetService + " is now " + newStatus);
+            log.info("[HealthMonitor] {} is now {}", targetService, newStatus);
         } else {
             // Self-healing: if down, bring it back up eventually
             if ("DOWN".equals(serviceStatus.get(targetService))) {
                 serviceStatus.put(targetService, "UP");
-                System.out.println("[HealthMonitor] " + targetService + " auto-recovered to UP");
+                log.info("[HealthMonitor] {} auto-recovered to UP", targetService);
             }
         }
     }

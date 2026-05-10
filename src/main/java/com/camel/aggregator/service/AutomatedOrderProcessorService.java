@@ -2,6 +2,8 @@ package com.camel.aggregator.service;
 
 import com.camel.aggregator.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,8 @@ import java.util.List;
 
 @Service
 public class AutomatedOrderProcessorService {
+
+    private static final Logger log = LoggerFactory.getLogger(AutomatedOrderProcessorService.class);
 
     @Autowired
     private WorkOrderService workOrderService;
@@ -21,7 +25,7 @@ public class AutomatedOrderProcessorService {
             // Process the first one
             Order toBill = pending.get(0);
             workOrderService.billOrder(toBill.getId());
-            System.out.println("[AutoProcessor] Auto-billed order: " + toBill.getId());
+            log.info("[AutoProcessor] Auto-billed order: {}", toBill.getId());
         }
     }
 
@@ -36,7 +40,7 @@ public class AutomatedOrderProcessorService {
             
             // To ensure the queue doesn't grow infinitely and they are "removed",
             // we could remove them entirely, but keeping them as SHIPPED is good for the stats board.
-            System.out.println("[AutoProcessor] Auto-shipped order: " + toShip.getId());
+            log.info("[AutoProcessor] Auto-shipped order: {}", toShip.getId());
         }
     }
 }

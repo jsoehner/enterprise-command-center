@@ -36,8 +36,8 @@ public class ExternalApiService {
     }
 
     // Update methods for the generator
-    public void updateName(String name) { this.name = name; }
-    public void updateStatus(String status) { this.status = status; }
-    public void updateStock(int stock) { this.stockCount = stock; }
-    public void updateAmount(double amount) { this.amount = amount; }
+    public void modifyName(String name) { this.name = name; }
+    public void modifyStatus(String status) { this.status = status; }
+    public void modifyStock(int stock) { this.stockCount = stock; }
+    public void modifyAmount(double amount) { this.amount = amount; }
 }

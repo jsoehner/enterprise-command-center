@@ -2,12 +2,8 @@ async function fetchData() {
     const dashboard = document.getElementById('dashboard');
     const lastUpdated = document.getElementById('last-updated');
     
-    // Using the credentials configured in SecurityConfig
-    const headers = new Headers();
-    headers.set('Authorization', 'Basic ' + btoa('admin:password'));
-
     try {
-        const response = await fetch('/camel/api/aggregated', { headers });
+        const response = await fetch('/camel/api/aggregated');
         if (!response.ok) throw new Error('Failed to fetch data');
         
         const result = await response.json();
@@ -74,11 +70,8 @@ function createCard(title, items) {
 }
 
 async function fetchHealth() {
-    const headers = new Headers();
-    headers.set('Authorization', 'Basic ' + btoa('admin:password'));
-
     try {
-        const response = await fetch('/camel/api/health', { headers });
+        const response = await fetch('/camel/api/health');
         const healthData = await response.json();
         updateSystemStatus(healthData);
     } catch (error) {

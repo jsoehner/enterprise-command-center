@@ -5,11 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Random;
 
 @Service
 @EnableScheduling
 public class DataGeneratorService {
+
+    private static final Logger log = LoggerFactory.getLogger(DataGeneratorService.class);
 
     @Autowired
     private ExternalApiService apiService;
@@ -20,19 +24,19 @@ public class DataGeneratorService {
     @Autowired
     private WorkOrderService workOrderService;
 
-    private final Random random = new Random();
+    private final Random random = new java.security.SecureRandom();
     private final String[] names = {"John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Charlie Davis"};
     private final String[] statuses = {"SHIPPED", "PENDING", "PROCESSING", "DELIVERED", "CANCELLED"};
 
     @Scheduled(fixedRate = 5000)
     public void generateData() {
-        System.out.println("[DataGenerator] Generating new dataset...");
+        log.info("[DataGenerator] Generating new dataset...");
         
         // Randomly update values
-        apiService.updateName(names[random.nextInt(names.length)]);
-        apiService.updateStatus(statuses[random.nextInt(statuses.length)]);
-        apiService.updateStock(10 + random.nextInt(90));
-        apiService.updateAmount(50 + (1000 * random.nextDouble()));
+        apiService.modifyName(names[random.nextInt(names.length)]);
+        apiService.modifyStatus(statuses[random.nextInt(statuses.length)]);
+        apiService.modifyStock(10 + random.nextInt(90));
+        apiService.modifyAmount(50 + (1000 * random.nextDouble()));
 
         // Send a trigger to our mock Kafka bridge
         producerTemplate.sendBody("direct:mock-kafka-events", "REFRESH");
@@ -42,6 +46,6 @@ public class DataGeneratorService {
         newOrder.setCustomer(names[random.nextInt(names.length)] + " Corp");
         newOrder.setAmount(100 + (1000 * random.nextDouble()));
         workOrderService.createOrder(newOrder);
-        System.out.println("[DataGenerator] Created new order for " + newOrder.getCustomer());
+        log.info("[DataGenerator] Created new order for {}", newOrder.getCustomer());
     }
 }

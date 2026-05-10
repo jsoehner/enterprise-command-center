@@ -6,9 +6,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.concurrent.atomic.AtomicLong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class WorkOrderService {
+    private static final Logger log = LoggerFactory.getLogger(WorkOrderService.class);
+    
     private final Map<String, Order> orders = new ConcurrentHashMap<>();
     private final AtomicLong completedCount = new AtomicLong(0);
 
@@ -41,7 +45,7 @@ public class WorkOrderService {
         if (o != null) {
             o.setStatus("SHIPPED");
             completedCount.incrementAndGet();
-            System.out.println("Order " + id + " has been shipped and removed from the system.");
+            log.info("Order {} has been shipped and removed from the system.", id);
         }
     }
 
