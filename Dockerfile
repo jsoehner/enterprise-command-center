@@ -10,12 +10,8 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # Run stage
-FROM eclipse-temurin:21-jre-alpine
+FROM cgr.dev/chainguard/jre:latest
 WORKDIR /app
-
-# Create a non-root user and group for security
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser:appgroup
 
 # Copy the built jar from the build stage
 COPY --from=build /app/target/*.jar app.jar
