@@ -68,7 +68,23 @@ graph TD
 - JDK 21+
 - Maven 3.8+
 
-## Building & Running
+## Quick Start (Running the Pre-Built Release)
+
+The easiest way to run the Enterprise Command Center is to download the automated semantic release. You do not need to compile the code.
+
+1. **Download the Release**: Navigate to the [Releases](https://github.com/jsoehner/enterprise-command-center/releases) tab on this GitHub repository.
+2. **Get the Executable**: Download the latest `.jar` file attached to the release assets.
+3. **Run the Application**: Open your terminal in the download directory and execute:
+   ```bash
+   java -jar camel-aggregator-0.0.1-SNAPSHOT.jar
+   ```
+4. **Access the Dashboard**: Open your browser and navigate to `http://localhost:8080/`.
+
+You will immediately see the automated workflow generating orders and passing them through the departments on the Live Dashboard.
+
+## Building from Source (For Developers)
+
+If you wish to modify the architecture or build the project manually:
 
 1. **Build the application:**
    ```bash
@@ -79,11 +95,6 @@ graph TD
    ```bash
    mvn spring-boot:run
    ```
-
-3. **Access the Command Center:**
-   Open a browser and navigate to: `http://localhost:8080/`
-
-You will immediately see the automated workflow generating orders, passing them from the Order Queue into Billing, fulfilling them via Shipping, and broadcasting the data traffic to the Live Dashboard—all while the System Status board continuously monitors the health of the underlying microservices.
 
 ## Project Structure (Key Components)
 
