@@ -6,6 +6,7 @@ import com.camel.aggregator.service.MapAggregationStrategy;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,14 +19,19 @@ public class AggregatorRoute extends RouteBuilder {
     @Autowired
     private AggregatorProperties properties;
 
+    @Value("${kafka.enabled:false}")
+    private boolean kafkaEnabled;
+
     @Override
     public void configure() throws Exception {
         
         // Kafka Event Bus Listener
-        from("kafka:api-events?brokers=localhost:9092&autoOffsetReset=latest")
-            .routeId("kafka-event-listener")
-            .log("Received refresh event from Kafka")
-            .to("direct:aggregate-data");
+        if (kafkaEnabled) {
+            from("kafka:api-events?brokers={{kafka.brokers:localhost:9092}}&autoOffsetReset=latest")
+                .routeId("kafka-event-listener")
+                .log("Received refresh event from Kafka")
+                .to("direct:aggregate-data");
+        }
 
         // Mock Bridge for demo purposes (if Kafka is not running)
         from("direct:mock-kafka-events")
