@@ -10,19 +10,19 @@ The Enterprise Command Center aggregates data from multiple simulated microservi
 
 ```mermaid
 graph TD
-    subgraph "Background Services (Automation)"
-        DG[DataGeneratorService] -->|Creates Random Orders| K[(Mock Kafka Bus : api-events)]
-        AP[AutomatedProcessorService] -.->|Polls & Updates| DB[(In-Memory DB)]
-        HM[ServiceHealthMonitor] -.->|Toggles Status| Microservices[Simulated Microservices]
+    subgraph BackgroundServicesAutomation
+        DG[Data Generator Service] -->|Creates Random Orders| K[(Mock Kafka Bus api-events)]
+        AP[Automated Processor Service] -.->|Polls & Updates| DB[(In-Memory DB)]
+        HM[Service Health Monitor] -.->|Toggles Status| MS[Simulated Microservices]
     end
 
-    subgraph "Apache Camel Orchestration"
-        K -->|Consumes Events| AR[AggregatorRoute]
-        AR -->|Transforms & Broadcasts| WS((WebSockets :8081))
-        WR[WorkOrderRoute REST API] <-->|Reads/Writes| DB
+    subgraph ApacheCamelOrchestration
+        K -->|Consumes Events| AR[Aggregator Route]
+        AR -->|Transforms & Broadcasts| WS((WebSockets 8081))
+        WR[Work Order Route REST API] <-->|Reads/Writes| DB
     end
 
-    subgraph "Enterprise Command Center UI"
+    subgraph EnterpriseCommandCenterUI
         WS -->|Live Updates| Dash[Live Dashboard Pane]
         WR -->|GET /summary| Queue[Order Queue Pane]
         WR -->|GET /status| Stat[System Status Pane]
@@ -40,7 +40,7 @@ graph TD
     
     class Dash,Queue,Stat,Bill,Ship ui;
     class AR,WR,WS camel;
-    class K,DB,DG,AP,HM data;
+    class K,DB,DG,AP,HM,MS data;
 ```
 
 ## Key Features
