@@ -3,8 +3,8 @@ com/camel/aggregator/config/AggregatorProperties.class
 com/camel/aggregator/service/ServiceHealthMonitor.class
 com/camel/aggregator/service/CacheService.class
 com/camel/aggregator/config/SecurityConfig.class
-com/camel/aggregator/service/AutomatedOrderProcessorService.class
 com/camel/aggregator/routes/AggregatorRoute.class
+com/camel/aggregator/service/AutomatedOrderProcessorService.class
 com/camel/aggregator/CamelAggregatorApplication.class
 com/camel/aggregator/service/ExternalApiService.class
 com/camel/aggregator/model/Order.class
