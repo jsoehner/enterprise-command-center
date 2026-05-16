@@ -40,6 +40,12 @@ jobs:
           echo "Triggering rebuild with updated dependencies..."
           mvn clean verify
 
+      - name: Clean generated artifacts from branch
+        run: |
+          echo "Removing generated build artifacts from the index so they are not committed."
+          git rm -r --cached target || true
+          git status --short
+
       - name: Create Pull Request
         id: create-pr
         uses: peter-evans/create-pull-request@v6
