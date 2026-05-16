@@ -103,10 +103,10 @@ public class AggregatorRoute extends RouteBuilder {
 
         from("direct:broadcast-update")
             .marshal().json()
-            .to("vertx-websocket:localhost:8081/aggregated-updates?sendToAll=true");
+            .to("vertx-websocket:0.0.0.0:8081/aggregated-updates?sendToAll=true");
 
         // Start the WebSocket server by having at least one consumer
-        from("vertx-websocket:localhost:8081/aggregated-updates")
+        from("vertx-websocket:0.0.0.0:8081/aggregated-updates")
             .log("New WebSocket client connected: ${header.connectionKey}")
             .routeId("websocket-server-start");
 
