@@ -41,9 +41,10 @@ jobs:
           mvn clean verify
 
       - name: Create Pull Request
+        if: ${{ secrets.PERSONAL_ACCESS_TOKEN != '' }}
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           commit-message: "chore(deps): update maven dependencies"
           title: "Automated Maven Dependency Update"
           body: |
@@ -52,3 +53,8 @@ jobs:
             Check the workflow logs to see the output of `mvn dependency:tree`.
           branch: "automated/maven-dependency-updates"
           delete-branch: true
+
+      - name: Skip Pull Request creation
+        if: ${{ secrets.PERSONAL_ACCESS_TOKEN == '' }}
+        run: |
+          echo "PERSONAL_ACCESS_TOKEN is not configured; skipping pull request creation."
