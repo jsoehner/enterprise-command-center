@@ -58,7 +58,7 @@ graph TD
 | Component        | Version | Use Case |
 |------------------|---------|----------|
 | Java             | 21      | Core language |
-| Spring Boot      | 3.2.4   | Application framework, Scheduling, and REST controllers |
+| Spring Boot      | 3.4.13  | Application framework, Scheduling, and REST controllers |
 | Apache Camel     | 4.6.0   | Routing, Orchestration, EIP implementations |
 | WebSockets       | —       | Camel Vert.x module for real-time frontend pushing |
 | Frontend         | —       | Vanilla JS, CSS3 Variables, CSS Grid, `iframe` compositions |
@@ -66,7 +66,7 @@ graph TD
 ## Prerequisites
 
 - JDK 21+
-- Maven 3.8+
+- Maven 3.9+
 
 ## Quick Start (Running the Pre-Built Release)
 
