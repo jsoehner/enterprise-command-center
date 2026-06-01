@@ -16,6 +16,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure Git for automated commits
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -79,13 +87,7 @@ jobs:
               owner,
               repo,
               title: 'Automated dependency branch ready for manual PR',
-              body: `The automated dependency branch \`automated/maven-dependency-updates\` passed build verification but pull request creation was blocked by repository policy.
-
-Please review the branch and create the PR manually, or configure PERSONAL_ACCESS_TOKEN for automated PR creation.
-
-Branch: https://github.com/${owner}/${repo}/tree/automated/maven-dependency-updates
-
-Requested reviewer: @jsoehner`,
+              body: `The automated dependency branch \`automated/maven-dependency-updates\` passed build verification but pull request creation was blocked by repository policy.\n\nPlease review the branch and create the PR manually, or configure PERSONAL_ACCESS_TOKEN for automated PR creation.\n\nBranch: https://github.com/${owner}/${repo}/tree/automated/maven-dependency-updates\n\nRequested reviewer: @s0ehner`,
               assignees: ['jsoehner'],
               labels: ['dependency-update']
             });
