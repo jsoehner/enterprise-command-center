@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # Run stage
-FROM cgr.dev/chainguard/jre:21
+FROM cgr.dev/chainguard/jre:latest
 WORKDIR /app
 
 # Copy the built jar from the build stage
