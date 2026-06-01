@@ -80,11 +80,12 @@ jobs:
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: >
+          script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             await github.rest.issues.create({
-              owner, repo,
+              owner,
+              repo,
               title: 'Automated dependency branch ready for manual PR',
               body: `The automated dependency branch \`automated/maven-dependency-updates\` passed build verification but pull request creation was blocked by repository policy.\n\nPlease review the branch and create the PR manually, or configure PERSONAL_ACCESS_TOKEN for automated PR creation.\n\nBranch: https://github.com/${owner}/${repo}/tree/automated/maven-dependency-updates\n\nRequested reviewer: @jsoehner`,
               assignees: ['jsoehner'],
