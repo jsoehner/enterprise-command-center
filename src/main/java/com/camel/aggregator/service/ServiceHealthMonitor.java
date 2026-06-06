@@ -25,7 +25,7 @@ public class ServiceHealthMonitor {
     }
     
     public Map<String, String> getAllStatuses() {
-        return serviceStatus;
+        return java.util.Collections.unmodifiableMap(serviceStatus);
     }
     
     @Scheduled(fixedRate = 10000) // Every 10 seconds, potentially toggle a service

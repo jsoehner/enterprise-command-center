@@ -9,8 +9,8 @@ import java.util.List;
 public class AggregatorProperties {
     private List<Backend> backends;
 
-    public List<Backend> getBackends() { return backends; }
-    public void setBackends(List<Backend> backends) { this.backends = backends; }
+    public List<Backend> getBackends() { return backends == null ? null : new java.util.ArrayList<>(backends); }
+    public void setBackends(List<Backend> backends) { this.backends = backends == null ? null : new java.util.ArrayList<>(backends); }
 
     public static class Backend {
         private String name;
