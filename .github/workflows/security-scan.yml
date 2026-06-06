@@ -32,8 +32,23 @@ jobs:
       - name: SAST Scanning (SpotBugs)
         run: mvn -B test-compile com.github.spotbugs:spotbugs-maven-plugin:check
 
+      - name: Cache OWASP Dependency Check Data
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: ${{ runner.os }}-owasp-nvd-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-owasp-nvd-
+
       - name: SCA Scanning (OWASP Dependency-Check)
-        run: mvn -B org.owasp:dependency-check-maven:check
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: |
+          if [ -z "$NVD_API_KEY" ]; then
+            mvn -B org.owasp:dependency-check-maven:check
+          else
+            mvn -B org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY
+          fi
         
       - name: Container & FS Scanning (Trivy)
         uses: aquasecurity/trivy-action@master
