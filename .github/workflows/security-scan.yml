@@ -43,6 +43,7 @@ jobs:
       - name: SCA Scanning (OWASP Dependency-Check)
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+          MAVEN_OPTS: "--add-modules jdk.incubator.vector"
         run: |
           if [ -z "$NVD_API_KEY" ]; then
             mvn -B org.owasp:dependency-check-maven:check
