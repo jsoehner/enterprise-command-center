@@ -4,7 +4,7 @@
 # Replace these with your actual Docker Hub username and image name
 DOCKER_USERNAME="jsoehner"
 IMAGE_NAME="enterprise-command-center"
-TAG="latest"
+TAG="main"
 
 FULL_IMAGE_NAME="${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG}"
 

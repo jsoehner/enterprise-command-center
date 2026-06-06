@@ -14,6 +14,7 @@ Apache Camel + Spring Boot 3.x project that aggregates multiple REST APIs into a
 
 ## 🧠 Key Decisions & Architecture
 - **[2026-06-06] - Project Initialization:** Established the project memory structure and populated initial context from workspace information.
+- **[2026-06-06] - Security Assessment:** Adopted a layered security pipeline approach based on the project's security assessment documents. Tools selected include SpotBugs and OWASP Dependency-Check for CI (Maven/Java), Trivy for Docker container scanning, Gitleaks for pre-commit secret detection, and OWASP ZAP for DAST integration testing.
 
 ## 👤 User Preferences
 - Prefers CLI-only workflows for configuration activities; avoid UI-login-updated steps.

@@ -30,7 +30,7 @@ jobs:
           cache: maven
 
       - name: SAST Scanning (SpotBugs)
-        run: mvn -B com.github.spotbugs:spotbugs-maven-plugin:check
+        run: mvn -B test-compile com.github.spotbugs:spotbugs-maven-plugin:check
 
       - name: SCA Scanning (OWASP Dependency-Check)
         run: mvn -B org.owasp:dependency-check-maven:check
