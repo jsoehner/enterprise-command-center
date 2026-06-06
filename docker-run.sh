@@ -2,7 +2,7 @@
 
 # Configuration
 # Replace these with your actual Docker Hub username and image name
-DOCKER_USERNAME="your_dockerhub_username"
+DOCKER_USERNAME="jsoehner"
 IMAGE_NAME="enterprise-command-center"
 TAG="latest"
 
