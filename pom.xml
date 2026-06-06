@@ -90,7 +90,6 @@
             <version>${camel.version}</version>
         </dependency>
 
-        <!-- Testing -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-resilience4j-starter</artifactId>
