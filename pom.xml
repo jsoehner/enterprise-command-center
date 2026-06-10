@@ -22,7 +22,7 @@
         <camel.version>4.20.0</camel.version>
         <tomcat.version>10.1.55</tomcat.version>
         <spring-security.version>6.5.10</spring-security.version>
-        <netty.version>4.1.133.Final</netty.version>
+        <netty.version>4.1.134.Final</netty.version>
         <kafka.version>3.9.2</kafka.version>
     </properties>
 
