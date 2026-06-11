@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   security-assessment:
     runs-on: ubuntu-latest
@@ -18,7 +22,9 @@ jobs:
           fetch-depth: 0
 
       - name: Secret Scanning (Gitleaks)
+        id: gitleaks
         uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -30,6 +36,8 @@ jobs:
           cache: maven
 
       - name: SAST Scanning (SpotBugs)
+        id: spotbugs
+        continue-on-error: true
         run: mvn -B test-compile com.github.spotbugs:spotbugs-maven-plugin:check
 
       - name: Cache OWASP Dependency Check Data
@@ -41,6 +49,8 @@ jobs:
             ${{ runner.os }}-owasp-nvd-
 
       - name: SCA Scanning (OWASP Dependency-Check)
+        id: dependency-check
+        continue-on-error: true
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
           MAVEN_OPTS: "--add-modules jdk.incubator.vector"
@@ -52,7 +62,9 @@ jobs:
           fi
         
       - name: Container & FS Scanning (Trivy)
+        id: trivy
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db:2
         with:
@@ -61,3 +73,30 @@ jobs:
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
+
+      - name: Notify on security findings
+        if: ${{ always() && (steps.gitleaks.outcome == 'failure' || steps.spotbugs.outcome == 'failure' || steps.dependency-check.outcome == 'failure' || steps.trivy.outcome == 'failure') }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const runId = context.runId;
+            
+            let body = `The security scan workflow detected potential findings in the codebase.\n\n`;
+            body += `Please review the workflow run logs for details: https://github.com/${owner}/${repo}/actions/runs/${runId}\n\n`;
+            body += `**Failed Scan Steps:**\n`;
+            if ('${{ steps.gitleaks.outcome }}' === 'failure') body += `- Secret Scanning (Gitleaks)\n`;
+            if ('${{ steps.spotbugs.outcome }}' === 'failure') body += `- SAST Scanning (SpotBugs)\n`;
+            if ('${{ steps.dependency-check.outcome }}' === 'failure') body += `- SCA Scanning (OWASP Dependency-Check)\n`;
+            if ('${{ steps.trivy.outcome }}' === 'failure') body += `- Container & FS Scanning (Trivy)\n`;
+            
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: 'Security Scan: Findings Detected',
+              body: body,
+              assignees: ['jsoehner'],
+              labels: ['security', 'automated-scan']
+            });
