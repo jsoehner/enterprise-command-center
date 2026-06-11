@@ -25,6 +25,8 @@ jobs:
         id: gitleaks
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
+        with:
+          args: detect --report-format json --report-path gitleaks-report.json --verbose --redact
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -56,9 +58,9 @@ jobs:
           MAVEN_OPTS: "--add-modules jdk.incubator.vector"
         run: |
           if [ -z "$NVD_API_KEY" ]; then
-            mvn -B org.owasp:dependency-check-maven:check -DossindexAnalyzerEnabled=false
+            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DossindexAnalyzerEnabled=false
           else
-            mvn -B org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY -DossindexAnalyzerEnabled=false
+            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DnvdApiKey=$NVD_API_KEY -DossindexAnalyzerEnabled=false
           fi
         
       - name: Container & FS Scanning (Trivy)
@@ -70,9 +72,14 @@ jobs:
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          format: 'table'
+          format: 'json'
+          output: 'trivy-results.json'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
+
+      - name: Parse scan reports
+        if: ${{ always() }}
+        run: node .github/scripts/parse-findings.js
 
       - name: Notify on security findings
         if: ${{ always() && (steps.gitleaks.outcome == 'failure' || steps.spotbugs.outcome == 'failure' || steps.dependency-check.outcome == 'failure' || steps.trivy.outcome == 'failure') }}
@@ -80,17 +87,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const fs = require('fs');
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const runId = context.runId;
             
             let body = `The security scan workflow detected potential findings in the codebase.\n\n`;
             body += `Please review the workflow run logs for details: https://github.com/${owner}/${repo}/actions/runs/${runId}\n\n`;
-            body += `**Failed Scan Steps:**\n`;
-            if ('${{ steps.gitleaks.outcome }}' === 'failure') body += `- Secret Scanning (Gitleaks)\n`;
-            if ('${{ steps.spotbugs.outcome }}' === 'failure') body += `- SAST Scanning (SpotBugs)\n`;
-            if ('${{ steps.dependency-check.outcome }}' === 'failure') body += `- SCA Scanning (OWASP Dependency-Check)\n`;
-            if ('${{ steps.trivy.outcome }}' === 'failure') body += `- Container & FS Scanning (Trivy)\n`;
+            
+            if (fs.existsSync('findings-table.md')) {
+              body += fs.readFileSync('findings-table.md', 'utf8');
+            } else {
+              body += `**Failed Scan Steps:**\n`;
+              if ('${{ steps.gitleaks.outcome }}' === 'failure') body += `- Secret Scanning (Gitleaks)\n`;
+              if ('${{ steps.spotbugs.outcome }}' === 'failure') body += `- SAST Scanning (SpotBugs)\n`;
+              if ('${{ steps.dependency-check.outcome }}' === 'failure') body += `- SCA Scanning (OWASP Dependency-Check)\n`;
+              if ('${{ steps.trivy.outcome }}' === 'failure') body += `- Container & FS Scanning (Trivy)\n`;
+            }
             
             await github.rest.issues.create({
               owner,
