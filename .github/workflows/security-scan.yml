@@ -11,6 +11,7 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: write
 
 jobs:
   security-assessment:
@@ -105,6 +106,7 @@ jobs:
               if ('${{ steps.trivy.outcome }}' === 'failure') body += `- Container & FS Scanning (Trivy)\n`;
             }
             
+            // Create GitHub issue
             await github.rest.issues.create({
               owner,
               repo,
@@ -113,3 +115,17 @@ jobs:
               assignees: ['jsoehner'],
               labels: ['security', 'automated-scan']
             });
+
+            // Trigger Automated Dependency Update
+            console.log('Triggering automated dependency update workflow...');
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner,
+                repo,
+                workflow_id: 'nightly-dependency-update.yml',
+                ref: context.ref || 'main'
+              });
+              console.log('Successfully triggered dependency update workflow.');
+            } catch (error) {
+              console.error('Failed to trigger dependency update workflow:', error);
+            }
