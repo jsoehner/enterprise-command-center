@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -91,6 +90,7 @@ public class AggregatorRoute extends RouteBuilder {
                 .parallelProcessing()
             .end()
             .process(exchange -> {
+                @SuppressWarnings("unchecked")
                 Map<String, Object> aggregatedData = exchange.getIn().getBody(Map.class);
                 AggregatedResponse response = new AggregatedResponse(
                     "SUCCESS",
