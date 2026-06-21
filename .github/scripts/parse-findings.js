@@ -115,9 +115,7 @@ const allFindings = [
 ];
 
 let markdown = '';
-if (allFindings.length === 0) {
-  markdown = '### No security findings detected in the parsing reports.\n';
-} else {
+if (allFindings.length > 0) {
   markdown = '### Identified Security Findings\n\n';
   markdown += '| Tool | Target/File | Finding / Description | Severity |\n';
   markdown += '| :--- | :--- | :--- | :--- |\n';
@@ -128,7 +126,7 @@ if (allFindings.length === 0) {
       .trim();
     markdown += `| **${f.tool}** | \`${f.file}\` | ${cleanDesc} | \`${f.severity}\` |\n`;
   }
+  fs.writeFileSync('findings-table.md', markdown);
 }
 
-fs.writeFileSync('findings-table.md', markdown);
 console.log(`Successfully parsed ${allFindings.length} findings.`);

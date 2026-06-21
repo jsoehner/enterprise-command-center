@@ -18,7 +18,7 @@ Apache Camel + Spring Boot 3.x project that aggregates multiple REST APIs into a
 - **[2026-06-06] - Security Scan Refinements:** Resolved SpotBugs `EI_EXPOSE_REP` warnings across DTOs and config classes by implementing defensive copies. Optimized OWASP Dependency-Check by adding a dedicated `actions/cache` step in GitHub Actions for the NVD database.
 - **[2026-06-11] - Security Scan Finding Policy (Option B):** Configured the security scan workflow to run non-blockingly (`continue-on-error: true`) and create an automated GitHub issue summarizing any scanner failures, rather than failing/blocking the build.
 - **[2026-06-11] - Security Scan Auto-Trigger & Dependency Update Config:** Integrated the security scan workflow to trigger the dependency update workflow when security findings are detected. Removed Netty, Tomcat, Spring Security, and Kafka version exclusions from the nightly dependency update workflow to allow automated resolution of vulnerabilities.
-
+- **[2026-06-21] - Security Scan Issue Notification Fix:** Fixed a bug in `parse-findings.js` where `findings-table.md` was unconditionally generated, causing scanner failures to mistakenly be reported as "No security findings detected in the parsing reports". Now, the workflow correctly falls back to listing the failed scan tools when no explicit findings are found.
 ## 👤 User Preferences
 - Prefers CLI-only workflows for configuration activities; avoid UI-login-updated steps.
 - Values retroactive documentation of completed activities and lessons learned in project docs.
