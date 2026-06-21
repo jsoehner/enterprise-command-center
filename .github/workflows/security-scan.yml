@@ -43,11 +43,15 @@ jobs:
         continue-on-error: true
         run: mvn -B test-compile com.github.spotbugs:spotbugs-maven-plugin:check
 
+      - name: Get current week
+        id: date
+        run: echo "week=$(date +'%Y-%V')" >> $GITHUB_OUTPUT
+
       - name: Cache OWASP Dependency Check Data
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository/org/owasp/dependency-check-data
-          key: ${{ runner.os }}-owasp-nvd-${{ github.run_id }}
+          key: ${{ runner.os }}-owasp-nvd-${{ steps.date.outputs.week }}
           restore-keys: |
             ${{ runner.os }}-owasp-nvd-
 
@@ -59,9 +63,9 @@ jobs:
           MAVEN_OPTS: "--add-modules jdk.incubator.vector"
         run: |
           if [ -z "$NVD_API_KEY" ]; then
-            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DossindexAnalyzerEnabled=false
+            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DossindexAnalyzerEnabled=false -DcveValidForHours=168
           else
-            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DnvdApiKey=$NVD_API_KEY -DossindexAnalyzerEnabled=false
+            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DnvdApiKey=$NVD_API_KEY -DossindexAnalyzerEnabled=false -DcveValidForHours=168
           fi
         
       - name: Container & FS Scanning (Trivy)
