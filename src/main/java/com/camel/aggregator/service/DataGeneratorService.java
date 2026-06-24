@@ -28,7 +28,7 @@ public class DataGeneratorService {
     private final String[] names = {"John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Charlie Davis"};
     private final String[] statuses = {"SHIPPED", "PENDING", "PROCESSING", "DELIVERED", "CANCELLED"};
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(initialDelay = 15000, fixedRate = 5000)
     public void generateData() {
         log.info("[DataGenerator] Generating new dataset...");
         

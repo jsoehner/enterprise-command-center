@@ -51,6 +51,7 @@ spring.data.redis:
 # Rate Limiting
 bucket4j:
   enabled: true
+  cache-to-use: redis
   filters:
     - cache-name: buckets
       url: /camel/api/.*
