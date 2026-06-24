@@ -134,9 +134,19 @@ flowchart LR
 
 ## Conclusion
 
-The nightly dependency workflow is now robust against two common failure modes:
+The automated workflows are now robust and designed with proper notification patterns:
 
-- PR creation permission restrictions
-- generated `target/` file inclusion
+1. **Nightly Dependency Update**: Handles PR permission limitations gracefully and cleans up build artifacts.
+2. **Security Scan**: Runs all vulnerability scans (SAST, SCA, Secrets, Containers) in a non-blocking mode (`continue-on-error: true`), preventing pipeline halts while automatically filing a GitHub issue summarizing any scanner findings.
 
-This makes the job more reliable and maintainable, while still preserving the intended automated dependency update behavior.
+---
+
+## Security Scan Workflow (Option B) - Lessons Learned
+
+### Context & Decision
+To balance strict security checking with developer velocity, the security scan pipeline was transitioned to an alert-only notification model (Option B). This ensures codebase scans continue running on commits and schedules without blocking PR merges or deployment pipelines, but still maintains visibility by opening actionable issues.
+
+### Key Implementation Details
+- **Non-blocking Steps (`continue-on-error`)**: Setting `continue-on-error: true` on scan steps allows GitHub Actions to mark steps as green overall, while still capturing the individual step outcome.
+- **Workflow Permissions**: Writing issues programmatically requires setting the explicit `issues: write` permission on the workflow level.
+- **Automated Issue Creation**: Using `actions/github-script@v7` to dynamically parse the outcomes of the scanner steps (`steps.gitleaks.outcome`, etc.) and compile a single structured report.

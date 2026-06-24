@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  contents: read
+  issues: write
+  actions: write
+
 jobs:
   security-assessment:
     runs-on: ubuntu-latest
@@ -18,7 +23,11 @@ jobs:
           fetch-depth: 0
 
       - name: Secret Scanning (Gitleaks)
+        id: gitleaks
         uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
+        with:
+          args: detect --report-format json --report-path gitleaks-report.json --verbose --redact
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -30,34 +39,97 @@ jobs:
           cache: maven
 
       - name: SAST Scanning (SpotBugs)
+        id: spotbugs
+        continue-on-error: true
         run: mvn -B test-compile com.github.spotbugs:spotbugs-maven-plugin:check
+
+      - name: Get current week
+        id: date
+        run: echo "week=$(date +'%Y-%V')" >> $GITHUB_OUTPUT
 
       - name: Cache OWASP Dependency Check Data
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository/org/owasp/dependency-check-data
-          key: ${{ runner.os }}-owasp-nvd-${{ github.run_id }}
+          key: ${{ runner.os }}-owasp-nvd-${{ steps.date.outputs.week }}
           restore-keys: |
             ${{ runner.os }}-owasp-nvd-
 
       - name: SCA Scanning (OWASP Dependency-Check)
+        id: dependency-check
+        continue-on-error: true
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
           MAVEN_OPTS: "--add-modules jdk.incubator.vector"
         run: |
           if [ -z "$NVD_API_KEY" ]; then
-            mvn -B org.owasp:dependency-check-maven:check -DossindexAnalyzerEnabled=false
+            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DossindexAnalyzerEnabled=false -DcveValidForHours=168
           else
-            mvn -B org.owasp:dependency-check-maven:check -DnvdApiKey=$NVD_API_KEY -DossindexAnalyzerEnabled=false
+            mvn -B org.owasp:dependency-check-maven:check -Dformats=JSON,HTML -DnvdApiKey=$NVD_API_KEY -DossindexAnalyzerEnabled=false -DcveValidForHours=168
           fi
         
       - name: Container & FS Scanning (Trivy)
+        id: trivy
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db:2
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          format: 'table'
+          format: 'json'
+          output: 'trivy-results.json'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
+
+      - name: Parse scan reports
+        if: ${{ always() }}
+        run: node .github/scripts/parse-findings.js
+
+      - name: Notify on security findings
+        if: ${{ always() && (steps.gitleaks.outcome == 'failure' || steps.spotbugs.outcome == 'failure' || steps.dependency-check.outcome == 'failure' || steps.trivy.outcome == 'failure') }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const runId = context.runId;
+            
+            let body = `The security scan workflow detected potential findings in the codebase.\n\n`;
+            body += `Please review the workflow run logs for details: https://github.com/${owner}/${repo}/actions/runs/${runId}\n\n`;
+            
+            if (fs.existsSync('findings-table.md')) {
+              body += fs.readFileSync('findings-table.md', 'utf8');
+            } else {
+              body += `**Failed Scan Steps:**\n`;
+              if ('${{ steps.gitleaks.outcome }}' === 'failure') body += `- Secret Scanning (Gitleaks)\n`;
+              if ('${{ steps.spotbugs.outcome }}' === 'failure') body += `- SAST Scanning (SpotBugs)\n`;
+              if ('${{ steps.dependency-check.outcome }}' === 'failure') body += `- SCA Scanning (OWASP Dependency-Check)\n`;
+              if ('${{ steps.trivy.outcome }}' === 'failure') body += `- Container & FS Scanning (Trivy)\n`;
+            }
+            
+            // Create GitHub issue
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: 'Security Scan: Findings Detected',
+              body: body,
+              assignees: ['jsoehner'],
+              labels: ['security', 'automated-scan']
+            });
+
+            // Trigger Automated Dependency Update
+            console.log('Triggering automated dependency update workflow...');
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner,
+                repo,
+                workflow_id: 'nightly-dependency-update.yml',
+                ref: context.ref || 'main'
+              });
+              console.log('Successfully triggered dependency update workflow.');
+            } catch (error) {
+              console.error('Failed to trigger dependency update workflow:', error);
+            }
