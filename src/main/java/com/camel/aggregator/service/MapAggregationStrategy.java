@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class MapAggregationStrategy implements AggregationStrategy {
 
     @Override
+    @SuppressWarnings("unchecked")
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
         if (oldExchange == null) {
             return newExchange;

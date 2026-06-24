@@ -2,7 +2,6 @@ package com.camel.aggregator.routes;
 
 import com.camel.aggregator.model.Order;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
 
 @Component

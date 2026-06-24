@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
+import org.springframework.lang.NonNull;
 
 @Service
 public class CacheService {
@@ -11,7 +12,7 @@ public class CacheService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public void put(String key, Object value) {
+    public void put(@NonNull String key, Object value) {
         try {
             redisTemplate.opsForValue().set(key, value, 5, TimeUnit.MINUTES);
         } catch (Exception e) {
@@ -19,7 +20,7 @@ public class CacheService {
         }
     }
 
-    public Object get(String key) {
+    public Object get(@NonNull String key) {
         try {
             return redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
