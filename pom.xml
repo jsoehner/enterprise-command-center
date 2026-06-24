@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.14</version>
+        <version>3.5.15</version>
         <relativePath/>
     </parent>
 
@@ -20,9 +20,9 @@
     <properties>
         <java.version>21</java.version>
         <camel.version>4.20.0</camel.version>
-        <tomcat.version>10.1.55</tomcat.version>
-        <spring-security.version>6.5.10</spring-security.version>
-        <netty.version>4.1.134.Final</netty.version>
+        <tomcat.version>10.1.56</tomcat.version>
+        <spring-security.version>6.5.11</spring-security.version>
+        <netty.version>4.2.15.Final</netty.version>
         <kafka.version>3.9.2</kafka.version>
     </properties>
 
@@ -103,7 +103,7 @@
         <dependency>
             <groupId>com.giffing.bucket4j.spring.boot.starter</groupId>
             <artifactId>bucket4j-spring-boot-starter</artifactId>
-            <version>0.10.0</version>
+            <version>0.14.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
