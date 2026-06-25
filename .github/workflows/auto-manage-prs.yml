@@ -21,6 +21,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
       - name: Approve Pull Request
         run: |
           gh pr review "$PR_URL" --approve -b "Automated approval by GitHub Actions :robot:" || echo "PR already approved or cannot be approved"
