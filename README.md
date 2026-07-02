@@ -106,3 +106,12 @@ src/main/java/com/camel/aggregator/
 ├── model/                            # Domain objects (Order)
 └── src/main/resources/static/        # Frontend UI Assets (index.html, css/styles.css)
 ```
+
+## Gotchas & Lessons Learned
+
+During the development and automation of this project, several important quirks and solutions were discovered:
+
+- **GitHub Actions `env` Context Limitations**: The `env` context cannot be used in a `with:` or `name:` block of the *same* step, because those keys are evaluated before the step's environment variables are fully populated. For instance, when attempting a token fallback, `${{ secrets.MY_PAT || secrets.GITHUB_TOKEN }}` works perfectly, whereas attempting to use an intermediate `${{ env.TOKEN_VAR || github.token }}` defined in the same step will fail silently and incorrectly fall back.
+- **GitHub Actions Node 24 Migration**: GitHub Actions has aggressively deprecated Node 20. Simply injecting a `setup-node` step does not fix third-party actions. You must bump the major version of the affected action itself (e.g., upgrading `actions/checkout` to `@v7` and `peter-evans/create-pull-request` to `@v7`).
+- **Gitleaks Action Strict Inputs**: When upgrading to `gitleaks/gitleaks-action@v3`, you may encounter an `Unexpected input(s) 'args'` error due to new strict input validation. The solution is to remove the `args:` configuration entirely and let it run its default `detect` command.
+- **QEMU Cache Locking**: When using Docker Buildx and QEMU, you might see `Unable to reserve cache with key...`. This is a benign race condition caused by concurrent jobs attempting to save the same cache key. It does not fail the build and can be safely ignored.
