@@ -53,6 +53,19 @@ graph TD
 - **Chaos Engineering & Health Monitoring**: Includes a background `ServiceHealthMonitor` that randomly toggles the status of simulated services, visualizing potential outages and self-healing behaviors on a live status board.
 - **Advanced Security & API Gateway**: Configured with permissive iframe architectures (`SAMEORIGIN`), and foundational structures for rate-limiting.
 
+## Security & Architecture
+
+This project implements a defense-in-depth security strategy. Key architectural decisions and security hardening steps are documented in our Architectural Decision Records (ADRs).
+
+### Key Security Features
+- **Secrets Management**: No hardcoded secrets; all credentials are injected via environment variables.
+- **Data Persistence**: Production-ready PostgreSQL configuration with automated schema validation.
+- **Security Headers**: Hardened with CSP, HSTS, and X-Content-Type-Options.
+- **Infrastructure**: Containerized with a minimal, hardened JRE base image.
+
+### Architectural Decision Records
+- [0001-production-security-hardening.md](docs/adr/0001-production-security-hardening.md) - Transition to production-hardened infrastructure and security configuration.
+
 ## Tech Stack
 
 | Component        | Version | Use Case |
