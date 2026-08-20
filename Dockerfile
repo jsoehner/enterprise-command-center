@@ -9,12 +9,20 @@ COPY src ./src
 # Build the application
 RUN mvn package -DskipTests
 
+# --- SECURITY SCAN --- 
+# It is recommended to run Trivy to scan the build artifacts:
+# trivy fs . 
+
 # Run stage
 FROM cgr.dev/chainguard/jre:latest
 WORKDIR /app
 
 # Copy the built jar from the build stage
 COPY --from=build /app/target/*.jar app.jar
+
+# --- SECURITY SCAN --- 
+# It is recommended to run Trivy to scan the final image:
+# trivy image --severity HIGH,CRITICAL <image_name>
 
 # Expose standard port and WebSocket port
 EXPOSE 8080

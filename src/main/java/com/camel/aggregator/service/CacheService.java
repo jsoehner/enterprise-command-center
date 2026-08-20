@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 
 @Service
 public class CacheService {
+
+    private static final Logger log = LoggerFactory.getLogger(CacheService.class);
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -16,7 +20,7 @@ public class CacheService {
         try {
             redisTemplate.opsForValue().set(key, value, 5, TimeUnit.MINUTES);
         } catch (Exception e) {
-            System.err.println("[!] Redis unreachable. Skipping cache write.");
+            log.error("[!] Redis unreachable. Skipping cache write.", e);
         }
     }
 
@@ -24,7 +28,7 @@ public class CacheService {
         try {
             return redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
-            System.err.println("[!] Redis unreachable. Skipping cache read.");
+            log.error("[!] Redis unreachable. Skipping cache read.", e);
             return null;
         }
     }

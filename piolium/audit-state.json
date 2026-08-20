@@ -1,0 +1,57 @@
+{
+	"audits": [
+		{
+			"audit_id": "2026-08-14T23:44:41.527Z",
+			"mode": "balanced",
+			"started_at": "2026-08-14T23:44:41.527Z",
+			"completed_at": "2026-08-14T23:56:03.530Z",
+			"status": "failed",
+			"phases": {
+				"L1": {
+					"status": "failed",
+					"attempt": 6,
+					"max_attempts": 6,
+					"started_at": "2026-08-14T23:44:41.614Z",
+					"heartbeat_at": "2026-08-14T23:56:02.467Z",
+					"last_event_at": "2026-08-14T23:56:02.467Z",
+					"run_id": "l1-2026-08-14T23-44-41-527Z-a6-10fada68",
+					"error": "Failed after 5 retries: No API key found for llama-server=http://127.0.0.1:8080.\n\nUse /login to log into a provider via OAuth or API key. See:\n  C:\\Users\\jsoehner\\AppData\\Roaming\\npm\\node_modules\\@earendil-works\\pi-coding-agent\\docs\\providers.md\n  C:\\Users\\jsoehner\\AppData\\Roaming\\npm\\node_modules\\@earendil-works\\pi-coding-agent\\docs\\models.md",
+					"artifacts": [
+						"C:\\Users\\jsoehner\\enterprise-command-center\\piolium\\tmp\\piolium\\runs\\l1-2026-08-14T23-44-41-527Z-a6-10fada68\\transcript.jsonl"
+					],
+					"last_error": "No API key found for llama-server=http://127.0.0.1:8080.\n\nUse /login to log into a provider via OAuth or API key. See:\n  C:\\Users\\jsoehner\\AppData\\Roaming\\npm\\node_modules\\@earendil-works\\pi-coding-agent\\docs\\providers.md\n  C:\\Users\\jsoehner\\AppData\\Roaming\\npm\\node_modules\\@earendil-works\\pi-coding-agent\\docs\\models.md",
+					"completed_at": "2026-08-14T23:56:03.526Z"
+				},
+				"L2": {
+					"status": "pending"
+				},
+				"L3": {
+					"status": "pending"
+				},
+				"L4": {
+					"status": "pending"
+				},
+				"L5": {
+					"status": "pending"
+				},
+				"L6": {
+					"status": "pending"
+				},
+				"L6b": {
+					"status": "pending"
+				},
+				"L6c": {
+					"status": "pending"
+				},
+				"L7": {
+					"status": "pending"
+				}
+			},
+			"agent_sdk": "pi",
+			"commit": "6b05c428d337918f2eafae96d78f87ca8278e932",
+			"branch": "main",
+			"repository": "jsoehner/enterprise-command-center",
+			"history_available": true
+		}
+	]
+}

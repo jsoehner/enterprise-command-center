@@ -31,10 +31,9 @@ public class SecurityConfig {
                 .httpStrictTransportSecurity(hsts -> hsts
                     .includeSubDomains(true)
                     .maxAgeInSeconds(31536000))
-                .xContentTypeOptions(xco -> xco.disable())
-                .xssProtection(xss -> xss.disable())
             )
             .authorizeHttpRequests(auth -> auth
+
                 .requestMatchers("/api-doc/**", "/swagger-ui/**", "/", "/*.html", "/css/**", "/js/**", "/assets/**").permitAll()
                 .requestMatchers("/camel/api/**", "/camel/orders/**", "/camel/health/**").authenticated()
                 .anyRequest().authenticated()
