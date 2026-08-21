@@ -226,7 +226,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>12.1.0</version>
+                <version>13.0.0</version>
                 <configuration>
                     <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
                     <nvd_repository>file:///home/jsoehner/nvd-cache</nvd_repository>
