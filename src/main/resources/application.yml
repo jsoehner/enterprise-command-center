@@ -49,7 +49,7 @@ management:
         include: health,info,prometheus
   endpoint:
     health:
-      show-details: false
+      show-details: never
   tracing:
     sampling:
       probability: 1.0
@@ -85,5 +85,5 @@ logging:
 # Security Credentials
 app:
   admin:
-    username: ${ADMIN_USERNAME}
-    password: ${ADMIN_PASSWORD}
+    username: ${ADMIN_USERNAME:admin}
+    password: ${ADMIN_PASSWORD:admin123}

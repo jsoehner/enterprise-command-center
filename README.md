@@ -71,9 +71,10 @@ In production container environments, microservice components run within isolate
 
 This project follows a **defense-in-depth** security strategy and strict dependency lifecycle governance.
 
-### Dependency Governance
+### Dependency & Workflow Governance
 To prevent runtime binary incompatibilities (such as `NoSuchMethodError` across Spring Boot and Apache Camel), automated dependency updates follow explicit pinning rules:
 - `spring-boot-starter-parent` and `org.apache.camel.springboot` minor/major versions are pinned.
+- Automated nightly workflows run build verification (`mvn clean verify`) with resilient error handling and default credential fallbacks for test automation.
 - Dependabot enforcement uses a 7-day cooldown window (`.github/dependabot.yml`).
 
 ### Architectural Decision Records (ADRs)
