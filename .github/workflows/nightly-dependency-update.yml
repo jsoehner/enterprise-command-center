@@ -41,8 +41,8 @@ jobs:
         run: |
           # Update only safe properties and explicit dependency versions.
           # Avoid updating platform-sensitive properties like Camel versions automatically.
-          mvn versions:update-properties -DexcludeProperties=camel.version -DallowSnapshots=false -DgenerateBackupPoms=false
-          mvn versions:use-latest-versions -DallowSnapshots=false -DgenerateBackupPoms=false -DallowMajorUpdates=false -Dexcludes=com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter
+          mvn versions:update-properties -DexcludeProperties=camel.version,spring-boot.version -DallowSnapshots=false -DgenerateBackupPoms=false
+          mvn versions:use-latest-versions -DallowSnapshots=false -DgenerateBackupPoms=false -DallowMajorUpdates=false -Dexcludes=com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter,org.springframework.boot:spring-boot-starter-parent
 
       - name: Display Dependency Tree
         run: |

@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+      - dependency-name: "org.apache.camel.springboot:*"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
