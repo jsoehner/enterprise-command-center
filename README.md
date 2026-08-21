@@ -53,8 +53,19 @@ Before running the application, ensure you have the following installed:
 3. **Build and Run**:
    ```bash
    mvn clean package -DskipTests
-   java -jar target/rest-api-aggregator-0.9.14-SNAPSHOT.jar
-   ```
+## 🐫 Why Apache Camel?
+
+We leverage **Apache Camel** as our core integration and routing framework for several key reasons:
+
+1. **Enterprise Integration Patterns (EIP)**: Apache Camel natively supports declarative patterns (Splitter, Aggregator, Content-Based Router, Circuit Breaker) without custom boilerplate code.
+2. **Protocol Decoupling**: Seamlessly translates between REST/HTTP, WebSockets, gRPC, and Kafka event streams via unified URI routes (`from(...)` -> `to(...)`).
+3. **Resilience & Fallback Handling**: Integrates directly with Resilience4j for circuit breaking and fallback responses during downstream service degradation.
+
+### 🌐 Docker Loopback Network Architecture
+
+In production container environments, microservice components run within isolated Docker containers communicating via loopback (`127.0.0.1`) / inter-service routing. Apache Camel acts as the central router and aggregator, mediating internal network loops with zero unencrypted external exposure:
+
+![Docker Loopback Network Illustration](docs/assets/docker_loopback_network.jpg)
 
 ## 🛡 Security & Architecture
 
