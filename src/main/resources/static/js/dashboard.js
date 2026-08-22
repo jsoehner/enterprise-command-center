@@ -38,9 +38,10 @@ function renderDashboard(data) {
     dashboard.appendChild(userCard);
 
     // Order Section
+    const formattedAmount = data.amount != null ? `$${Number(data.amount).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '';
     const orderCard = createCard('Latest Order', [
         { label: 'Order ID', value: data.orderId ?? '' },
-        { label: 'Amount', value: data.amount != null ? `$${data.amount}` : '' },
+        { label: 'Amount', value: formattedAmount },
         { label: 'Status', value: data.status ?? '', isStatus: true }
     ]);
     dashboard.appendChild(orderCard);

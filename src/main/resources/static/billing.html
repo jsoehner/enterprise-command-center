@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing Department - REST API Aggregator</title>
+    <title>Billing & Invoicing Operations - Enterprise Command Center</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .invoice-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .invoice-actions {
+            margin-top: var(--space-4);
+            display: flex;
+            gap: var(--space-2);
+        }
+    </style>
 </head>
 <body onload="if(window.self !== window.top) document.body.classList.add('minimal')">
     <div class="bg-blobs">
@@ -12,15 +27,27 @@
         <div class="blob blob-2"></div>
     </div>
     <div class="container animate-fade">
-        <nav class="nav-bar">
+        <nav class="nav-bar" aria-label="Main Navigation">
             <a href="/" class="nav-link">Dashboard</a>
             <a href="/entry.html" class="nav-link">Order Entry</a>
-            <a href="/billing.html" class="nav-link active">Billing</a>
+            <a href="/billing.html" class="nav-link active" aria-current="page">Billing</a>
             <a href="/shipping.html" class="nav-link">Shipping</a>
+            <a href="/queue.html" class="nav-link">Queue</a>
+            <a href="/status.html" class="nav-link">Status</a>
+            <a href="/design-system.html" class="nav-link">Design System</a>
         </nav>
+
         <header>
-            <h1>Billing Department</h1>
-            <p>Process pending invoices</p>
+            <div>
+                <h1>Billing & Accounts Receivable</h1>
+                <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">
+                    Automated invoice settlement, payment authorizations & dunning management
+                </p>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Payment Gateway Connected
+            </div>
         </header>
 
         <div id="order-list" class="dashboard-grid">
@@ -30,37 +57,95 @@
 
     <script>
         async function fetchBilling() {
-            const res = await fetch('/camel/orders/billing');
-            const orders = await res.json();
-            const list = document.getElementById('order-list');
-            list.innerHTML = orders.length ? '' : '<div class="card">No pending bills.</div>';
-            
-            orders.forEach(order => {
-                const card = document.createElement('div');
-                card.className = 'card';
+            try {
+                const res = await fetch('/camel/orders/billing');
+                const orders = await res.json();
+                const list = document.getElementById('order-list');
+                list.innerHTML = orders.length ? '' : `
+                    <div class="card" style="grid-column: 1/-1; text-align: center; padding: var(--space-10);">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--space-2);">🎉</div>
+                        <div class="card-value" style="font-size: var(--font-size-xl);">All Invoices Reconciled</div>
+                        <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">No pending bills in the accounts receivable queue.</p>
+                    </div>
+                `;
+                
+                orders.forEach(order => {
+                    const card = document.createElement('div');
+                    card.className = 'card invoice-card';
+                    card.style.padding = 'var(--space-2) var(--space-3)';
 
-                const title = document.createElement('h3');
-                title.textContent = order.id || '';
+                    const headerDiv = document.createElement('div');
+                    headerDiv.style.display = 'flex';
+                    headerDiv.style.justifyContent = 'space-between';
+                    headerDiv.style.alignItems = 'center';
+                    headerDiv.style.marginBottom = '2px';
 
-                const customer = document.createElement('p');
-                customer.style.color = 'var(--text-dim)';
-                customer.textContent = `Customer: ${order.customer || ''}`;
+                    const title = document.createElement('h3');
+                    title.style.fontSize = 'var(--font-size-sm)';
+                    title.textContent = order.id || '';
 
-                const amount = document.createElement('p');
-                amount.style.fontSize = '1.5rem';
-                amount.style.margin = '1rem 0';
-                amount.textContent = order.amount != null ? `$${Number(order.amount).toFixed(2)}` : '$0.00';
+                    const badge = document.createElement('span');
+                    badge.className = 'status-badge warning';
+                    badge.style.padding = '1px 6px';
+                    badge.style.fontSize = '10px';
+                    badge.textContent = 'Pending';
 
-                card.appendChild(title);
-                card.appendChild(customer);
-                card.appendChild(amount);
-                list.appendChild(card);
-            });
+                    headerDiv.appendChild(title);
+                    headerDiv.appendChild(badge);
+
+                    const customer = document.createElement('p');
+                    customer.style.color = 'var(--color-text-secondary)';
+                    customer.style.fontSize = 'var(--font-size-xs)';
+                    customer.textContent = order.customer || 'Client';
+
+                    const amountRow = document.createElement('div');
+                    amountRow.style.display = 'flex';
+                    amountRow.style.justifyContent = 'space-between';
+                    amountRow.style.alignItems = 'center';
+                    amountRow.style.margin = 'var(--space-2) 0';
+
+                    const amount = document.createElement('div');
+                    amount.className = 'card-value';
+                    amount.style.fontSize = 'var(--font-size-lg)';
+                    amount.textContent = order.amount != null ? `$${Number(order.amount).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '$0.00';
+
+                    const billBtn = document.createElement('button');
+                    billBtn.className = 'btn';
+                    billBtn.style.padding = 'var(--space-1) var(--space-2)';
+                    billBtn.style.fontSize = 'var(--font-size-xs)';
+                    billBtn.textContent = '💳 Settle';
+                    billBtn.onclick = () => processPayment(order.id, billBtn);
+
+                    amountRow.appendChild(amount);
+                    amountRow.appendChild(billBtn);
+
+                    card.appendChild(headerDiv);
+                    card.appendChild(customer);
+                    card.appendChild(amountRow);
+                    list.appendChild(card);
+                });
+            } catch (e) {
+                console.error("Billing fetch error", e);
+            }
         }
 
+        async function processPayment(orderId, button) {
+            button.disabled = true;
+            button.textContent = '⏳ Processing...';
+            try {
+                const res = await fetch(`/camel/orders/billing/${orderId}/bill`, { method: 'POST' });
+                if (res.ok) {
+                    button.textContent = '✅ Payment Succeeded!';
+                    setTimeout(fetchBilling, 800);
+                }
+            } catch (err) {
+                button.disabled = false;
+                button.textContent = '❌ Failed';
+            }
+        }
 
         fetchBilling();
-        setInterval(fetchBilling, 2000);
+        setInterval(fetchBilling, 3000);
     </script>
 </body>
 </html>

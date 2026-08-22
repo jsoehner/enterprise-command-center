@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipping Department - REST API Aggregator</title>
+    <title>Shipping & Logistics Operations - Enterprise Command Center</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .shipment-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body onload="if(window.self !== window.top) document.body.classList.add('minimal')">
     <div class="bg-blobs">
@@ -12,15 +22,27 @@
         <div class="blob blob-2"></div>
     </div>
     <div class="container animate-fade">
-        <nav class="nav-bar">
+        <nav class="nav-bar" aria-label="Main Navigation">
             <a href="/" class="nav-link">Dashboard</a>
             <a href="/entry.html" class="nav-link">Order Entry</a>
             <a href="/billing.html" class="nav-link">Billing</a>
-            <a href="/shipping.html" class="nav-link active">Shipping</a>
+            <a href="/shipping.html" class="nav-link active" aria-current="page">Shipping</a>
+            <a href="/queue.html" class="nav-link">Queue</a>
+            <a href="/status.html" class="nav-link">Status</a>
+            <a href="/design-system.html" class="nav-link">Design System</a>
         </nav>
+
         <header>
-            <h1>Shipping Department</h1>
-            <p>Fulfill billed orders</p>
+            <div>
+                <h1>Shipping & Logistics Fulfillment</h1>
+                <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">
+                    Dispatch warehouse shipments and execute freight carrier handoffs
+                </p>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Logistics Line Ready
+            </div>
         </header>
 
         <div id="order-list" class="dashboard-grid">
@@ -30,46 +52,89 @@
 
     <script>
         async function fetchShipping() {
-            const res = await fetch('/camel/orders/shipping');
-            const orders = await res.json();
-            const list = document.getElementById('order-list');
-            list.innerHTML = orders.length ? '' : '<div class="card">No orders ready to ship.</div>';
-            
-            orders.forEach(order => {
-                const card = document.createElement('div');
-                card.className = 'card';
+            try {
+                const res = await fetch('/camel/orders/shipping');
+                const orders = await res.json();
+                const list = document.getElementById('order-list');
+                list.innerHTML = orders.length ? '' : `
+                    <div class="card" style="grid-column: 1/-1; text-align: center; padding: var(--space-10);">
+                        <div style="font-size: 2.5rem; margin-bottom: var(--space-2);">📦</div>
+                        <div class="card-value" style="font-size: var(--font-size-xl);">Fulfillment Queue Clear</div>
+                        <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">All paid orders have been dispatched to freight carriers.</p>
+                    </div>
+                `;
+                
+                orders.forEach(order => {
+                    const card = document.createElement('div');
+                    card.className = 'card shipment-card';
+                    card.style.padding = 'var(--space-2) var(--space-3)';
 
-                const title = document.createElement('h3');
-                title.textContent = order.id || '';
+                    const headerDiv = document.createElement('div');
+                    headerDiv.style.display = 'flex';
+                    headerDiv.style.justifyContent = 'space-between';
+                    headerDiv.style.alignItems = 'center';
+                    headerDiv.style.marginBottom = '2px';
 
-                const customer = document.createElement('p');
-                customer.style.color = 'var(--text-dim)';
-                customer.textContent = `Customer: ${order.customer || ''}`;
+                    const title = document.createElement('h3');
+                    title.style.fontSize = 'var(--font-size-sm)';
+                    title.textContent = order.id || '';
 
-                const instructionsBox = document.createElement('div');
-                instructionsBox.style.background = 'rgba(0,0,0,0.3)';
-                instructionsBox.style.padding = '1rem';
-                instructionsBox.style.borderRadius = '0.5rem';
-                instructionsBox.style.margin = '1rem 0';
+                    const badge = document.createElement('span');
+                    badge.className = 'status-badge';
+                    badge.style.padding = '1px 6px';
+                    badge.style.fontSize = '10px';
+                    badge.textContent = 'Paid / Ready';
 
-                const strong = document.createElement('strong');
-                strong.textContent = 'Shipping Instructions:';
-                instructionsBox.appendChild(strong);
-                instructionsBox.appendChild(document.createElement('br'));
+                    headerDiv.appendChild(title);
+                    headerDiv.appendChild(badge);
 
-                const instructionsText = document.createTextNode(`Handle with care. Standard delivery to ${order.customer || 'Customer'}.`);
-                instructionsBox.appendChild(instructionsText);
+                    const customerRow = document.createElement('div');
+                    customerRow.style.display = 'flex';
+                    customerRow.style.justifyContent = 'space-between';
+                    customerRow.style.alignItems = 'center';
+                    customerRow.style.margin = 'var(--space-2) 0';
 
-                card.appendChild(title);
-                card.appendChild(customer);
-                card.appendChild(instructionsBox);
-                list.appendChild(card);
-            });
+                    const customer = document.createElement('p');
+                    customer.style.color = 'var(--color-text-secondary)';
+                    customer.style.fontSize = 'var(--font-size-xs)';
+                    customer.textContent = order.customer || 'Client';
+
+                    const shipBtn = document.createElement('button');
+                    shipBtn.className = 'btn';
+                    shipBtn.style.padding = 'var(--space-1) var(--space-2)';
+                    shipBtn.style.fontSize = 'var(--font-size-xs)';
+                    shipBtn.textContent = '🚚 Dispatch';
+                    shipBtn.onclick = () => shipOrder(order.id, shipBtn);
+
+                    customerRow.appendChild(customer);
+                    customerRow.appendChild(shipBtn);
+
+                    card.appendChild(headerDiv);
+                    card.appendChild(customerRow);
+                    list.appendChild(card);
+                });
+            } catch (e) {
+                console.error("Shipping fetch error", e);
+            }
         }
 
+        async function shipOrder(orderId, button) {
+            button.disabled = true;
+            button.textContent = '⏳ Dispatching...';
+            try {
+                const res = await fetch(`/camel/orders/shipping/${orderId}/ship`, { method: 'POST' });
+                if (res.ok) {
+                    button.textContent = '✅ Shipped!';
+                    setTimeout(fetchShipping, 800);
+                }
+            } catch (err) {
+                button.disabled = false;
+                button.textContent = '❌ Dispatch Failed';
+            }
+        }
 
         fetchShipping();
-        setInterval(fetchShipping, 2000);
+        setInterval(fetchShipping, 3000);
     </script>
 </body>
 </html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Entry & CRM - Enterprise Command Center</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-bg-inset);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-md);
+            color: var(--color-text-primary);
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            transition: border-color var(--transition-fast);
+        }
+        .form-input:focus {
+            border-color: var(--color-border-focus);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-4);
+            font-size: var(--font-size-sm);
+        }
+        .order-table th, .order-table td {
+            padding: var(--space-3) var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+        .order-table th {
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            font-size: var(--font-size-xs);
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body onload="if(window.self !== window.top) document.body.classList.add('minimal')">
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+    <div class="container animate-fade">
+        <nav class="nav-bar" aria-label="Main Navigation">
+            <a href="/" class="nav-link">Dashboard</a>
+            <a href="/entry.html" class="nav-link active" aria-current="page">Order Entry</a>
+            <a href="/billing.html" class="nav-link">Billing</a>
+            <a href="/shipping.html" class="nav-link">Shipping</a>
+            <a href="/queue.html" class="nav-link">Queue</a>
+            <a href="/status.html" class="nav-link">Status</a>
+            <a href="/design-system.html" class="nav-link">Design System</a>
+        </nav>
+
+        <header>
+            <div>
+                <h1>Order Entry & Client Intake</h1>
+                <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">
+                    Create and dispatch enterprise work orders into the fulfillment lifecycle
+                </p>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                CRM Gateway Active
+            </div>
+        </header>
+
+        <div class="dashboard-grid" style="grid-template-columns: 1fr 1.8fr; gap: var(--space-8); align-items: start;">
+            <!-- Order Creation Form -->
+            <div class="card">
+                <div class="card-title">New Work Order</div>
+                <form id="order-form" onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="customer-name">Client Organization</label>
+                        <input class="form-input" id="customer-name" required placeholder="e.g. Wayne Enterprises" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="order-amount">Contract Value ($ USD)</label>
+                        <input class="form-input" id="order-amount" type="number" step="0.01" min="1" required placeholder="5000.00" />
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: var(--space-2);">
+                        🚀 Submit & Dispatch Order
+                    </button>
+                    <div id="form-alert" style="margin-top: var(--space-3); font-size: var(--font-size-xs); text-align: center;"></div>
+                </form>
+            </div>
+
+            <!-- Active Orders List -->
+            <div class="card">
+                <div class="card-title">Live Business Pipeline</div>
+                <div style="overflow-x: auto;">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadOrders() {
+            try {
+                const res = await fetch('/camel/orders/all');
+                if (!res.ok) return;
+                const orders = await res.json();
+                const tbody = document.getElementById('orders-tbody');
+                tbody.innerHTML = '';
+                
+                orders.forEach(o => {
+                    const tr = document.createElement('tr');
+                    
+                    const tdId = document.createElement('td');
+                    tdId.style.fontWeight = '600';
+                    tdId.textContent = o.id;
+
+                    const tdCustomer = document.createElement('td');
+                    tdCustomer.textContent = o.customer;
+
+                    const tdAmount = document.createElement('td');
+                    tdAmount.textContent = o.amount != null ? `$${Number(o.amount).toLocaleString('en-US', {minimumFractionDigits: 2})}` : '$0.00';
+
+                    const tdStatus = document.createElement('td');
+                    const badge = document.createElement('span');
+                    badge.className = 'status-badge';
+                    if (o.status === 'PENDING') {
+                        badge.className = 'status-badge warning';
+                    } else if (o.status === 'BILLED') {
+                        badge.className = 'status-badge';
+                    } else {
+                        badge.className = 'status-badge';
+                    }
+                    badge.textContent = o.status;
+                    tdStatus.appendChild(badge);
+
+                    tr.appendChild(tdId);
+                    tr.appendChild(tdCustomer);
+                    tr.appendChild(tdAmount);
+                    tr.appendChild(tdStatus);
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Failed to load orders', err);
+            }
+        }
+
+        async function submitOrder(e) {
+            e.preventDefault();
+            const customer = document.getElementById('customer-name').value;
+            const amount = parseFloat(document.getElementById('order-amount').value);
+            const alertBox = document.getElementById('form-alert');
+
+            try {
+                const res = await fetch('/camel/orders/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ customer, amount, status: 'PENDING' })
+                });
+
+                if (res.ok) {
+                    alertBox.textContent = '✅ Order dispatched into pipeline!';
+                    alertBox.style.color = 'var(--color-feedback-success)';
+                    document.getElementById('order-form').reset();
+                    loadOrders();
+                    setTimeout(() => alertBox.textContent = '', 3000);
+                } else {
+                    throw new Error('Failed to create order');
+                }
+            } catch (err) {
+                alertBox.textContent = '❌ Failed to dispatch order';
+                alertBox.style.color = 'var(--color-feedback-danger)';
+            }
+        }
+
+        loadOrders();
+        setInterval(loadOrders, 3000);
+    </script>
+</body>
+</html>

@@ -50,6 +50,9 @@ management:
   endpoint:
     health:
       show-details: never
+  health:
+    redis:
+      enabled: ${REDIS_HEALTH_ENABLED:false}
   tracing:
     sampling:
       probability: 1.0
@@ -60,10 +63,8 @@ spring.data.redis:
   port: 6379
   timeout: 2000ms
 
-# Rate Limiting
 bucket4j:
-  enabled: true
-  cache-to-use: redis
+  enabled: ${BUCKET4J_ENABLED:false}
   filters:
     - cache-name: buckets
       url: /camel/api/.*

@@ -14,6 +14,9 @@ public class WorkOrderRoute extends RouteBuilder {
             .get("/summary")
                 .to("bean:workOrderService?method=getQueueSummary")
             
+            .get("/all")
+                .to("bean:workOrderService?method=getAllOrders")
+            
             .post("/create")
                 .type(Order.class)
                 .to("bean:workOrderService?method=createOrder")

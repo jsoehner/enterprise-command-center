@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Design System - Style Guide & Component Showcase</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .token-group {
+            margin-bottom: var(--space-8);
+        }
+        .token-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        .swatch-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-3);
+            text-align: center;
+        }
+        .swatch-box {
+            height: 60px;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .swatch-label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-primary);
+        }
+        .swatch-val {
+            font-size: var(--font-size-xs);
+            font-family: var(--font-mono);
+            color: var(--color-text-secondary);
+        }
+        .component-demo-box {
+            background: var(--color-bg-inset);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-top: var(--space-3);
+            margin-bottom: var(--space-6);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+            align-items: center;
+        }
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            z-index: 100;
+            background: var(--color-brand-primary);
+            color: #ffffff;
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--radius-full);
+            padding: var(--space-3) var(--space-5);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
+            transition: all var(--transition-fast);
+        }
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-glow-primary);
+        }
+        .section-divider {
+            border: 0;
+            height: 1px;
+            background: var(--color-border-subtle);
+            margin: var(--space-8) 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle light and dark mode">
+        🌓 Toggle Theme
+    </button>
+
+    <div class="container animate-fade">
+        <nav class="nav-bar" aria-label="Main Navigation">
+            <a href="/" class="nav-link">Dashboard</a>
+            <a href="/status.html" class="nav-link">Status</a>
+            <a href="/queue.html" class="nav-link">Queue</a>
+            <a href="/billing.html" class="nav-link">Billing</a>
+            <a href="/shipping.html" class="nav-link">Shipping</a>
+            <a href="/design-system.html" class="nav-link active" aria-current="page">Design System</a>
+        </nav>
+
+        <header>
+            <div>
+                <h1>Enterprise Design System</h1>
+                <p style="color: var(--color-text-secondary); margin-top: var(--space-2);">
+                    Atomic Tokens, Accessible Components & Live Interactive Style Guide (WCAG 2.1 AA)
+                </p>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Tokens V1.0 Active
+            </div>
+        </header>
+
+        <!-- 1. Color Tokens -->
+        <section class="token-group">
+            <h2>1. Color Primitives & Semantic Tokens</h2>
+            <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-top: var(--space-1);">
+                Curated HSL & hex palettes ensuring minimum 4.5:1 contrast for typography and 3:1 for interactive states.
+            </p>
+            
+            <div class="token-grid">
+                <div class="swatch-card">
+                    <div class="swatch-box" style="background: var(--color-indigo-500);"></div>
+                    <div class="swatch-label">Brand Primary</div>
+                    <div class="swatch-val">var(--color-indigo-500)</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="swatch-box" style="background: var(--color-cyan-400);"></div>
+                    <div class="swatch-label">Brand Accent</div>
+                    <div class="swatch-val">var(--color-cyan-400)</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="swatch-box" style="background: var(--color-emerald-500);"></div>
+                    <div class="swatch-label">Feedback Success</div>
+                    <div class="swatch-val">var(--color-emerald-500)</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="swatch-box" style="background: var(--color-amber-500);"></div>
+                    <div class="swatch-label">Feedback Warning</div>
+                    <div class="swatch-val">var(--color-amber-500)</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="swatch-box" style="background: var(--color-rose-500);"></div>
+                    <div class="swatch-label">Feedback Danger</div>
+                    <div class="swatch-val">var(--color-rose-500)</div>
+                </div>
+                <div class="swatch-card">
+                    <div class="swatch-box" style="background: var(--color-slate-800);"></div>
+                    <div class="swatch-label">Surface Card</div>
+                    <div class="swatch-val">var(--color-slate-800)</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- 2. Typography & Scale -->
+        <section class="token-group">
+            <h2>2. Typography Scale</h2>
+            <div class="card" style="margin-top: var(--space-4);">
+                <div class="data-row">
+                    <span class="heading-1">Heading 1 - Display (36px / 2.25rem)</span>
+                    <span class="data-label">--font-size-4xl</span>
+                </div>
+                <div class="data-row">
+                    <span class="heading-2">Heading 2 - Section Header (24px / 1.5rem)</span>
+                    <span class="data-label">--font-size-2xl</span>
+                </div>
+                <div class="data-row">
+                    <span class="heading-3">Heading 3 - Card Title (20px / 1.25rem)</span>
+                    <span class="data-label">--font-size-xl</span>
+                </div>
+                <div class="data-row">
+                    <span>Base Body Text - Inter regular with high contrast (16px / 1rem)</span>
+                    <span class="data-label">--font-size-base</span>
+                </div>
+                <div class="data-row">
+                    <span style="font-family: var(--font-mono); color: var(--color-brand-accent);">
+                        JetBrains Mono Console Text (> [10:45:00] kafka-event-listener OK)
+                    </span>
+                    <span class="data-label">--font-mono</span>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- 3. Atomic Components Showcase -->
+        <section class="token-group">
+            <h2>3. Atomic Components (Buttons, Badges, Metrics)</h2>
+            
+            <h3 style="margin-top: var(--space-6);">Button Variants & States</h3>
+            <div class="component-demo-box">
+                <button class="btn">Primary Button</button>
+                <button class="btn btn-secondary">Secondary Button</button>
+                <button class="btn btn-outline">Outline Accent</button>
+                <button class="btn btn-sm">Small Button</button>
+                <button class="btn btn-lg">Large Action</button>
+            </div>
+
+            <h3>Status Badges & Live Indicators</h3>
+            <div class="component-demo-box">
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    Operational
+                </div>
+                <div class="status-badge warning">
+                    <div class="status-dot" style="background: var(--color-amber-500); box-shadow: 0 0 10px var(--color-amber-500);"></div>
+                    Degraded Performance
+                </div>
+                <div class="status-badge danger">
+                    <div class="status-dot danger"></div>
+                    System Outage
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- 4. Molecules & Organisms -->
+        <section class="token-group">
+            <h2>4. Molecular Components (Cards, Grids, Telemetry)</h2>
+            <div class="dashboard-grid" style="margin-top: var(--space-4);">
+                <div class="card">
+                    <div class="card-title">Microservice Telemetry</div>
+                    <div class="card-value">99.98%</div>
+                    <div class="data-row" style="margin-top: var(--space-4);">
+                        <span class="data-label">Uptime</span>
+                        <span class="data-value" style="color: var(--color-feedback-success);">Optimal</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Latency</span>
+                        <span class="data-value">18ms</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Active Service Nodes</div>
+                    <div class="status-item" style="margin-bottom: var(--space-2);">
+                        <span>UserService (Camel)</span>
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="status-item" style="margin-bottom: 0;">
+                        <span>OrderService (Kafka)</span>
+                        <div class="status-indicator"></div>
+                    </div>
+                </div>
+
+                <div class="queue-stat">
+                    <div class="queue-number">42</div>
+                    <div class="queue-label">Completed Transactions / Sec</div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- 5. Activity Console Organism -->
+        <section class="token-group" style="margin-bottom: var(--space-12);">
+            <h2>5. Organisms: Event Stream Console</h2>
+            <div class="card" style="margin-top: var(--space-4);">
+                <div class="card-title">Live WebSocket Activity Feed</div>
+                <div class="activity-console">
+                    <div>> [08:42:01] System boot verified: REST API Aggregator v0.9.27-SNAPSHOT</div>
+                    <div>> [08:42:05] CircuitBreaker configuration loaded: Resilience4j active</div>
+                    <div>> [08:42:10] WebSocket connection established on port :8081</div>
+                    <div>> [08:42:15] Kafka health check completed: Stream listeners synchronized</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('ecc-theme', newTheme);
+        }
+
+        // Restore saved preference
+        const savedTheme = localStorage.getItem('ecc-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    </script>
+</body>
+</html>
