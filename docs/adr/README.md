@@ -9,3 +9,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0001](file:///home/jsoehner/enterprise-command-center/docs/adr/0001-production-security-hardening.md) | Transition to Production-Hardened Infrastructure and Security Configuration | Accepted | 2024-05-22 |
 | [0002](file:///home/jsoehner/enterprise-command-center/docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md) | Roadmap and Strategy for Post-Quantum Cryptography (ML-KEM & Merkle Tree Certificates) | Proposed | 2026-08-21 |
 | [0003](file:///home/jsoehner/enterprise-command-center/docs/adr/0003-enterprise-business-command-center-architecture.md) | Enterprise Business Command Center Architecture and Lifecycle Pipeline | Accepted | 2026-08-22 |
+| [0004](file:///home/jsoehner/enterprise-command-center/docs/adr/0004-github-actions-node24-sha-pinning.md) | GitHub Actions Node 24 Migration and Explicit SHA Security Pinning | Accepted | 2026-08-22 |

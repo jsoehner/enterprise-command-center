@@ -2,7 +2,7 @@
 
 [![Build & Test](https://github.com/jsoehner/enterprise-command-center/actions/workflows/ci.yml/badge.svg)](https://github.com/jsoehner/enterprise-command-center/actions)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.16-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.10.0-orange.svg)](https://camel.apache.org/)
+[![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.22.0-orange.svg)](https://camel.apache.org/)
 [![Java](https://img.shields.io/badge/Java-21%2B-blue.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
@@ -29,13 +29,14 @@ This platform unifies downstream microservices, real-time business telemetry, au
 | Domain | Technology |
 | :--- | :--- |
 | **Framework** | Spring Boot 3.5.16 |
-| **Integration Engine** | Apache Camel 4.10.0 (REST DSL & EIP Aggregator) |
+| **Integration Engine** | Apache Camel 4.22.0 (REST DSL & EIP Aggregator) |
 | **Database** | PostgreSQL (Prod) & In-Memory H2 (Dev / Test) |
-| **Caching & Rate Limiting** | Bucket4j, Caffeine Cache & Redis |
-| **Event Streaming** | Apache Kafka |
+| **Caching & Rate Limiting** | Bucket4j 8.10.1, Caffeine Cache & Redis |
+| **Event Streaming** | Apache Kafka 3.9.2 |
 | **Resilience & SLA** | Resilience4j Circuit Breakers & Micrometer Actuator |
-| **Security & Auth** | Spring Security 6.x, HTTP Basic Auth, CSP & HSTS |
+| **Security & Auth** | Spring Security 7.1.0, HTTP Basic Auth, CSP & HSTS |
 | **Frontend Architecture** | Vanilla HTML5, CSS Design Tokens, WebSockets, Vanilla JS |
+| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.3, OWASP 13.0.0 |
 | **Containerization** | Multi-stage Dockerfile (Temurin JDK 21 build + Chainguard JRE) |
 
 ---
@@ -88,6 +89,7 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0001: Production Security Hardening](docs/adr/0001-production-security-hardening.md)** — Environment variable secrets, PostgreSQL profile, and browser security headers.
 * **[ADR 0002: Post-Quantum Cryptography Roadmap](docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md)** — Roadmap for ML-KEM-768 key encapsulation and Merkle Tree Certificates (MTCs).
 * **[ADR 0003: Enterprise Command Center Architecture](docs/adr/0003-enterprise-business-command-center-architecture.md)** — Unified multi-department business lifecycle pipeline and financial intelligence.
+* **[ADR 0004: GitHub Actions Node 24 & SHA Pinning](docs/adr/0004-github-actions-node24-sha-pinning.md)** — CI/CD automation strategy with Node 24 runtime support and immutable 40-character SHA security pinning.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
