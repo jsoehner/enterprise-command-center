@@ -13,7 +13,12 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @CamelSpringBootTest
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"bucket4j.enabled=false", "websocket.port=0"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
+    "bucket4j.enabled=false",
+    "websocket.port=0",
+    "app.admin.username=testadmin",
+    "app.admin.password=testpassword"
+})
 class AggregatorRouteTest {
 
     @Autowired

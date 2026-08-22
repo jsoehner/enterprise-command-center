@@ -36,12 +36,12 @@ public class WorkOrderRoute extends RouteBuilder {
 
         from("direct:process-billing")
             .log("Processing billing for order ${header.id}")
-            .bean("workOrderService", "billOrder(${header.id})")
+            .to("bean:workOrderService?method=billOrder")
             .setBody(constant("Order billed successfully"));
 
         from("direct:process-shipping")
             .log("Processing shipping for order ${header.id}")
-            .bean("workOrderService", "shipOrder(${header.id})")
+            .to("bean:workOrderService?method=shipOrder")
             .setBody(constant("Order shipped successfully"));
     }
 }

@@ -229,7 +229,6 @@
                 <version>13.0.0</version>
                 <configuration>
                     <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
-                    <nvd_repository>file:///home/jsoehner/nvd-cache</nvd_repository>
                     <failBuildOnCVSS>7.0</failBuildOnCVSS>
                 </configuration>
                 <executions>

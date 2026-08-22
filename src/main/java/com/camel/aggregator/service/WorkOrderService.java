@@ -17,7 +17,7 @@ public class WorkOrderService {
     private final AtomicLong completedCount = new AtomicLong(0);
 
     public Order createOrder(Order order) {
-        order.setId("ORD-" + UUID.randomUUID().toString().substring(0, 8));
+        order.setId("ORD-" + UUID.randomUUID().toString());
         order.setStatus("PENDING");
         orders.put(order.getId(), order);
         return order;
@@ -29,7 +29,8 @@ public class WorkOrderService {
                 .collect(Collectors.toList());
     }
 
-    public void billOrder(String id) {
+    public void billOrder(@org.apache.camel.Header("id") String id) {
+        if (id == null) return;
         Order o = orders.get(id);
         if (o != null) o.setStatus("BILLED");
     }
@@ -40,7 +41,8 @@ public class WorkOrderService {
                 .collect(Collectors.toList());
     }
 
-    public void shipOrder(String id) {
+    public void shipOrder(@org.apache.camel.Header("id") String id) {
+        if (id == null) return;
         Order o = orders.remove(id); // Completely remove the order
         if (o != null) {
             o.setStatus("SHIPPED");

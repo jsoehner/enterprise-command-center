@@ -27,26 +27,28 @@ function renderDashboard(data) {
     const dashboard = document.getElementById('dashboard');
     dashboard.innerHTML = '';
 
+    if (!data) return;
+
     // User Section
     const userCard = createCard('User Identity', [
-        { label: 'Name', value: data.name },
-        { label: 'ID', value: data.id },
-        { label: 'Email', value: data.email }
+        { label: 'Name', value: data.name ?? '' },
+        { label: 'ID', value: data.id ?? '' },
+        { label: 'Email', value: data.email ?? '' }
     ]);
     dashboard.appendChild(userCard);
 
     // Order Section
     const orderCard = createCard('Latest Order', [
-        { label: 'Order ID', value: data.orderId },
-        { label: 'Amount', value: `$${data.amount}` },
-        { label: 'Status', value: `<span style="color: var(--success)">${data.status}</span>` }
+        { label: 'Order ID', value: data.orderId ?? '' },
+        { label: 'Amount', value: data.amount != null ? `$${data.amount}` : '' },
+        { label: 'Status', value: data.status ?? '', isStatus: true }
     ]);
     dashboard.appendChild(orderCard);
 
     // Inventory Section
     const inventoryCard = createCard('Stock Inventory', [
-        { label: 'Warehouse', value: data.warehouse },
-        { label: 'Stock Count', value: data.stockCount }
+        { label: 'Warehouse', value: data.warehouse ?? '' },
+        { label: 'Stock Count', value: data.stockCount ?? '' }
     ]);
     dashboard.appendChild(inventoryCard);
 }
@@ -55,17 +57,31 @@ function createCard(title, items) {
     const card = document.createElement('div');
     card.className = 'card animate-fade';
     
-    let html = `<div class="card-title">${title}</div>`;
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'card-title';
+    titleDiv.textContent = title;
+    card.appendChild(titleDiv);
+
     items.forEach(item => {
-        html += `
-            <div class="data-row">
-                <span class="data-label">${item.label}</span>
-                <span class="data-value">${item.value}</span>
-            </div>
-        `;
+        const row = document.createElement('div');
+        row.className = 'data-row';
+
+        const label = document.createElement('span');
+        label.className = 'data-label';
+        label.textContent = item.label;
+
+        const val = document.createElement('span');
+        val.className = 'data-value';
+        val.textContent = item.value;
+        if (item.isStatus) {
+            val.style.color = 'var(--success)';
+        }
+
+        row.appendChild(label);
+        row.appendChild(val);
+        card.appendChild(row);
     });
     
-    card.innerHTML = html;
     return card;
 }
 

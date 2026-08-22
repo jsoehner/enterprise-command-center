@@ -68,13 +68,29 @@
                     const isUp = statuses[service] === 'UP';
                     const div = document.createElement('div');
                     div.className = 'status-item';
-                    div.innerHTML = `
-                        <span style="font-weight: 600;">${service}</span>
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 0.8rem; color: var(--text-dim)">${statuses[service]}</span>
-                            <div class="status-indicator ${isUp ? '' : 'down'}"></div>
-                        </div>
-                    `;
+
+                    const nameSpan = document.createElement('span');
+                    nameSpan.style.fontWeight = '600';
+                    nameSpan.textContent = service;
+
+                    const statusWrap = document.createElement('div');
+                    statusWrap.style.display = 'flex';
+                    statusWrap.style.alignItems = 'center';
+                    statusWrap.style.gap = '0.5rem';
+
+                    const textSpan = document.createElement('span');
+                    textSpan.style.fontSize = '0.8rem';
+                    textSpan.style.color = 'var(--text-dim)';
+                    textSpan.textContent = statuses[service] || '';
+
+                    const indicator = document.createElement('div');
+                    indicator.className = `status-indicator ${isUp ? '' : 'down'}`;
+
+                    statusWrap.appendChild(textSpan);
+                    statusWrap.appendChild(indicator);
+
+                    div.appendChild(nameSpan);
+                    div.appendChild(statusWrap);
                     list.appendChild(div);
                 });
             } catch (e) {

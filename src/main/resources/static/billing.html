@@ -38,11 +38,22 @@
             orders.forEach(order => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `
-                    <h3>${order.id}</h3>
-                    <p style="color: var(--text-dim)">Customer: ${order.customer}</p>
-                    <p style="font-size: 1.5rem; margin: 1rem 0;">$${order.amount.toFixed(2)}</p>
-                `;
+
+                const title = document.createElement('h3');
+                title.textContent = order.id || '';
+
+                const customer = document.createElement('p');
+                customer.style.color = 'var(--text-dim)';
+                customer.textContent = `Customer: ${order.customer || ''}`;
+
+                const amount = document.createElement('p');
+                amount.style.fontSize = '1.5rem';
+                amount.style.margin = '1rem 0';
+                amount.textContent = order.amount != null ? `$${Number(order.amount).toFixed(2)}` : '$0.00';
+
+                card.appendChild(title);
+                card.appendChild(customer);
+                card.appendChild(amount);
                 list.appendChild(card);
             });
         }

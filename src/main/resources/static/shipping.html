@@ -38,14 +38,31 @@
             orders.forEach(order => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.innerHTML = `
-                    <h3>${order.id}</h3>
-                    <p style="color: var(--text-dim)">Customer: ${order.customer}</p>
-                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
-                        <strong>Shipping Instructions:</strong><br>
-                        Handle with care. Standard delivery to ${order.customer}.
-                    </div>
-                `;
+
+                const title = document.createElement('h3');
+                title.textContent = order.id || '';
+
+                const customer = document.createElement('p');
+                customer.style.color = 'var(--text-dim)';
+                customer.textContent = `Customer: ${order.customer || ''}`;
+
+                const instructionsBox = document.createElement('div');
+                instructionsBox.style.background = 'rgba(0,0,0,0.3)';
+                instructionsBox.style.padding = '1rem';
+                instructionsBox.style.borderRadius = '0.5rem';
+                instructionsBox.style.margin = '1rem 0';
+
+                const strong = document.createElement('strong');
+                strong.textContent = 'Shipping Instructions:';
+                instructionsBox.appendChild(strong);
+                instructionsBox.appendChild(document.createElement('br'));
+
+                const instructionsText = document.createTextNode(`Handle with care. Standard delivery to ${order.customer || 'Customer'}.`);
+                instructionsBox.appendChild(instructionsText);
+
+                card.appendChild(title);
+                card.appendChild(customer);
+                card.appendChild(instructionsBox);
                 list.appendChild(card);
             });
         }

@@ -24,17 +24,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/camel/**")
+            )
+            .httpBasic(org.springframework.security.config.Customizer.withDefaults())
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
                 .contentSecurityPolicy(csp -> csp
-                    .policyDirectives("default-src 'self'; script-src 'self'; object-src 'none'; style-src 'self'; img-src 'self';"))
+                    .policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' ws: wss:; img-src 'self' data:; object-src 'none'; frame-ancestors 'self';"))
                 .httpStrictTransportSecurity(hsts -> hsts
                     .includeSubDomains(true)
                     .maxAgeInSeconds(31536000))
             )
             .authorizeHttpRequests(auth -> auth
-
-                .requestMatchers("/api-doc/**", "/swagger-ui/**", "/", "/*.html", "/css/**", "/js/**", "/assets/**").permitAll()
+                .requestMatchers("/api-doc/**", "/swagger-ui/**", "/", "/*.html", "/css/**", "/js/**", "/assets/**", "/actuator/health/**", "/actuator/info").permitAll()
                 .requestMatchers("/camel/api/**", "/camel/orders/**", "/camel/health/**").authenticated()
                 .anyRequest().authenticated()
             );
