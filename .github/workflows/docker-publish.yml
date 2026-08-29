@@ -17,6 +17,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -35,11 +38,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to Docker Hub
-        if: ${{ github.event_name != 'pull_request' && secrets.DOCKER_USERNAME != '' && secrets.DOCKER_TOKEN != '' }}
+        if: github.event_name != 'pull_request' && env.DOCKER_USERNAME != '' && env.DOCKER_TOKEN != ''
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.3.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.0.0
@@ -53,7 +56,7 @@ jobs:
         with:
           images: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            ${{ (github.event_name != 'pull_request' && secrets.DOCKER_USERNAME != '') && format('{0}/{1}', secrets.DOCKER_USERNAME, github.event.repository.name) || '' }}
+            ${{ (github.event_name != 'pull_request' && env.DOCKER_USERNAME != '') && format('{0}/{1}', env.DOCKER_USERNAME, github.event.repository.name) || '' }}
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=branch
