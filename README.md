@@ -3,7 +3,7 @@
 [![Build & Test](https://github.com/jsoehner/enterprise-command-center/actions/workflows/ci.yml/badge.svg)](https://github.com/jsoehner/enterprise-command-center/actions)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.16-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.22.0-orange.svg)](https://camel.apache.org/)
-[![Java](https://img.shields.io/badge/Java-21%2B-blue.svg)](https://www.oracle.com/java/)
+[![Java](https://img.shields.io/badge/Java-25%2B-blue.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 A high-performance **Enterprise Command Center** and **REST API Aggregator** built with Apache Camel, Spring Boot 3.5, and a defense-in-depth security posture.
@@ -36,8 +36,8 @@ This platform unifies downstream microservices, real-time business telemetry, au
 | **Resilience & SLA** | Resilience4j Circuit Breakers & Micrometer Actuator |
 | **Security & Auth** | Spring Security 7.1.0, HTTP Basic Auth, CSP & HSTS |
 | **Frontend Architecture** | Vanilla HTML5, CSS Design Tokens, WebSockets, Vanilla JS |
-| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.3, OWASP 13.0.0 |
-| **Containerization** | Multi-stage Dockerfile (Temurin JDK 21 build + Chainguard JRE) |
+| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.4, OWASP 13.0.0 |
+| **Containerization** | Multi-stage Dockerfile (Temurin JDK 25 build + Chainguard JRE) |
 
 ---
 
@@ -90,6 +90,7 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0002: Post-Quantum Cryptography Roadmap](docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md)** — Roadmap for ML-KEM-768 key encapsulation and Merkle Tree Certificates (MTCs).
 * **[ADR 0003: Enterprise Command Center Architecture](docs/adr/0003-enterprise-business-command-center-architecture.md)** — Unified multi-department business lifecycle pipeline and financial intelligence.
 * **[ADR 0004: GitHub Actions Node 24 & SHA Pinning](docs/adr/0004-github-actions-node24-sha-pinning.md)** — CI/CD automation strategy with Node 24 runtime support and immutable 40-character SHA security pinning.
+* **[ADR 0005: Java 25 Runtime & CI Secrets Modernization](docs/adr/0005-java-25-runtime-and-ci-secrets-modernization.md)** — Java 25 runtime baseline, SpotBugs 4.10.4 SAST, and resilient GitHub Actions container publishing.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
