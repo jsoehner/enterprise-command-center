@@ -1,5 +1,5 @@
 # Build stage
-FROM --platform=$BUILDPLATFORM maven:3.9.9-eclipse-temurin-25-alpine AS build
+FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-25 AS build
 WORKDIR /app
 COPY pom.xml .
 # Download dependencies for offline caching
