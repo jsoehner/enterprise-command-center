@@ -5,6 +5,8 @@
 DOCKER_USERNAME="jsoehner"
 IMAGE_NAME="enterprise-command-center"
 TAG="main"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="admin123"
 
 FULL_IMAGE_NAME="${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG}"
 
@@ -24,6 +26,8 @@ docker run -d \
   --name ${IMAGE_NAME} \
   -p 8080:8080 \
   -p 8081:8081 \
+  -e ADMIN_USERNAME=${ADMIN_USERNAME} \
+  -e ADMIN_PASSWORD=${ADMIN_PASSWORD} \
   "${FULL_IMAGE_NAME}"
 
 echo "Container started successfully!"
