@@ -13,7 +13,7 @@
     
     <groupId>com.camel</groupId>
     <artifactId>rest-api-aggregator</artifactId>
-    <version>0.9.40-SNAPSHOT</version>
+    <version>0.9.41-SNAPSHOT</version>
     <name>REST API Aggregator</name>
     <description>Apache Camel REST API Aggregator / Backend-for-Frontend</description>
     
