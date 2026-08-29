@@ -8,6 +8,8 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 # Build the application
 RUN mvn package -DskipTests
+# Trigger rebuild: updated build step timestamp
+RUN echo "Build triggered at $(date)"
 
 # --- SECURITY SCAN --- 
 # It is recommended to run Trivy to scan the build artifacts:
