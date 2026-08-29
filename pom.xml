@@ -3,20 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.16</version>
         <relativePath/>
     </parent>
-
+    
     <groupId>com.camel</groupId>
     <artifactId>rest-api-aggregator</artifactId>
     <version>0.9.38-SNAPSHOT</version>
     <name>REST API Aggregator</name>
     <description>Apache Camel REST API Aggregator / Backend-for-Frontend</description>
-
+    
     <properties>
         <java.version>25</java.version>
         <camel.version>4.22.0</camel.version>
@@ -24,8 +24,10 @@
         <spring-security.version>7.1.0</spring-security.version>
         <netty.version>4.2.17.Final</netty.version>
         <kafka.version>3.9.2</kafka.version>
+        <httpcore5.version>5.4.3</httpcore5.version>
+        <postgresql.version>42.7.12</postgresql.version>
     </properties>
-
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -34,6 +36,21 @@
                 <version>${camel.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>${httpcore5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5-h2</artifactId>
+                <version>${httpcore5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.7.13</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -97,7 +114,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
@@ -130,7 +147,7 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
+        
         <!-- Lombok & MapStruct -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -148,7 +165,7 @@
             <artifactId>mapstruct</artifactId>
             <version>1.7.0.Beta2</version>
         </dependency>
-
+        
         <!-- Apache Camel -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
@@ -262,7 +279,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    
     <build>
         <plugins>
             <plugin>
@@ -273,7 +290,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.10.4.0</version>
+                <version>4.8.0</version>
                 <executions>
                     <execution>
                         <goals>

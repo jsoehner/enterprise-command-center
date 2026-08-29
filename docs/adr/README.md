@@ -10,4 +10,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0002](file:///home/jsoehner/enterprise-command-center/docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md) | Roadmap and Strategy for Post-Quantum Cryptography (ML-KEM & Merkle Tree Certificates) | Proposed | 2026-08-21 |
 | [0003](file:///home/jsoehner/enterprise-command-center/docs/adr/0003-enterprise-business-command-center-architecture.md) | Enterprise Business Command Center Architecture and Lifecycle Pipeline | Accepted | 2026-08-22 |
 | [0004](file:///home/jsoehner/enterprise-command-center/docs/adr/0004-github-actions-node24-sha-pinning.md) | GitHub Actions Node 24 Migration and Explicit SHA Security Pinning | Accepted | 2026-08-22 |
-| [0005](file:///home/jsoehner/enterprise-command-center/docs/adr/0005-java-25-runtime-and-ci-secrets-modernization.md) | Java 25 Runtime Migration and CI Container Publishing Resilience | Accepted | 2026-08-29 |
+| [0006](file:///home/jsoehner/enterprise-command-center/docs/adr/0006-dependency-security-hardening.md) | Dependency Security Hardening and Vulnerability Mitigation | Accepted | 2026-08-29 |

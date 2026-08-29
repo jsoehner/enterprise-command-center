@@ -91,6 +91,7 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0003: Enterprise Command Center Architecture](docs/adr/0003-enterprise-business-command-center-architecture.md)** — Unified multi-department business lifecycle pipeline and financial intelligence.
 * **[ADR 0004: GitHub Actions Node 24 & SHA Pinning](docs/adr/0004-github-actions-node24-sha-pinning.md)** — CI/CD automation strategy with Node 24 runtime support and immutable 40-character SHA security pinning.
 * **[ADR 0005: Java 25 Runtime & CI Secrets Modernization](docs/adr/0005-java-25-runtime-and-ci-secrets-modernization.md)** — Java 25 runtime baseline, SpotBugs 4.10.4 SAST, and resilient GitHub Actions container publishing.
+* **[ADR 0006: Dependency Security Hardening](docs/adr/0006-dependency-security-hardening.md)** — Identification and mitigation of known vulnerabilities in the dependency tree.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
