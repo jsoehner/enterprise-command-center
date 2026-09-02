@@ -1,8 +1,13 @@
 # ADR 0002: Roadmap and Strategy for Post-Quantum Cryptography (ML-KEM & Merkle Tree Certificates)
 
-* **Status:** Proposed / Draft
+* **Status:** Superseded by [ADR-0010](0010-post-quantum-cryptography-ml-kem-implementation.md)
 * **Deciders:** Enterprise Command Center Architecture & Security Team
 * **Date:** 2026-08-21
+* **Superseded by:** [ADR-0010](0010-post-quantum-cryptography-ml-kem-implementation.md)
+
+> [!NOTE]
+> This strategic roadmap ADR has been formally superseded by the active implementation documented in [ADR 0010: Post-Quantum Cryptography Implementation with Bouncy Castle ML-KEM-768](0010-post-quantum-cryptography-ml-kem-implementation.md).
+
 
 ---
 

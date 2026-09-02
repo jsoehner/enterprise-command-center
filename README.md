@@ -87,7 +87,7 @@ mvn spring-boot:run
 ### Architectural Decision Records (ADRs)
 All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0001: Production Security Hardening](docs/adr/0001-production-security-hardening.md)** — Environment variable secrets, PostgreSQL profile, and browser security headers.
-* **[ADR 0002: Post-Quantum Cryptography Roadmap](docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md)** — Roadmap for ML-KEM-768 key encapsulation and Merkle Tree Certificates (MTCs).
+* **[ADR 0002: Post-Quantum Cryptography Roadmap](docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md)** — *(Superseded by ADR 0010)* Strategic roadmap for ML-KEM-768 and Merkle Tree Certificates.
 * **[ADR 0003: Enterprise Command Center Architecture](docs/adr/0003-enterprise-business-command-center-architecture.md)** — Unified multi-department business lifecycle pipeline and financial intelligence.
 * **[ADR 0004: GitHub Actions Node 24 & SHA Pinning](docs/adr/0004-github-actions-node24-sha-pinning.md)** — CI/CD automation strategy with Node 24 runtime support and immutable 40-character SHA security pinning.
 * **[ADR 0005: Java 25 Runtime & CI Secrets Modernization](docs/adr/0005-java-25-runtime-and-ci-secrets-modernization.md)** — Java 25 runtime baseline, SpotBugs SAST, and resilient GitHub Actions container publishing.
@@ -95,6 +95,7 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0007: Docker Deployment with Env Injection](docs/adr/0007-docker-deployment-with-env-injection.md)** — Container lifecycle management and secure environment variable injection.
 * **[ADR 0008: Spring Security with BCrypt & H2 Init](docs/adr/0008-spring-security-h2-init.md)** — BCrypt password hashing and zero-config in-memory database seeding.
 * **[ADR 0009: ADR Gatekeeper & Architecture Governance](docs/adr/0009-adr-gatekeeper-and-architecture-governance.md)** — Automated ASR significance analysis, CI/CD PR gatekeeping, pre-commit hook, and JSON decision registry.
+* **[ADR 0010: Post-Quantum Cryptography Implementation](docs/adr/0010-post-quantum-cryptography-ml-kem-implementation.md)** — NIST FIPS 203 ML-KEM-768 key encapsulation with Bouncy Castle 1.80 and Camel REST telemetry.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 

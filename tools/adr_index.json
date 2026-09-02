@@ -3,7 +3,7 @@
   "last_updated": "2026-09-02",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 9,
+  "total_records": 10,
   "records": [
     {
       "id": "0001",
@@ -19,12 +19,12 @@
     {
       "id": "0002",
       "title": "Roadmap and Strategy for Post-Quantum Cryptography (ML-KEM & Merkle Tree Certificates)",
-      "status": "Proposed",
+      "status": "Superseded by ADR-0010",
       "date": "2026-08-21",
       "deciders": "Enterprise Command Center Architecture & Security Team",
       "file": "docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md",
       "supersedes": null,
-      "superseded_by": null,
+      "superseded_by": "0010",
       "summary": "As post-quantum cryptographic standards (NIST FIPS 203 ML-KEM, FIPS 204 ML-DSA) and draft RFC standards for compressed certificate chains (such as IETF Merkle Tree Certificates) mature, legacy public-"
     },
     {
@@ -63,7 +63,7 @@
     {
       "id": "0006",
       "title": "Dependency Security Hardening",
-      "status": "Accepted",
+      "status": "Proposed",
       "date": "",
       "deciders": "Architecture Team",
       "file": "docs/adr/0006-dependency-security-hardening.md",
@@ -74,7 +74,7 @@
     {
       "id": "0007",
       "title": "0007. Docker Deployment with Environment Variable Injection",
-      "status": "Accepted",
+      "status": "Proposed",
       "date": "",
       "deciders": "Architecture Team",
       "file": "docs/adr/0007-docker-deployment-with-env-injection.md",
@@ -85,7 +85,7 @@
     {
       "id": "0008",
       "title": "0008. Spring Security with BCrypt and In-Memory H2 Initialization",
-      "status": "Accepted",
+      "status": "Proposed",
       "date": "",
       "deciders": "Architecture Team",
       "file": "docs/adr/0008-spring-security-h2-init.md",
@@ -103,6 +103,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "As the Enterprise Command Center grows across multiple integration domains (telemetry, order processing, settlement, logistics, and post-quantum security), tracking architectural choices and preventin"
+    },
+    {
+      "id": "0010",
+      "title": "Post-Quantum Cryptography Implementation with Bouncy Castle ML-KEM-768",
+      "status": "Accepted",
+      "date": "2026-09-02",
+      "deciders": "Enterprise Command Center Architecture & Security Team",
+      "file": "docs/adr/0010-post-quantum-cryptography-ml-kem-implementation.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "[ADR-0002](0002-post-quantum-crypto-ml-kem-merkle-trees.md) originally proposed a long-term architectural strategy and roadmap for adopting Post-Quantum Cryptography (PQC) and Merkle Tree Certificates"
     }
   ]
 }
