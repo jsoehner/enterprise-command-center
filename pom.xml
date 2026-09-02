@@ -26,7 +26,7 @@
         <kafka.version>3.9.2</kafka.version>
         <httpcore5.version>5.4.3</httpcore5.version>
         <postgresql.version>42.7.12</postgresql.version>
-        <bouncycastle.version>1.82</bouncycastle.version>
+        <bouncycastle.version>1.84</bouncycastle.version>
     </properties>
     
     <dependencyManagement>
