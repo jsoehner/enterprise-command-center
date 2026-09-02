@@ -28,3 +28,11 @@ logging:
     com.camel.aggregator: INFO
     org.apache.camel: WARN
     com.giffing.bucket4j: WARN
+
+app:
+  security:
+    pqc:
+      enabled: true
+      default-kem: ML-KEM-768
+      hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768
+

@@ -26,6 +26,7 @@
         <kafka.version>3.9.2</kafka.version>
         <httpcore5.version>5.4.3</httpcore5.version>
         <postgresql.version>42.7.12</postgresql.version>
+        <bouncycastle.version>1.82</bouncycastle.version>
     </properties>
     
     <dependencyManagement>
@@ -131,6 +132,18 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Post-Quantum Cryptography (Bouncy Castle PQC & Provider) -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>${bouncycastle.version}</version>
         </dependency>
         
         <!-- Lombok & MapStruct -->

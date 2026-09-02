@@ -93,6 +93,11 @@ jobs:
             const runId = context.runId;
             
             if (fs.existsSync('findings-table.md')) {
+              if (context.eventName === 'pull_request') {
+                console.log('Security findings detected on PR; results available in CI checks.');
+                return;
+              }
+
               let body = `The security scan workflow detected potential security findings in the codebase.\n\n`;
               body += `Please review the workflow run logs for details: https://github.com/${owner}/${repo}/actions/runs/${runId}\n\n`;
               body += fs.readFileSync('findings-table.md', 'utf8');

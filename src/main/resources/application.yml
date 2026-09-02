@@ -83,8 +83,14 @@ logging:
     org.apache.camel: WARN
     com.giffing.bucket4j: INFO
 
-# Security Credentials
+# Security Credentials & PQC Settings
 app:
   admin:
     username: ${ADMIN_USERNAME:admin}
     password: ${ADMIN_PASSWORD:admin123}
+  security:
+    pqc:
+      enabled: true
+      default-kem: ML-KEM-768
+      hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768
+

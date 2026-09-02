@@ -262,34 +262,38 @@ class ADRGatekeeper:
         else:
             title = file_path.stem
 
+        # Header text before first section
+        header_text = text.split("## ")[0] if "## " in text else text
+
         # Status
         status = "Proposed"
-        status_m = re.search(r"\*?\*?Status:?\*?\*?\s*([A-Za-z0-9_\- ]+)", text, re.IGNORECASE)
+        status_m = re.search(r"\*?\*?Status:?\*?\*?\s*([A-Za-z0-9_\- ]+)", header_text, re.IGNORECASE)
         if status_m:
             status = status_m.group(1).strip().capitalize()
 
         # Date
         date = ""
-        date_m = re.search(r"\*?\*?Date:?\*?\*?\s*(\d{4}-\d{2}-\d{2})", text, re.IGNORECASE)
+        date_m = re.search(r"\*?\*?Date:?\*?\*?\s*(\d{4}-\d{2}-\d{2})", header_text, re.IGNORECASE)
         if date_m:
             date = date_m.group(1).strip()
 
         # Deciders
         deciders = ""
-        dec_m = re.search(r"\*?\*?Deciders:?\*?\*?\s*(.+)$", text, re.MULTILINE | re.IGNORECASE)
+        dec_m = re.search(r"\*?\*?Deciders:?\*?\*?\s*(.+)$", header_text, re.MULTILINE | re.IGNORECASE)
         if dec_m:
             deciders = dec_m.group(1).strip().strip("[]")
 
         # Supersedes / Superseded by
         supersedes = None
-        sup_m = re.search(r"Supersedes\s+\[?(?:ADR-?)?(\d{4})\]?", text, re.IGNORECASE)
+        sup_m = re.search(r"\bSupersedes:?\s+\[?(?:ADR-?)?(\d{4})\]?", header_text, re.IGNORECASE)
         if sup_m:
             supersedes = sup_m.group(1)
 
         superseded_by = None
-        supby_m = re.search(r"Superseded by\s+\[?(?:ADR-?)?(\d{4})\]?", text, re.IGNORECASE)
+        supby_m = re.search(r"\bSuperseded\s+by:?\s+\[?(?:ADR-?)?(\d{4})\]?", header_text, re.IGNORECASE)
         if supby_m:
             superseded_by = supby_m.group(1)
+            status = f"Superseded by ADR-{superseded_by}"
 
         # Extract Summary/Context snippet
         summary = ""
