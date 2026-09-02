@@ -95,25 +95,29 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0007: Docker Deployment with Env Injection](docs/adr/0007-docker-deployment-with-env-injection.md)** — Container lifecycle management and secure environment variable injection.
 * **[ADR 0008: Spring Security with BCrypt & H2 Init](docs/adr/0008-spring-security-h2-init.md)** — BCrypt password hashing and zero-config in-memory database seeding.
 * **[ADR 0009: ADR Gatekeeper & Architecture Governance](docs/adr/0009-adr-gatekeeper-and-architecture-governance.md)** — Automated ASR significance analysis, CI/CD PR gatekeeping, pre-commit hook, and JSON decision registry.
-* **[ADR 0010: Post-Quantum Cryptography Implementation](docs/adr/0010-post-quantum-cryptography-ml-kem-implementation.md)** — NIST FIPS 203 ML-KEM-768 key encapsulation with Bouncy Castle 1.80 and Camel REST telemetry.
+* **[ADR 0010: Post-Quantum Cryptography Implementation](docs/adr/0010-post-quantum-cryptography-ml-kem-implementation.md)** — NIST FIPS 203 ML-KEM-768 key encapsulation with Bouncy Castle 1.85 and Camel REST telemetry.
+* **[ADR 0011: Repository Hygiene & Git Governance](docs/adr/0011-repository-hygiene-and-git-governance.md)** — Multi-ecosystem .gitignore architecture, artifact sanitization, and knowledge archiving.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
 ---
 
-## ❓ Frequently Asked Questions (FAQ)
+## 📖 Developer Documentation & Knowledge Base
 
-Refer to **[FAQ.md](docs/FAQ.md)** for common questions regarding setup, authentication, rate limiting, and design customization.
+- **[Developer Guide](docs/DEVELOPER_GUIDE.md)** — Local setup, Docker workflow, testing, and ADR governance commands.
+- **[Frequently Asked Questions (FAQ)](docs/FAQ.md)** — Common questions regarding authentication, rate limiting, and design customization.
+- **[Lessons Learned](docs/lessons-learned/)** — Architectural and operational insights on dependency automation and code cleanup.
 
 ---
 
 ## 🤝 Contributing
 
 1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'feat: Add AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+2. Create your feature branch (`git checkout -b feat/your-feature-name`).
+3. Verify test suite and ADR gatekeeper (`mvn clean test && python3 scripts/adr_gatekeeper.py --verify`).
+4. Commit your changes following conventional commits (`git commit -m 'feat: Add your feature'`).
+5. Push to the branch (`git push origin feat/your-feature-name`).
+6. Open a Pull Request.
 
 ---
 *Built with ❤️, Apache Camel, and Spring Boot.*

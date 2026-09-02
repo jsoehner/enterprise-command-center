@@ -16,3 +16,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0008](0008-spring-security-h2-init.md) | 0008. Spring Security with BCrypt and In-Memory H2 Initialization | Proposed |  |
 | [0009](0009-adr-gatekeeper-and-architecture-governance.md) | ADR Gatekeeper and Architectural Governance Automation | Accepted | 2026-09-02 |
 | [0010](0010-post-quantum-cryptography-ml-kem-implementation.md) | Post-Quantum Cryptography Implementation with Bouncy Castle ML-KEM-768 | Accepted | 2026-09-02 |
+| [0011](0011-repository-hygiene-and-git-governance.md) | Repository Hygiene, Artifact Sanitization, and Git Governance Standards | Accepted | 2026-09-02 |

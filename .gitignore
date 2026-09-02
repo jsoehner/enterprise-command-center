@@ -1,9 +1,105 @@
-# Maven build output
-/target/
+# ==============================================================================
+# Enterprise Command Center - Comprehensive .gitignore
+# ==============================================================================
 
-# Logs
+# ------------------------------------------------------------------------------
+# 1. Java & Maven Build Outputs
+# ------------------------------------------------------------------------------
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ------------------------------------------------------------------------------
+# 2. Node.js & Web Tooling
+# ------------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+
+# ------------------------------------------------------------------------------
+# 3. Python Runtime & Caches
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# ------------------------------------------------------------------------------
+# 4. IDEs & Developer Tooling
+# ------------------------------------------------------------------------------
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.launch
+.metadata/
+
+# ------------------------------------------------------------------------------
+# 5. OS Generated Metadata
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ------------------------------------------------------------------------------
+# 6. Runtime Logs, Temporary Files & Scan Artifacts
+# ------------------------------------------------------------------------------
 *.log
+app.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+findings-table.md
+trivy-results.json
+dependency-check-report.*
+security_report.md
+security_assessment_*.md
 
-# Piolium
-/piolium/
-
+# ------------------------------------------------------------------------------
+# 7. AI Agents, Scanners & Transient Workspace Runs
+# ------------------------------------------------------------------------------
+piolium/
+.pi/
+.supply-chain-risk-auditor/
+*.jsonl
+plan.md
+MEMORY.md
+memory-skill.md
+scratch/
+tmp/

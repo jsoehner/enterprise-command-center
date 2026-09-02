@@ -3,7 +3,7 @@
   "last_updated": "2026-09-02",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 10,
+  "total_records": 11,
   "records": [
     {
       "id": "0001",
@@ -114,6 +114,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "[ADR-0002](0002-post-quantum-crypto-ml-kem-merkle-trees.md) originally proposed a long-term architectural strategy and roadmap for adopting Post-Quantum Cryptography (PQC) and Merkle Tree Certificates"
+    },
+    {
+      "id": "0011",
+      "title": "Repository Hygiene, Artifact Sanitization, and Git Governance Standards",
+      "status": "Accepted",
+      "date": "2026-09-02",
+      "deciders": "Enterprise Command Center Architecture & Security Team",
+      "file": "docs/adr/0011-repository-hygiene-and-git-governance.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "Over progressive iterations of feature delivery, security auditing, and automated dependency updates, the repository accumulated auxiliary scratch files, legacy autonomous agent traces (`piolium/` run"
     }
   ]
 }
