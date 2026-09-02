@@ -11,14 +11,14 @@
 
 [ADR-0002](0002-post-quantum-crypto-ml-kem-merkle-trees.md) originally proposed a long-term architectural strategy and roadmap for adopting Post-Quantum Cryptography (PQC) and Merkle Tree Certificates.
 
-With the official finalization of NIST FIPS 203 (Module-Lattice-Based Key-Encapsulation Mechanism Standard / ML-KEM) and Bouncy Castle 1.80 JCA/JCE availability for Java 25, the Enterprise Command Center requires a concrete, active implementation to defend enterprise message streams, REST APIs, and WebSockets against Harvest-Now-Decrypt-Later (HNDL) threats.
+With the official finalization of NIST FIPS 203 (Module-Lattice-Based Key-Encapsulation Mechanism Standard / ML-KEM) and Bouncy Castle 1.82 JCA/JCE availability for Java 25, the Enterprise Command Center requires a concrete, active implementation to defend enterprise message streams, REST APIs, and WebSockets against Harvest-Now-Decrypt-Later (HNDL) threats.
 
 ---
 
 ## 2. Decision Drivers
 
 1. **NIST FIPS 203 Standardization**: Transition from draft algorithms to official ML-KEM-768 (NIST Security Level 3, equivalent to AES-192 security strength).
-2. **Java 25 Platform Integration**: Seamless JCA integration with Bouncy Castle 1.80 provider (`bcprov-jdk18on`, `bcpkix-jdk18on`) and Java `javax.crypto.KEM` API.
+2. **Java 25 Platform Integration**: Seamless JCA integration with Bouncy Castle 1.82 provider (`bcprov-jdk18on`, `bcpkix-jdk18on`) and Java `javax.crypto.KEM` API.
 3. **Operational Telemetry & Observability**: Real-time verification endpoints within Camel REST DSL to monitor PQC provider status and execute live encapsulation/decapsulation cycles.
 4. **Backward Compatibility**: Configurable hybrid TLS named groups (`X25519+MLKEM768`) allowing seamless interoperability with classical and hybrid TLS 1.3 clients.
 
@@ -26,13 +26,13 @@ With the official finalization of NIST FIPS 203 (Module-Lattice-Based Key-Encaps
 
 ## 3. Decision Outcome
 
-Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.80 and Camel REST telemetry, superseding the preliminary roadmap in ADR-0002.**
+Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.82 and Camel REST telemetry, superseding the preliminary roadmap in ADR-0002.**
 
 ### Architecture & Components
 
 1. **Bouncy Castle PQC Dependencies (`pom.xml`)**:
-   - `org.bouncycastle:bcprov-jdk18on:1.80`
-   - `org.bouncycastle:bcpkix-jdk18on:1.80`
+   - `org.bouncycastle:bcprov-jdk18on:1.82`
+   - `org.bouncycastle:bcpkix-jdk18on:1.82`
 
 2. **Security Provider Configuration (`PqcSecurityProviderConfig.java`)**:
    - Automatically registers `BouncyCastleProvider` and `BouncyCastlePQCProvider` on JVM startup.
@@ -68,7 +68,7 @@ Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.80 an
 
 ## 5. Next Steps & Validation
 
-- [x] Integrate Bouncy Castle 1.80 dependencies in `pom.xml`.
+- [x] Integrate Bouncy Castle 1.82 dependencies in `pom.xml`.
 - [x] Implement `PqcSecurityProviderConfig.java` and `PostQuantumCryptoService.java`.
 - [x] Implement `PqcRoute.java` Camel REST DSL endpoints.
 - [x] Add and pass automated unit tests in `PostQuantumCryptoServiceTest.java`.

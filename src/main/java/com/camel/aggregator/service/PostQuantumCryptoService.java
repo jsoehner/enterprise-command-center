@@ -107,7 +107,7 @@ public class PostQuantumCryptoService {
         status.put("status", "ACTIVE");
         status.put("standard", "NIST FIPS 203 (ML-KEM)");
         status.put("defaultKemAlgorithm", DEFAULT_ALGORITHM);
-        status.put("provider", "BouncyCastle Security Provider v1.80");
+        status.put("provider", "BouncyCastle Security Provider v1.82");
         status.put("quantumSecurityLevel", "NIST Level 3 (equivalent to AES-192 security)");
         status.put("supportedAlgorithms", List.of(
             "ML-KEM-512 (NIST Level 1)",
