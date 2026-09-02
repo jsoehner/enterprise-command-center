@@ -1,0 +1,35 @@
+name: ADR Gatekeeper CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  adr-governance:
+    name: ADR Significance & Integrity Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.2.0
+        with:
+          node-version: '24'
+
+      - name: Verify ADR Log Integrity
+        run: |
+          python3 scripts/adr_gatekeeper.py --verify
+
+      - name: ADR Significance Analysis (PR Diff)
+        if: github.event_name == 'pull_request'
+        run: |
+          python3 scripts/adr_gatekeeper.py --scan-diff "origin/${{ github.base_ref }}"

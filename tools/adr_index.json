@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-09-02",
+  "project": "Enterprise Command Center",
+  "adr_directory": "docs/adr",
+  "total_records": 9,
+  "records": [
+    {
+      "id": "0001",
+      "title": "Transition to Production-Hardened Infrastructure and Security Configuration",
+      "status": "Accepted",
+      "date": "2024-05-22",
+      "deciders": "Project Team",
+      "file": "docs/adr/0001-production-security-hardening.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "The application was initially configured for rapid development, which introduced several high-risk security and operational flaws:"
+    },
+    {
+      "id": "0002",
+      "title": "Roadmap and Strategy for Post-Quantum Cryptography (ML-KEM & Merkle Tree Certificates)",
+      "status": "Proposed",
+      "date": "2026-08-21",
+      "deciders": "Enterprise Command Center Architecture & Security Team",
+      "file": "docs/adr/0002-post-quantum-crypto-ml-kem-merkle-trees.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "As post-quantum cryptographic standards (NIST FIPS 203 ML-KEM, FIPS 204 ML-DSA) and draft RFC standards for compressed certificate chains (such as IETF Merkle Tree Certificates) mature, legacy public-"
+    },
+    {
+      "id": "0003",
+      "title": "Enterprise Business Command Center Architecture and Lifecycle Pipeline",
+      "status": "Accepted",
+      "date": "2026-08-22",
+      "deciders": "Enterprise Command Center Architecture & Core Development Team",
+      "file": "docs/adr/0003-enterprise-business-command-center-architecture.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "The application initially served as a developer prototype for aggregating external microservices and processing synthetic orders. To evolve into an operational enterprise business command center, the "
+    },
+    {
+      "id": "0004",
+      "title": "GitHub Actions Node 24 Migration and Explicit SHA Security Pinning",
+      "status": "Accepted",
+      "date": "2026-08-22",
+      "deciders": "Enterprise Command Center Architecture & DevOps Team",
+      "file": "docs/adr/0004-github-actions-node24-sha-pinning.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "GitHub Actions runners are deprecating Node 20 runtimes in favor of Node 24. Workflows referencing outdated major action tags (e.g. `@v4`, `@v2`) risk execution failures, runtime deprecation warnings,"
+    },
+    {
+      "id": "0005",
+      "title": "Java 25 Runtime Migration and CI Container Publishing Resilience",
+      "status": "Accepted",
+      "date": "2026-08-29",
+      "deciders": "Enterprise Command Center Architecture & DevOps Team",
+      "file": "docs/adr/0005-java-25-runtime-and-ci-secrets-modernization.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "To maintain maximum performance, forward compatibility, and modern JVM capabilities (such as Virtual Threads, enhanced JIT optimizations, and tightened memory safety), `enterprise-command-center` is t"
+    },
+    {
+      "id": "0006",
+      "title": "Dependency Security Hardening",
+      "status": "Accepted",
+      "date": "",
+      "deciders": "Architecture Team",
+      "file": "docs/adr/0006-dependency-security-hardening.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "During a security audit of the `enterprise-command-center` project, several dependencies were identified as having non-optimal versions or potentially outdated security profiles. To maintain a secure "
+    },
+    {
+      "id": "0007",
+      "title": "0007. Docker Deployment with Environment Variable Injection",
+      "status": "Accepted",
+      "date": "",
+      "deciders": "Architecture Team",
+      "file": "docs/adr/0007-docker-deployment-with-env-injection.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "The application needs to be easily deployable in a containerized environment (Docker). However, hardcoding sensitive credentials like the administrator password in the `application.yml` file or the Do"
+    },
+    {
+      "id": "0008",
+      "title": "0008. Spring Security with BCrypt and In-Memory H2 Initialization",
+      "status": "Accepted",
+      "date": "",
+      "deciders": "Architecture Team",
+      "file": "docs/adr/0008-spring-security-h2-init.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "During the initial development and testing phases, it is desirable to have a functional admin user available immediately without setting up a production-grade PostgreSQL database. We need a mechanism "
+    },
+    {
+      "id": "0009",
+      "title": "ADR Gatekeeper and Architectural Governance Automation",
+      "status": "Accepted",
+      "date": "2026-09-02",
+      "deciders": "Enterprise Command Center Architecture & DevOps Team",
+      "file": "docs/adr/0009-adr-gatekeeper-and-architecture-governance.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "As the Enterprise Command Center grows across multiple integration domains (telemetry, order processing, settlement, logistics, and post-quantum security), tracking architectural choices and preventin"
+    }
+  ]
+}

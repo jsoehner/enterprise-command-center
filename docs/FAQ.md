@@ -59,3 +59,6 @@ Yes. The application defaults to resilient local fallbacks (`Caffeine` cache and
 
 ### 9. How do I inspect the Design System tokens and components?
 Visit **`/design-system.html`** in your browser. It includes interactive color palette swatches, typography scales, atomic button states, status badges, and a live dark/light mode toggle.
+
+### 10. How are architectural changes governed and verified?
+The project uses the **ADR Gatekeeper** system (`scripts/adr_gatekeeper.py`) to automatically evaluate changes against Architectural Significance Requirements (ASRs). Pull requests touching critical configurations, framework baselines, or security components trigger CI gate checks ensuring an accompanying ADR is provided in `docs/adr/`. Developers can run `python3 scripts/adr_gatekeeper.py --scan-staged` locally or use the pre-commit hook.

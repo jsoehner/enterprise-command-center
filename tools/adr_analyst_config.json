@@ -1,0 +1,147 @@
+{
+  "version": "1.0.0",
+  "project": "Enterprise Command Center",
+  "adr_directory": "docs/adr",
+  "thresholds": {
+    "comprehensive_score": 70,
+    "standard_score": 40,
+    "minimum_score": 20
+  },
+  "file_patterns": [
+    {
+      "pattern": "pom.xml",
+      "weight": 35,
+      "category": "runtime_and_dependencies",
+      "description": "Maven core project dependencies, plugins, and runtime configurations"
+    },
+    {
+      "pattern": "Dockerfile*",
+      "weight": 30,
+      "category": "infrastructure_and_containers",
+      "description": "Container image base, runtime specifications, or build stages"
+    },
+    {
+      "pattern": "docker-compose*.yml",
+      "weight": 30,
+      "category": "infrastructure_and_containers",
+      "description": "Multi-container environment topology and service definitions"
+    },
+    {
+      "pattern": ".github/workflows/*.yml",
+      "weight": 25,
+      "category": "ci_cd_pipeline",
+      "description": "CI/CD automated lifecycle and deployment workflows"
+    },
+    {
+      "pattern": "src/main/resources/application*.yml",
+      "weight": 30,
+      "category": "system_configuration",
+      "description": "Application architecture, profile, security, and persistence configuration"
+    },
+    {
+      "pattern": "src/main/resources/application*.properties",
+      "weight": 30,
+      "category": "system_configuration",
+      "description": "Application configuration properties"
+    },
+    {
+      "pattern": "src/main/java/**/security/**",
+      "weight": 40,
+      "category": "security_and_auth",
+      "description": "Authentication, authorization, cryptography, and security filter chains"
+    },
+    {
+      "pattern": "src/main/java/**/config/**",
+      "weight": 30,
+      "category": "system_configuration",
+      "description": "Core Spring configuration classes and system beans"
+    },
+    {
+      "pattern": "src/main/java/**/model/**",
+      "weight": 20,
+      "category": "data_and_domain",
+      "description": "Core domain entities and persistence models"
+    },
+    {
+      "pattern": "src/main/java/**/service/**",
+      "weight": 15,
+      "category": "business_logic",
+      "description": "Service tier business orchestration"
+    },
+    {
+      "pattern": "src/main/java/**/controller/**",
+      "weight": 20,
+      "category": "api_and_contract",
+      "description": "REST API endpoints and external service contracts"
+    },
+    {
+      "pattern": "src/main/resources/db/migration/**",
+      "weight": 40,
+      "category": "database_and_storage",
+      "description": "Database schema migrations and structural changes"
+    }
+  ],
+  "content_keywords": [
+    {
+      "regex": "\\b(cryptography|quantum|ML-KEM|Merkle|FIPS|TLS|mTLS|AES|RSA|OAuth|JWT|SAML)\\b",
+      "weight": 35,
+      "category": "security_and_auth",
+      "description": "Cryptographic algorithms, key management, or auth protocols"
+    },
+    {
+      "regex": "\\b(PostgreSQL|MySQL|Oracle|MongoDB|Redis|Flyway|Liquibase|Hibernate|JPA)\\b",
+      "weight": 30,
+      "category": "database_and_storage",
+      "description": "Database engine, persistence framework, or data storage migration"
+    },
+    {
+      "regex": "\\b(Kafka|RabbitMQ|gRPC|GraphQL|WebSocket|REST|OpenAPI|Protobuf)\\b",
+      "weight": 30,
+      "category": "integration_and_protocols",
+      "description": "Inter-service messaging, communication protocols, or contract standards"
+    },
+    {
+      "regex": "\\b(Spring Boot|Jakarta|Java 25|JDK|Quarkus|Micronaut|Node 24)\\b",
+      "weight": 35,
+      "category": "runtime_and_framework",
+      "description": "Core framework and language runtime version shifts"
+    },
+    {
+      "regex": "\\b(Docker|Kubernetes|Helm|Terraform|CloudSQL|AWS|GCP|Azure)\\b",
+      "weight": 25,
+      "category": "infrastructure_and_cloud",
+      "description": "Infrastructure, containerization, or cloud platform changes"
+    },
+    {
+      "regex": "\\b(deprecated|superseded|breaking change|backward compatibility|sunset)\\b",
+      "weight": 25,
+      "category": "lifecycle_and_compatibility",
+      "description": "Lifecycle transitions, breaking alterations, or deprecations"
+    }
+  ],
+  "templates": {
+    "comprehensive": {
+      "name": "Comprehensive ADR Template",
+      "template_path": "docs/adr/templates/Comprehensive_ADR_Template.md",
+      "min_score": 70,
+      "description": "Enterprise-critical, regulated, security-sensitive, cross-domain, or high-risk architectural decisions."
+    },
+    "standard": {
+      "name": "Standard ADR Template",
+      "template_path": "docs/adr/templates/Standard_ADR_Template.md",
+      "min_score": 40,
+      "description": "Default template for production application, platform, cloud, security, data, and infrastructure decisions."
+    },
+    "minimum": {
+      "name": "Minimum ADR Template",
+      "template_path": "docs/adr/templates/Minimum_ADR_Template.md",
+      "min_score": 20,
+      "description": "Lightweight template for low-risk, localized, or component-level architectural decisions."
+    }
+  },
+  "required_sections": [
+    "Context",
+    "Decision",
+    "Consequences"
+  ]
+}
