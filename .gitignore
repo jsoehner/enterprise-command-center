@@ -79,6 +79,7 @@ Thumbs.db
 # 6. Runtime Logs, Temporary Files & Scan Artifacts
 # ------------------------------------------------------------------------------
 *.log
+run_log.txt
 app.log
 *.tmp
 *.bak

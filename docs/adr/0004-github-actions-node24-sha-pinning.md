@@ -43,6 +43,8 @@ Chosen Strategy: **Upgrade to Node 24-compatible Action Major Versions with Full
 | `softprops/action-gh-release` | `@v3.0.0` | `c12583777ecdfd3be55c69cf75464299dc01057e` |
 | `peter-evans/create-pull-request` | `@v7.0.11` | `22a9089034f40e5a961c8808d113e2c98fb63676` |
 | `actions/github-script` | `@v8.0.0` | `ed597411d8f924073f98dfc5c65a23a2325f34cd` |
+| `aquasecurity/trivy-action` | `@v0.30.0` | `6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5` |
+| `mathieudutour/github-tag-action` | `@v6.2` | `a22cf08638b34d5badda920f9daf6e72c477b07b` |
 
 ---
 
