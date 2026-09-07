@@ -54,7 +54,7 @@ Overall security posture is strong with post-quantum cryptography (ML-KEM-768) a
 ## 3. Remediation Actions Executed & Verified
 
 1. **Supply-Chain Actions Pinned (ADR-0004 Compliant):**
-   - [x] [`.github/workflows/security-scan.yml`](file:///Users/jsoehner/enterprise-command-center/.github/workflows/security-scan.yml#L68): Updated `aquasecurity/trivy-action` to immutable commit SHA `6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5` (`# v0.30.0`).
+   - [x] [`.github/workflows/security-scan.yml`](file:///Users/jsoehner/enterprise-command-center/.github/workflows/security-scan.yml#L68): Updated `aquasecurity/trivy-action` to immutable commit SHA `ed142fd0673e97e23eac54620cfb913e5ce36c25` (`# v0.36.0`).
    - [x] [`.github/workflows/semantic-release.yml`](file:///Users/jsoehner/enterprise-command-center/.github/workflows/semantic-release.yml#L37): Updated `mathieudutour/github-tag-action` to immutable commit SHA `a22cf08638b34d5badda920f9daf6e72c477b07b` (`# v6.2`).
    - [x] [`docs/adr/0004-github-actions-node24-sha-pinning.md`](file:///Users/jsoehner/enterprise-command-center/docs/adr/0004-github-actions-node24-sha-pinning.md): Added new pinned action entries and verified with ADR Gatekeeper.
 2. **Production Credential Guardrail Implemented & Tested:**

@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-02",
+  "last_updated": "2026-09-07",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 11,
+  "total_records": 12,
   "records": [
     {
       "id": "0001",
@@ -125,6 +125,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "Over progressive iterations of feature delivery, security auditing, and automated dependency updates, the repository accumulated auxiliary scratch files, legacy autonomous agent traces (`piolium/` run"
+    },
+    {
+      "id": "0012",
+      "title": "OKF Decision",
+      "status": "Accepted",
+      "date": "2026-09-07",
+      "deciders": "Enterprise Command Center Architecture & DevSecOps Team",
+      "file": "docs/adr/0012-trivy-action-supply-chain-remediation-and-sha-pinning.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "During execution of the automated CI/CD security assessment pipeline ([`.github/workflows/security-scan.yml`](../../.github/workflows/security-scan.yml)), the `Container & FS Scanning (Trivy)` step fa"
     }
   ]
 }
