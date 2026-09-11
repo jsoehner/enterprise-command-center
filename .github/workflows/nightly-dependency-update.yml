@@ -65,7 +65,7 @@ jobs:
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
         continue-on-error: true
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(deps): update maven dependencies"
           title: "Automated Maven Dependency Update"
           body: |
@@ -86,7 +86,7 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const bodyText = `The automated dependency branch \`automated/maven-dependency-updates\` passed build verification but pull request creation was blocked by repository policy.\n\nPlease review the branch and create the PR manually, or configure PERSONAL_ACCESS_TOKEN for automated PR creation.\n\nBranch: https://github.com/${owner}/${repo}/tree/automated/maven-dependency-updates\n\nRequested reviewer: @jsoehner`;
+            const bodyText = `The automated dependency branch \`automated/maven-dependency-updates\` passed build verification but pull request creation failed.\n\nPlease check the workflow logs for step 'Create Pull Request' and review permissions.\n\nBranch: https://github.com/${owner}/${repo}/tree/automated/maven-dependency-updates\n\nRequested reviewer: @jsoehner`;
             try {
               await github.rest.issues.create({
                 owner,

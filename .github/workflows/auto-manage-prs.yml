@@ -40,5 +40,5 @@ jobs:
           gh pr merge --auto --squash "$PR_URL" || gh pr merge --squash "$PR_URL" || echo "Could not automatically merge PR"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          # Use PAT to have necessary permissions for merging
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # Use PAT with fallback to GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}

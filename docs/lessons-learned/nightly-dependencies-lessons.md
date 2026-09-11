@@ -60,7 +60,7 @@ The file `.github/workflows/nightly-dependency-update.yml` was updated with:
 - a cleanup step before PR creation:
   - `git rm -r --cached target || true`
 - `create-pull-request` configured with:
-  - fallback token: `${{ secrets.PERSONAL_ACCESS_TOKEN || github.token }}`
+  - token: `${{ secrets.GITHUB_TOKEN }}` (relies on repo Actions workflow permissions)
   - `continue-on-error: true`
 
 ### Branch and repository hygiene
@@ -77,16 +77,10 @@ This prevents generated output from being staged accidentally in automated depen
 
 ### Workflow behavior now
 
-- The dependency update job can complete successfully even when PR creation is blocked.
+- The dependency update job can complete successfully and uses `GITHUB_TOKEN` directly to create pull requests.
+- Repository workflow permissions have been confirmed with `can_approve_pull_request_reviews: true` and write access.
+- Avoids failures caused by expired/revoked `PERSONAL_ACCESS_TOKEN` secrets that previously resulted in Git push authentication failures (`fatal: could not read Username`).
 - Build artifact cleanup reduces noise and prevents huge auto-commits.
-- The workflow gracefully falls back instead of failing the whole nightly run.
-
-### Remaining dependency on repo configuration
-
-- If you want automated PR creation to succeed, one of these must be true:
-  - `PERSONAL_ACCESS_TOKEN` is configured as a secret with write rights
-  - repository workflow permissions allow Actions to create PRs
-- Otherwise, the workflow will still complete successfully, but no PR will be created.
 
 ---
 
