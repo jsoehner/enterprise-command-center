@@ -8,6 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +28,8 @@ class AggregatorRouteTest {
     @Autowired
     private ProducerTemplate producerTemplate;
 
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     @Test
     void testAggregationRoute() {
@@ -40,5 +46,27 @@ class AggregatorRouteTest {
         
         assertEquals("user-123", data.get("id"));
         assertEquals("order-999", data.get("orderId"));
+    }
+
+    @Test
+    void testProtectedEndpointRejectsUnauthenticated() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/camel/orders/summary", String.class);
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    }
+
+    @Test
+    void testProtectedEndpointAcceptsValidAdminCredentials() {
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth("testadmin", "testpassword")
+                .getForEntity("/camel/orders/summary", String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testProtectedEndpointRejectsInvalidCredentials() {
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth("testadmin", "wrongpassword")
+                .getForEntity("/camel/orders/summary", String.class);
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 }

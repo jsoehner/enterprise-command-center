@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-07",
+  "last_updated": "2026-09-11",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 12,
+  "total_records": 13,
   "records": [
     {
       "id": "0001",
@@ -128,7 +128,7 @@
     },
     {
       "id": "0012",
-      "title": "OKF Decision",
+      "title": "Remediation of Trivy Action Dependency and SHA Pinning to Clean Release v0.36.0",
       "status": "Accepted",
       "date": "2026-09-07",
       "deciders": "Enterprise Command Center Architecture & DevSecOps Team",
@@ -136,6 +136,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "During execution of the automated CI/CD security assessment pipeline ([`.github/workflows/security-scan.yml`](../../.github/workflows/security-scan.yml)), the `Container & FS Scanning (Trivy)` step fa"
+    },
+    {
+      "id": "0013",
+      "title": "User Entity Instantiation Hardening and Command Center Telemetry Layout Rebalancing",
+      "status": "Accepted",
+      "date": "2026-09-11",
+      "deciders": "Enterprise Command Center Architecture & Core Development Team",
+      "file": "docs/adr/0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "During containerized operations via `docker-run.sh`, users authenticating against the command center interface with default administrative credentials (`admin` / `admin123`) were trapped in an infinit"
     }
   ]
 }

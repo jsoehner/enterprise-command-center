@@ -17,4 +17,5 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0009](0009-adr-gatekeeper-and-architecture-governance.md) | ADR Gatekeeper and Architectural Governance Automation | Accepted | 2026-09-02 |
 | [0010](0010-post-quantum-cryptography-ml-kem-implementation.md) | Post-Quantum Cryptography Implementation with Bouncy Castle ML-KEM-768 | Accepted | 2026-09-02 |
 | [0011](0011-repository-hygiene-and-git-governance.md) | Repository Hygiene, Artifact Sanitization, and Git Governance Standards | Accepted | 2026-09-02 |
-| [0012](0012-trivy-action-supply-chain-remediation-and-sha-pinning.md) | OKF Decision | Accepted | 2026-09-07 |
+| [0012](0012-trivy-action-supply-chain-remediation-and-sha-pinning.md) | Remediation of Trivy Action Dependency and SHA Pinning to Clean Release v0.36.0 | Accepted | 2026-09-07 |
+| [0013](0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md) | User Entity Instantiation Hardening and Command Center Telemetry Layout Rebalancing | Accepted | 2026-09-11 |

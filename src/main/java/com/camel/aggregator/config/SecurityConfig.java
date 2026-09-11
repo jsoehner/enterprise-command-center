@@ -37,7 +37,7 @@ public class SecurityConfig {
                     .maxAgeInSeconds(31536000))
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api-doc/**", "/swagger-ui/**", "/", "/*.html", "/css/**", "/js/**", "/assets/**", "/actuator/health/**", "/actuator/info").permitAll()
+                .requestMatchers("/api-doc/**", "/swagger-ui/**", "/", "/*.html", "/css/**", "/js/**", "/assets/**", "/actuator/health/**", "/actuator/info", "/error").permitAll()
                 .requestMatchers("/camel/api/**", "/camel/orders/**", "/camel/health/**").authenticated()
                 .anyRequest().authenticated()
             );

@@ -1,5 +1,4 @@
-# OKF Decision
-Type: Policy / Architecture Standard
+<!-- OKF Decision: Policy / Architecture Standard -->
 
 # ADR 0012: Remediation of Trivy Action Dependency and SHA Pinning to Clean Release v0.36.0
 
