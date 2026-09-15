@@ -27,6 +27,8 @@
         <httpcore5.version>5.5-beta2</httpcore5.version>
         <postgresql.version>42.7.13</postgresql.version>
         <bouncycastle.version>1.86</bouncycastle.version>
+        <h2.version>2.5.250</h2.version>
+        <lombok.version>1.18.48</lombok.version>
     </properties>
     
     <dependencyManagement>
@@ -321,6 +323,9 @@
                 <configuration>
                     <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
                     <failBuildOnCVSS>7.0</failBuildOnCVSS>
+                    <suppressionFiles>
+                        <suppressionFile>config/dependency-check/suppressions.xml</suppressionFile>
+                    </suppressionFiles>
                 </configuration>
                 <executions>
                     <execution>

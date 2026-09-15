@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-11",
+  "last_updated": "2026-09-15",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 13,
+  "total_records": 14,
   "records": [
     {
       "id": "0001",
@@ -147,6 +147,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "During containerized operations via `docker-run.sh`, users authenticating against the command center interface with default administrative credentials (`admin` / `admin123`) were trapped in an infinit"
+    },
+    {
+      "id": "0014",
+      "title": "Security Scan Vulnerability Remediation, SCA Suppression Governance, and CI Notification Idempotency",
+      "status": "Accepted",
+      "date": "2026-09-15",
+      "deciders": "Enterprise Command Center Architecture & DevSecOps Team",
+      "file": "docs/adr/0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "During automated nightly CI/CD security assessments ([`.github/workflows/security-scan.yml`](../../.github/workflows/security-scan.yml)), the OWASP Dependency-Check analysis flagged 18 vulnerabilities"
     }
   ]
 }

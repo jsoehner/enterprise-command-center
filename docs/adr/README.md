@@ -19,3 +19,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0011](0011-repository-hygiene-and-git-governance.md) | Repository Hygiene, Artifact Sanitization, and Git Governance Standards | Accepted | 2026-09-02 |
 | [0012](0012-trivy-action-supply-chain-remediation-and-sha-pinning.md) | Remediation of Trivy Action Dependency and SHA Pinning to Clean Release v0.36.0 | Accepted | 2026-09-07 |
 | [0013](0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md) | User Entity Instantiation Hardening and Command Center Telemetry Layout Rebalancing | Accepted | 2026-09-11 |
+| [0014](0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md) | Security Scan Vulnerability Remediation, SCA Suppression Governance, and CI Notification Idempotency | Accepted | 2026-09-15 |

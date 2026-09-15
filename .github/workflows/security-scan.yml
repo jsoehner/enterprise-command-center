@@ -102,15 +102,34 @@ jobs:
               body += `Please review the workflow run logs for details: https://github.com/${owner}/${repo}/actions/runs/${runId}\n\n`;
               body += fs.readFileSync('findings-table.md', 'utf8');
               
-              // Create GitHub issue
-              await github.rest.issues.create({
+              // Check for existing open security findings issue to prevent duplicate issues
+              const existingIssues = await github.rest.issues.listForRepo({
                 owner,
                 repo,
-                title: 'Security Scan: Findings Detected',
-                body: body,
-                assignees: ['jsoehner'],
-                labels: ['security', 'automated-scan']
+                state: 'open',
+                labels: 'automated-scan'
               });
+              const matchingIssue = existingIssues.data.find(i => i.title === 'Security Scan: Findings Detected');
+
+              if (matchingIssue) {
+                console.log(`Updating existing security issue #${matchingIssue.number}...`);
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: matchingIssue.number,
+                  body: body
+                });
+              } else {
+                console.log('Creating new security findings issue...');
+                await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title: 'Security Scan: Findings Detected',
+                  body: body,
+                  assignees: ['jsoehner'],
+                  labels: ['security', 'automated-scan']
+                });
+              }
 
               // Trigger Automated Dependency Update
               console.log('Triggering automated dependency update workflow...');
@@ -127,4 +146,33 @@ jobs:
               }
             } else {
               console.log('No security findings table generated; scan completed cleanly.');
+              // Auto-close open security findings issues if the scan is now clean
+              try {
+                const openIssues = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  state: 'open',
+                  labels: 'automated-scan'
+                });
+                for (const issue of openIssues.data) {
+                  if (issue.title === 'Security Scan: Findings Detected') {
+                    console.log(`Auto-closing resolved security findings issue #${issue.number}...`);
+                    await github.rest.issues.createComment({
+                      owner,
+                      repo,
+                      issue_number: issue.number,
+                      body: `Automated security scan completed with 0 findings in workflow run https://github.com/${owner}/${repo}/actions/runs/${runId}. Identified findings have been remediated or suppressed.`
+                    });
+                    await github.rest.issues.update({
+                      owner,
+                      repo,
+                      issue_number: issue.number,
+                      state: 'closed',
+                      state_reason: 'completed'
+                    });
+                  }
+                }
+              } catch (err) {
+                console.error('Error auto-closing resolved security issues:', err);
+              }
             }

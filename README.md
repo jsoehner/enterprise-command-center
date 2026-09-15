@@ -97,6 +97,9 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0009: ADR Gatekeeper & Architecture Governance](docs/adr/0009-adr-gatekeeper-and-architecture-governance.md)** — Automated ASR significance analysis, CI/CD PR gatekeeping, pre-commit hook, and JSON decision registry.
 * **[ADR 0010: Post-Quantum Cryptography Implementation](docs/adr/0010-post-quantum-cryptography-ml-kem-implementation.md)** — NIST FIPS 203 ML-KEM-768 key encapsulation with Bouncy Castle 1.85 and Camel REST telemetry.
 * **[ADR 0011: Repository Hygiene & Git Governance](docs/adr/0011-repository-hygiene-and-git-governance.md)** — Multi-ecosystem .gitignore architecture, artifact sanitization, and knowledge archiving.
+* **[ADR 0012: Trivy Action Supply Chain Remediation](docs/adr/0012-trivy-action-supply-chain-remediation-and-sha-pinning.md)** — Remediation of Trivy Action dependency and SHA pinning to clean release v0.36.0.
+* **[ADR 0013: User Entity Instantiation Hardening](docs/adr/0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md)** — User entity instantiation hardening under Java 25 and telemetry layout rebalancing.
+* **[ADR 0014: Security Scan Vulnerability Remediation & SCA Suppression Governance](docs/adr/0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md)** — OWASP Dependency-Check suppression governance, non-exploitable CVE auditing, and CI notification idempotency.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
