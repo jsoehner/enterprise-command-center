@@ -53,7 +53,7 @@ Chosen Strategy: **Upgrade to Node 24-compatible Action Major Versions with Full
 ### Positive
 * **Zero Deprecation Warnings**: Prevents build failures caused by Node 20 runner deprecations.
 * **Tamper-Proof CI/CD**: SHA pinning protects workflows from tag mutations or upstream compromises.
-* **Standardized CI**: All 8 workflow YAML files follow consistent action pinning and Node 24 configurations.
+* **Standardized CI**: All workflow YAML files (including `sbom-cbom.yml`) follow consistent action pinning and Node 24 configurations.
 
 ### Trade-Offs
 * **Manual SHA Updates**: Bumping actions in the future requires querying git tag SHAs (`git ls-remote`).
@@ -63,5 +63,5 @@ Chosen Strategy: **Upgrade to Node 24-compatible Action Major Versions with Full
 ## 5. Next Steps & Validation
 
 - [x] Query remote git repositories for release tag SHAs
-- [x] Update all 8 workflow files under `.github/workflows/`
+- [x] Update all workflow files under `.github/workflows/` (including `sbom-cbom.yml`)
 - [x] Document decision in ADR index
