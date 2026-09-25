@@ -104,3 +104,6 @@ MEMORY.md
 memory-skill.md
 scratch/
 tmp/
+
+# Generated BOM artifacts
+oss/
