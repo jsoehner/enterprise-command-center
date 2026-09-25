@@ -24,7 +24,7 @@
         <spring-security.version>7.1.1</spring-security.version>
         <netty.version>4.2.18.Final</netty.version>
         <kafka.version>3.9.2</kafka.version>
-        <httpcore5.version>5.5-beta2</httpcore5.version>
+        <httpcore5.version>5.5-beta3</httpcore5.version>
         <postgresql.version>42.7.13</postgresql.version>
         <bouncycastle.version>1.86</bouncycastle.version>
         <h2.version>2.5.250</h2.version>
