@@ -27,7 +27,7 @@
         <httpcore5.version>5.5-beta3</httpcore5.version>
         <postgresql.version>42.7.13</postgresql.version>
         <bouncycastle.version>1.86</bouncycastle.version>
-        <h2.version>2.5.250</h2.version>
+        <h2.version>2.5.252</h2.version>
         <lombok.version>1.18.48</lombok.version>
     </properties>
     
