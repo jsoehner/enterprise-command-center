@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-15",
+  "last_updated": "2026-09-27",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 14,
+  "total_records": 16,
   "records": [
     {
       "id": "0001",
@@ -158,6 +158,28 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "During automated nightly CI/CD security assessments ([`.github/workflows/security-scan.yml`](../../.github/workflows/security-scan.yml)), the OWASP Dependency-Check analysis flagged 18 vulnerabilities"
+    },
+    {
+      "id": "0015",
+      "title": "Dual-Engine BOM Governance and Workflow Consolidation",
+      "status": "Accepted",
+      "date": "2026-09-27",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0015-dual-engine-bom-governance-and-workflow-consolidation.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "To prevent workflow duplication and enforce cryptographic and software supply chain security, CI/CD pipelines must avoid running overlapping security jobs while ensuring comprehensive Software Bill of"
+    },
+    {
+      "id": "0016",
+      "title": "Automated Nightly Dependency Updates and Unattended Auto-Merge Governance",
+      "status": "Accepted",
+      "date": "2026-09-27",
+      "deciders": "Enterprise Command Center Architecture & Operations Governance Team",
+      "file": "docs/adr/0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "The repository runs an automated nightly dependency update pipeline (`.github/workflows/nightly-dependency-update.yml`) scheduled at 02:00 UTC (approximately 03:00 AM local time). The workflow execute"
     }
   ]
 }
