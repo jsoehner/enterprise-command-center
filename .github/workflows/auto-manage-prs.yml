@@ -37,7 +37,7 @@ jobs:
       - name: Merge Pull Request
         run: |
           # Try enabling auto-merge first, fallback to immediate squash merge if branch rules permit
-          gh pr merge --auto --squash "$PR_URL" || gh pr merge --squash "$PR_URL" || echo "Could not automatically merge PR"
+          gh pr merge --auto --squash --delete-branch "$PR_URL" || gh pr merge --squash --delete-branch "$PR_URL" || echo "Could not automatically merge PR"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           # Use PAT with fallback to GITHUB_TOKEN

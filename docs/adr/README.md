@@ -20,3 +20,5 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0012](0012-trivy-action-supply-chain-remediation-and-sha-pinning.md) | Remediation of Trivy Action Dependency and SHA Pinning to Clean Release v0.36.0 | Accepted | 2026-09-07 |
 | [0013](0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md) | User Entity Instantiation Hardening and Command Center Telemetry Layout Rebalancing | Accepted | 2026-09-11 |
 | [0014](0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md) | Security Scan Vulnerability Remediation, SCA Suppression Governance, and CI Notification Idempotency | Accepted | 2026-09-15 |
+| [0015](0015-dual-engine-bom-governance-and-workflow-consolidation.md) | Dual-Engine BOM Governance and Workflow Consolidation | Accepted | 2026-09-27 |
+| [0016](0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md) | Automated Nightly Dependency Updates and Unattended Auto-Merge Governance | Accepted | 2026-09-27 |
