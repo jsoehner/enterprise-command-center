@@ -124,3 +124,7 @@ See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
 ---
 *Built with ❤️, Apache Camel, and Spring Boot.*
+
+
+## 🛡️ Security & Cryptographic Posture
+This project tracks Software & Cryptographic Bill of Materials (SBOM & CBOM) and Post-Quantum Cryptography (PQC) readiness. See the latest [Cryptographic Audit & PQC Migration Report](docs/security/CRYPTOGRAPHIC_AUDIT.md).
