@@ -91,6 +91,8 @@ trivy-results.json
 dependency-check-report.*
 security_report.md
 security_assessment_*.md
+oss/
+
 
 # ------------------------------------------------------------------------------
 # 7. AI Agents, Scanners & Transient Workspace Runs

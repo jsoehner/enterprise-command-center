@@ -100,8 +100,48 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0012: Trivy Action Supply Chain Remediation](docs/adr/0012-trivy-action-supply-chain-remediation-and-sha-pinning.md)** — Remediation of Trivy Action dependency and SHA pinning to clean release v0.36.0.
 * **[ADR 0013: User Entity Instantiation Hardening](docs/adr/0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md)** — User entity instantiation hardening under Java 25 and telemetry layout rebalancing.
 * **[ADR 0014: Security Scan Vulnerability Remediation & SCA Suppression Governance](docs/adr/0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md)** — OWASP Dependency-Check suppression governance, non-exploitable CVE auditing, and CI notification idempotency.
+* **[ADR 0015: Automated SBOM & CBOM Supply Chain Governance](docs/adr/0015-automated-sbom-cbom-supply-chain-governance.md)** — Dual-engine Software & Cryptographic Bill of Materials generation, AST code analysis, and continuous cryptographic compliance.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
+
+---
+
+## 🔒 Automated SBOM & CBOM Supply Chain Pipeline
+
+The Enterprise Command Center employs an automated dual-engine Software Bill of Materials (SBOM) and Cryptographic Bill of Materials (CBOM) pipeline to enforce software supply chain transparency, monitor cryptographic posture, and track Post-Quantum Cryptography (PQC) readiness.
+
+For strategic and architecture context, see **[ADR-0015: Automated SBOM and CBOM Supply Chain Governance](docs/adr/0015-automated-sbom-cbom-supply-chain-governance.md)**.
+
+### Continuous Integration (CI) Stages
+
+The GitHub Actions workflow ([`.github/workflows/sbom-cbom.yml`](.github/workflows/sbom-cbom.yml)) executes on pull requests, pushes to `main`, tags, and workflow dispatch:
+1. **SBOM Generation**: Anchore / Syft produces both CycloneDX (`oss/sbom.cyclonedx.json`) and SPDX (`oss/sbom.spdx.json`) machine-readable inventories.
+2. **CBOM Generation**: `cbomkit-action` generates a CycloneDX Cryptographic Bill of Materials (`oss/cbom.json`) discovering ciphers, key sizes, and cryptographic algorithms.
+3. **Dual-Engine Semantic AST Crypto Scan**: [`scripts/scan_crypto_ast.py`](scripts/scan_crypto_ast.py) inspects application source code AST for cryptographic call sites and reconciles them into the CBOM.
+4. **Verification & Audit Harness**: [`scripts/test_boms.sh`](scripts/test_boms.sh) validates BOM schemas, JSON integrity, and asset count thresholds.
+5. **PQC Readiness Analysis**: [`scripts/analyze_cbom.py`](scripts/analyze_cbom.py) evaluates migration readiness towards quantum-resilient algorithms (e.g. NIST FIPS 203 ML-KEM-768 vs. classical cryptography) and generates markdown summaries.
+6. **Report Publishing & Artifact Archival**: On `main` push, updates [`docs/security/CRYPTOGRAPHIC_AUDIT.md`](docs/security/CRYPTOGRAPHIC_AUDIT.md) and archives all generated BOMs as CI run artifacts (`bom-artifacts`, retained for 90 days).
+
+### Local Developer Scripts
+
+You can generate, verify, and inspect bills of materials locally using the provided automation scripts:
+
+```bash
+# 1. Generate SBOM and CBOM locally
+./scripts/generate_boms.sh enterprise-command-center:local
+
+# 2. Scan source code AST for cryptographic call sites and reconcile with CBOM
+python3 scripts/scan_crypto_ast.py . --cbom oss/cbom.json --output-json oss/crypto-callsites.json
+
+# 3. Verify generated BOMs and audit harness
+./scripts/test_boms.sh oss
+
+# 4. Generate Post-Quantum Cryptography (PQC) readiness assessment
+python3 scripts/analyze_cbom.py oss/cbom.json \
+  --sbom oss/sbom.cyclonedx.json \
+  --json oss/crypto-analysis.json \
+  --markdown oss/crypto-summary.md
+```
 
 ---
 
@@ -125,6 +165,7 @@ See the complete index in [docs/adr/README.md](docs/adr/README.md).
 ---
 *Built with ❤️, Apache Camel, and Spring Boot.*
 
+---
 
 ## 🛡️ Security & Cryptographic Posture
 This project tracks Software & Cryptographic Bill of Materials (SBOM & CBOM) and Post-Quantum Cryptography (PQC) readiness. See the latest [Cryptographic Audit & PQC Migration Report](docs/security/CRYPTOGRAPHIC_AUDIT.md).

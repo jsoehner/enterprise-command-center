@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-27",
+  "last_updated": "2026-10-11",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
   "total_records": 16,
@@ -161,14 +161,14 @@
     },
     {
       "id": "0015",
-      "title": "Dual-Engine BOM Governance and Workflow Consolidation",
+      "title": "Automated SBOM and CBOM Supply Chain Governance and Continuous Cryptographic Auditing",
       "status": "Accepted",
-      "date": "2026-09-27",
-      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
-      "file": "docs/adr/0015-dual-engine-bom-governance-and-workflow-consolidation.md",
+      "date": "2026-10-11",
+      "deciders": "Enterprise Command Center Architecture & DevSecOps Team",
+      "file": "docs/adr/0015-automated-sbom-cbom-supply-chain-governance.md",
       "supersedes": null,
       "superseded_by": null,
-      "summary": "To prevent workflow duplication and enforce cryptographic and software supply chain security, CI/CD pipelines must avoid running overlapping security jobs while ensuring comprehensive Software Bill of"
+      "summary": "Modern enterprise software systems face expanding regulatory and supply-chain transparency requirements (e.g., Executive Order 14028, NIST SP 800-218 Secure Software Development Framework, and post-qu"
     },
     {
       "id": "0016",
