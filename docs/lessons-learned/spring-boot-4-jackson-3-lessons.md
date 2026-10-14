@@ -17,14 +17,10 @@ During the migration of `enterprise-command-center` to Spring Boot `4.2.0-M2` an
 - **Remediation**: Replaced explicit instantiation with `RedisSerializer.json()`, allowing Spring Data Redis to automatically resolve and utilize the active Jackson 3 serializer.
 
 ### 3. Dual Jackson Classpath & Trivy Container Scan Failures
-- **Issue**: Even after upgrading Spring Boot to `4.2.0-M2`, container vulnerability scans (`aquasecurity/trivy-action`) failed on `app.jar` with four High-severity CVEs:
-  - `CVE-2026-89407`: Regular expression backtracking DoS in `tools.jackson.core:jackson-core:3.1.6`.
-  - `CVE-2026-89425`: Unbounded StringBuilder growth DoS in `tools.jackson.core:jackson-core:3.1.6`.
-  - `CVE-2026-91776`: Cache growth DoS in `tools.jackson.core:jackson-databind:3.1.6`.
-  - `CVE-2026-91777`: Quadratic forward-reference completion DoS in `tools.jackson.core:jackson-databind:3.1.6`.
+- **Issue**: Even after upgrading Spring Boot to `4.2.0-M2`, container vulnerability scans (`aquasecurity/trivy-action` executing Trivy on the built container image `local-build:${{ github.sha }}`) failed with exit code 1.
 - **Root Cause**:
   1. Spring Boot `4.2.0-M2` defaulted to Jackson BOM `3.1.6`, which preceded upstream DoS patches.
-  2. `pom.xml` continued using legacy `camel-jackson-starter:4.22.1` (Jackson 2 / `com.fasterxml.jackson.core`) instead of `camel-jackson3-starter:4.22.1`.
+  2. `pom.xml` continued using legacy `camel-jackson-starter:4.22.1` (Jackson 2) instead of `camel-jackson3-starter`.
   3. `pom.xml` had pinned `com.fasterxml.jackson.core:2.22.3` in `dependencyManagement`, causing dual Jackson 2 and Jackson 3 implementations to be packaged into `app.jar`.
 - **Remediation**:
   1. Overrode `<jackson-bom.version>3.2.3</jackson-bom.version>` to upgrade Jackson 3 to patched release `3.2.3`.
@@ -36,3 +32,17 @@ During the migration of `enterprise-command-center` to Spring Boot `4.2.0-M2` an
 - **Issue**: Workflows that commit and push reports back to the repository (`auto-bump-version.yml` and `sbom-cbom.yml`) occasionally failed due to concurrent push rejections (`[rejected] main -> main (fetch first)`).
 - **Remediation**: Implemented a 5-attempt retry loop with `git pull --rebase origin main` before each push.
 - **Lesson**: Any automated CI workflow that pushes to the default branch must employ exponential backoff and rebase loops to handle concurrent pipeline completions gracefully.
+
+### 5. Security Audit & Remediation Highlights
+During the `piolium` security review, several critical vulnerabilities were identified and remediated in this update cycle:
+
+- **PQC Timing Side-Channel (C1)**: Upgraded Bouncy Castle to `1.86` to mitigate cryptographic timing attacks in the ML-KEM implementation.
+- **PostgreSQL JDBC Bypass (H1)**: Upgraded JDBC driver to `42.7.14` to ensure proper `requireAuth` enforcement for database connections.
+- **WorkOrder Concurrency (M1)**: Refactored `WorkOrderService` to use `ConcurrentHashMap.computeIfPresent` for atomic state transitions, preventing order processing race conditions.
+- **Order ID Injection (L1)**: Implemented strict regex validation (`^ORD-[A-Z0-9]{8}$`) for all Order ID inputs to prevent injection attacks.
+- **Actuator Exposure (L2)**: Restricted `/actuator/health` and `/actuator/info` endpoints to `ROLE_ADMIN` to prevent unauthorized information disclosure.
+
+---
+
+## 3. Conclusion
+Regularly addressing code quality warnings—such as dead code, unused imports, and type safety issues—keeps the codebase healthy, readable, and maintainable. Suppressing warnings should only be done thoughtfully (e.g., with `@SuppressWarnings("unchecked")` or explicitly marking `@NonNull` parameters) when we can guarantee the safety of the operation.

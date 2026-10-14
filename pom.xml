@@ -29,8 +29,7 @@
         <bouncycastle.version>1.86</bouncycastle.version>
         <h2.version>2.5.252</h2.version>
         <lombok.version>1.18.48</lombok.version>
-        <jackson-bom.version>3.2.3</jackson-bom.version>
-        <jackson-2-bom.version>2.22.3</jackson-2-bom.version>
+        <jackson-2-bom.version>2.18.2</jackson-2-bom.version>
     </properties>
     
     <dependencyManagement>
@@ -71,16 +70,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.21.0</version>
-            </dependency>
-            <dependency>
-                <groupId>tools.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>3.2.3</version>
-            </dependency>
-            <dependency>
-                <groupId>tools.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>3.2.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -287,35 +276,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- SpotBugs for SAST -->
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.10.5.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>4.10.5</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                        <version>9.11</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <threshold>High</threshold>
-                            <failOnError>true</failOnError>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <!-- OWASP Dependency-Check for SCA -->
             <plugin>

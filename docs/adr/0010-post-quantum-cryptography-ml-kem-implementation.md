@@ -18,7 +18,7 @@ With the official finalization of NIST FIPS 203 (Module-Lattice-Based Key-Encaps
 ## 2. Decision Drivers
 
 1. **NIST FIPS 203 Standardization**: Transition from draft algorithms to official ML-KEM-768 (NIST Security Level 3, equivalent to AES-192 security strength).
-2. **Java 25 Platform Integration**: Seamless JCA integration with Bouncy Castle 1.82 provider (`bcprov-jdk18on`, `bcpkix-jdk18on`) and Java `javax.crypto.KEM` API.
+2. **Java 25 Platform Integration**: Seamless JCA integration with Bouncy Castle provider (`bcprov-jdk18on`, `bcpkix-jdk18on`) and Java `javax.crypto.KEM` API.
 3. **Operational Telemetry & Observability**: Real-time verification endpoints within Camel REST DSL to monitor PQC provider status and execute live encapsulation/decapsulation cycles.
 4. **Backward Compatibility**: Configurable hybrid TLS named groups (`X25519+MLKEM768`) allowing seamless interoperability with classical and hybrid TLS 1.3 clients.
 
@@ -26,13 +26,13 @@ With the official finalization of NIST FIPS 203 (Module-Lattice-Based Key-Encaps
 
 ## 3. Decision Outcome
 
-Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.82 and Camel REST telemetry, superseding the preliminary roadmap in ADR-0002.**
+Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.86 and Camel REST telemetry, superseding the preliminary roadmap in ADR-0002.**
 
 ### Architecture & Components
 
 1. **Bouncy Castle PQC Dependencies (`pom.xml`)**:
-   - `org.bouncycastle:bcprov-jdk18on:1.82`
-   - `org.bouncycastle:bcpkix-jdk18on:1.82`
+   - `org.bouncycastle:bcprov-jdk18on:1.86`
+   - `org.bouncycastle:bcpkix-jdk18on:1.86`
 
 2. **Security Provider Configuration (`PqcSecurityProviderConfig.java`)**:
    - Automatically registers `BouncyCastleProvider` and `BouncyCastlePQCProvider` on JVM startup.
@@ -42,7 +42,7 @@ Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.82 an
    - `generateMlKemKeyPair()`: Generates NIST FIPS 203 compliant ML-KEM-768 key pairs.
    - `encapsulate(PublicKey)`: Produces quantum-resilient 1088-byte ciphertexts and 256-bit symmetric shared secrets.
    - `decapsulate(PrivateKey, byte[])`: Recovers shared secrets deterministically.
-   - `getPqcStatus()`: Exports algorithm readiness and quantum security level metadata.
+   - `getPqcStatus()`: Exports active PQC provider capabilities and supported algorithm matrix.
 
 4. **Camel REST Integration (`PqcRoute.java`)**:
    - `GET /camel/pqc/status`: Exposes active PQC provider capabilities and supported algorithm matrix.
@@ -68,9 +68,10 @@ Chosen Strategy: **Implement NIST FIPS 203 ML-KEM-768 with Bouncy Castle 1.82 an
 
 ## 5. Next Steps & Validation
 
-- [x] Integrate Bouncy Castle 1.82 dependencies in `pom.xml`.
+- [x] Integrate Bouncy Castle 1.86 dependencies in `pom.xml`.
 - [x] Implement `PqcSecurityProviderConfig.java` and `PostQuantumCryptoService.java`.
 - [x] Implement `PqcRoute.java` Camel REST DSL endpoints.
 - [x] Add and pass automated unit tests in `PostQuantumCryptoServiceTest.java`.
 - [x] Update ADR-0002 to `Superseded by ADR-0010`.
 - [x] Synchronize ADR Index (`tools/adr_index.json` and `docs/adr/README.md`).
+- [x] **Security Remediation**: Successfully addressed ML-KEM timing side-channel vulnerability (C1) by upgrading to Bouncy Castle 1.86.

@@ -25,5 +25,14 @@ This document captures the lessons learned during our recent Java code cleanup a
 - **Lesson:** Spring Data APIs often use null-safety annotations to prevent runtime `NullPointerException`s deeper within the driver. Our wrapping service methods need to respect these contracts.
 - **Remediation:** Added the `org.springframework.lang.NonNull` annotation to the `key` parameters in our custom `put` and `get` methods, explicitly aligning our code with Spring's strict null-safety contracts.
 
+### 5. Security Audit & Remediation Highlights
+During the `piolium` security review, several critical vulnerabilities were identified and remediated in this update cycle:
+
+- **PQC Timing Side-Channel (C1)**: Upgraded Bouncy Castle to `1.86` to mitigate cryptographic timing attacks in the ML-KEM implementation.
+- **PostgreSQL JDBC Bypass (H1)**: Upgraded JDBC driver to `42.7.14` to ensure proper `requireAuth` enforcement for database connections.
+- **WorkOrder Concurrency (M1)**: Refactored `WorkOrderService` to use `ConcurrentHashMap.computeIfPresent` for atomic state transitions, preventing order processing race conditions.
+- **Order ID Injection (L1)**: Implemented strict regex validation (`^ORD-[A-Z0-9]{8}$`) for all Order ID inputs to prevent injection attacks.
+- **Actuator Exposure (L2)**: Restricted `/actuator/health` and `/actuator/info` endpoints to `ROLE_ADMIN` to prevent unauthorized information disclosure.
+
 ## Conclusion
 Regularly addressing code quality warnings—such as dead code, unused imports, and type safety issues—keeps the codebase healthy, readable, and maintainable. Suppressing warnings should only be done thoughtfully (e.g., with `@SuppressWarnings("unchecked")` or explicitly marking `@NonNull` parameters) when we can guarantee the safety of the operation.

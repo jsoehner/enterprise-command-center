@@ -1,13 +1,19 @@
 package com.camel.aggregator.service;
 
 import com.camel.aggregator.model.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.concurrent.atomic.AtomicLong;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class WorkOrderService {
@@ -26,7 +32,7 @@ public class WorkOrderService {
 
     public Order createOrder(Order order) {
         if (order.getId() == null || order.getId().isEmpty()) {
-            order.setId("ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+            order.setId("ORD-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase());
         }
         if (order.getStatus() == null || order.getStatus().isEmpty()) {
             order.setStatus("PENDING");
@@ -46,12 +52,17 @@ public class WorkOrderService {
     }
 
     public void billOrder(@org.apache.camel.Header("id") String id) {
-        if (id == null) return;
-        Order o = orders.get(id);
-        if (o != null) {
-            o.setStatus("BILLED");
-            log.info("Order {} transitioned to BILLED state", id);
+        if (id == null || !id.matches("ORD-[A-Z0-9]{8}")) {
+            log.error("Invalid or null Order ID provided for billing: {}", id);
+            return;
         }
+        orders.computeIfPresent(id, (key, o) -> {
+            if ("PENDING".equals(o.getStatus())) {
+                o.setStatus("BILLED");
+                log.info("Order {} transitioned to BILLED state", id);
+            }
+            return o;
+        });
     }
 
     public List<Order> getPendingShipping() {
@@ -61,13 +72,18 @@ public class WorkOrderService {
     }
 
     public void shipOrder(@org.apache.camel.Header("id") String id) {
-        if (id == null) return;
-        Order o = orders.get(id);
-        if (o != null) {
-            o.setStatus("SHIPPED");
-            completedCount.incrementAndGet();
-            log.info("Order {} has been shipped and completed.", id);
+        if (id == null || !id.matches("ORD-[A-Z0-9]{8}")) {
+            log.error("Invalid or null Order ID provided for shipping: {}", id);
+            return;
         }
+        orders.computeIfPresent(id, (key, o) -> {
+            if ("BILLED".equals(o.getStatus())) {
+                o.setStatus("SHIPPED");
+                completedCount.incrementAndGet();
+                log.info("Order {} has been shipped and completed.", id);
+            }
+            return o;
+        });
     }
 
     public Map<String, Object> getQueueSummary() {
