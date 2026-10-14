@@ -22,3 +22,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0014](0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md) | Security Scan Vulnerability Remediation, SCA Suppression Governance, and CI Notification Idempotency | Accepted | 2026-09-15 |
 | [0015](0015-automated-sbom-cbom-supply-chain-governance.md) | Automated SBOM and CBOM Supply Chain Governance and Continuous Cryptographic Auditing | Accepted | 2026-10-11 |
 | [0016](0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md) | Automated Nightly Dependency Updates and Unattended Auto-Merge Governance | Accepted | 2026-09-27 |
+| [0017](0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md) | Dependency Lifecycle Governance, Safe Baseline Hardening, and Spring Boot 4 Milestone Evaluation | Accepted | 2026-10-14 |
