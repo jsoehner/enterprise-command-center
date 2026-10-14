@@ -8,7 +8,7 @@
 |---|---|---|
 | **Post-Quantum Ready (PQC)** | **2** | 🟢 Quantum-Resistant (NIST FIPS 203/204/205) |
 | **Quantum-Vulnerable (Backlog)** | **2** | 🔴 At Risk of 'Harvest Now, Decrypt Later' |
-| **Classical Symmetric / Hashing** | **3** | 🟡 Classical Security (Requires AES-256 / SHA-256+) |
+| **Classical Symmetric / Digest** | **3** | 🟡 Classical Security (Requires AES-256 / SHA-256+) |
 | **Asymmetric PQC Migration Progress** | **50.0%** | (2 of 4 asymmetric primitives migrated) |
 
 ### 🎯 Cryptographic Supply Chain Coverage & Confidence
@@ -17,14 +17,16 @@
 |---|---|---|
 | **First-Party Code (`src/`)** | **100% Audited** (0 Custom Primitives) | 🟢 **HIGH** (Direct AST & SAST verified clean) |
 | **Third-Party Supply Chain** | **1.1%** (1 of 93 dependencies cataloged) | 🔴 LOW (Known profiles assimilated) |
-| **Overall Audit Confidence Score** | **2.1%** | **🔴 LOW** (92 unassimilated supply chain dependencies) |
+| **Overall Audit Confidence Score** | **2.1%** | 🔴 LOW (92 unassimilated supply chain dependencies) |
 
-### ✅ Post-Quantum Cryptography Migrated Assets
+| **System OS Inventory** | **Pending Update** | 🟡 **Warning** (Local OS crypto components not yet inventoried) |
+
+### ✅ Post-Quantum Ready Assets
 
 | Component Name | Primitive | Key/Parameter Set | PQC Standard | Provenance / Location(s) |
 |---|---|---|---|---|
-| `ML-KEM-768` | kem | 768 | NIST FIPS 203 (ML-KEM) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:23`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:29`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:59`<br>`src/main/java/com/camel/aggregator/config/PqcSecurityProviderConfig.java:39`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:33`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:52`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:29`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:43`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:45`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:46`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:58`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:61`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:63`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:89`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:92`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:94`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:108`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:113`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:114`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:115`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:119`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:121` |
-| `ML-DSA-65` | signature | N/A | NIST FIPS 204 (ML-DSA) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:116`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:117`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:118` |
+| `ML-KEM-768` | kem | 768 | ML-KEM-768 (FIPS 203) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:23`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:29`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:59`<br>`src/main/java/com/camel/aggregator/config/PqcSecurityProviderConfig.java:39`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:33`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:52`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:29`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:43`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:45`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:46`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:58`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:61`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:63`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:89`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:92`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:94`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:108`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:113`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:114`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:115`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:119`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:121` |
+| `ML-DSA-65` | signature | N/A | ML-DSA-65 (FIPS 204) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:116`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:117`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:118` |
 
 ### ⚠️ Quantum-Vulnerable Assets & Remediation Plan
 
@@ -37,8 +39,8 @@
 
 | Component Name | Primitive | Key Length | Quantum Resistance Assessment | Provenance / Location(s) |
 |---|---|---|---|---|
-| `key@4db67034-4e50-4300-a627-0a5f22bfb368` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
-| `key@851ae29c-3731-47c7-b6b5-ae36f4c2e214` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| `key@7f157716-5d2b-4f57-81cd-b5d08611aea9` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| `key@543f7f17-4f18-44fa-bc17-941509573555` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
 | `AES-256-GCM` | block-cipher | 256 | Quantum-Resistant (Grover's proof) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:111` |
 
 ### ⚠️ Unassimilated Third-Party Binaries & Cryptographic Blind Spots
