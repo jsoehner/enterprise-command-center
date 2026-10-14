@@ -2,7 +2,7 @@
 
 ## 🚀 Getting Started
 
-This project uses Docker, Java 25, Apache Camel 4.22, Spring Boot 3.5, and Bouncy Castle 1.85 (Post-Quantum Cryptography) for a modern, production-hardened development environment.
+This project uses Docker, Java 25, Apache Camel 4.22.1, Spring Boot 4.2.0-M2, and Bouncy Castle 1.86 (Post-Quantum Cryptography) for a modern, production-hardened development environment.
 
 ### Prerequisites
 - **Docker** installed and running.
@@ -81,5 +81,6 @@ python3 scripts/adr_gatekeeper.py --reindex
 Technical insights and operational lessons learned are archived under [`docs/lessons-learned/`](lessons-learned/):
 - **[Code Cleanup Lessons Learned](lessons-learned/code-cleanup-lessons.md)** — Strategies for linting, dependency pruning, and codebase health.
 - **[Nightly Dependencies Lessons Learned](lessons-learned/nightly-dependencies-lessons.md)** — Continuous dependency updates, Maven versioning, and CI permission models.
-- **[Architectural Decision Index](adr/README.md)** — Complete catalog of ADRs 0001 through 0010.
+- **[Spring Boot 4 & Jackson 3 Lessons Learned](lessons-learned/spring-boot-4-jackson-3-lessons.md)** — Framework modernization, Jackson 3 alignment, and container vulnerability remediation.
+- **[Architectural Decision Index](adr/README.md)** — Complete catalog of ADRs 0001 through 0018.
 - **[Frequently Asked Questions](FAQ.md)** — Common questions regarding authentication, rate limiting, and API aggregator routes.

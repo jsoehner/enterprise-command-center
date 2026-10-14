@@ -3,7 +3,7 @@
 ## General & Architecture
 
 ### 1. What is the Enterprise Command Center?
-The Enterprise Command Center is a high-performance Backend-for-Frontend (BFF) and API Aggregator built with Apache Camel and Spring Boot 3.5. It integrates disparate enterprise microservices into a unified pipeline spanning client order intake, automated billing & settlement, freight shipping, and real-time financial telemetry.
+The Enterprise Command Center is a high-performance Backend-for-Frontend (BFF) and API Aggregator built with Apache Camel 4.22 and Spring Boot 4. It integrates disparate enterprise microservices into a unified pipeline spanning client order intake, automated billing & settlement, freight shipping, and real-time financial telemetry.
 
 ### 2. How do the 5 dashboard panes communicate?
 The main command grid (`/` or `index.html`) embeds modular views via iframes. Each departmental view interacts with Apache Camel REST endpoints (`/camel/orders/*`, `/camel/api/*`, `/camel/health/*`) using asynchronous JSON fetch requests and WebSocket event listeners.

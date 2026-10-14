@@ -48,7 +48,7 @@ During scheduled dependency lifecycle orchestration (`dependency-lifecycle-orche
 
 ## 4. Consequences & Verification
 
-- **Positive**: `main` remains on a fully tested, zero-vulnerability Spring Boot 3.5.16 LTS baseline with up-to-date tooling and dependencies.
+- **Positive**: Following verification on `test/deferred-major-upgrades`, `main` was successfully upgraded to Spring Boot 4.2.0-M2 and Spring Security 7.2.0-M2 via PR #183, with complete Jackson 3 and container vulnerability remediation established in ADR-0018.
 - **Positive**: The engineering team has proven compatibility and documented breaking migration paths for Spring Boot 4.x on `test/deferred-major-upgrades`, reducing future technical debt when Spring Boot 4 reaches General Availability.
 - **Verification**:
   - `python3 scripts/adr_gatekeeper.py --verify` passes all integrity checks.

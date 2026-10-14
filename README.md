@@ -1,12 +1,12 @@
 # Enterprise Command Center (REST API Aggregator)
 
 [![Build & Test](https://github.com/jsoehner/enterprise-command-center/actions/workflows/ci.yml/badge.svg)](https://github.com/jsoehner/enterprise-command-center/actions)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.16-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.22.0-orange.svg)](https://camel.apache.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.2.0--M2-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.22.1-orange.svg)](https://camel.apache.org/)
 [![Java](https://img.shields.io/badge/Java-25%2B-blue.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-A high-performance **Enterprise Command Center** and **REST API Aggregator** built with Apache Camel, Spring Boot 3.5, and a defense-in-depth security posture.
+A high-performance **Enterprise Command Center** and **REST API Aggregator** built with Apache Camel 4.22, Spring Boot 4, Jackson 3, and a defense-in-depth security posture.
 
 This platform unifies downstream microservices, real-time business telemetry, automated billing & settlement, freight logistics fulfillment, and circuit-breaker resilience into an interactive, high-density command interface.
 
@@ -28,13 +28,13 @@ This platform unifies downstream microservices, real-time business telemetry, au
 
 | Domain | Technology |
 | :--- | :--- |
-| **Framework** | Spring Boot 3.5.16 |
-| **Integration Engine** | Apache Camel 4.22.0 (REST DSL & EIP Aggregator) |
+| **Framework** | Spring Boot 4.2.0-M2 |
+| **Integration Engine** | Apache Camel 4.22.1 (REST DSL & EIP Aggregator with Jackson 3) |
 | **Database** | PostgreSQL (Prod) & In-Memory H2 (Dev / Test) |
 | **Caching & Rate Limiting** | Bucket4j 8.10.1, Caffeine Cache & Redis |
 | **Event Streaming** | Apache Kafka 3.9.2 |
 | **Resilience & SLA** | Resilience4j Circuit Breakers & Micrometer Actuator |
-| **Security & Auth** | Spring Security 7.1.0, HTTP Basic Auth, CSP & HSTS |
+| **Security & Auth** | Spring Security 7.2.0-M2, HTTP Basic Auth, CSP & HSTS |
 | **Frontend Architecture** | Vanilla HTML5, CSS Design Tokens, WebSockets, Vanilla JS |
 | **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.5, OWASP 13.0.0 |
 | **Containerization** | Multi-stage Dockerfile (Temurin JDK 25 build + Chainguard JRE) |
@@ -103,6 +103,7 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0015: Automated SBOM & CBOM Supply Chain Governance](docs/adr/0015-automated-sbom-cbom-supply-chain-governance.md)** — Dual-engine Software & Cryptographic Bill of Materials generation, AST code analysis, and continuous cryptographic compliance.
 * **[ADR 0016: Automated Nightly Dependency Updates & Unattended Auto-Merge](docs/adr/0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md)** — PAT-authenticated pull request creation, reviewer decoupling, and unattended auto-merging for scheduled dependency updates.
 * **[ADR 0017: Dependency Lifecycle Governance & Spring Boot 4 Milestone Evaluation](docs/adr/0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md)** — Dependency lifecycle orchestration, safe baseline hardening, and isolated Spring Boot 4 / Spring Security 7 milestone migration testing.
+* **[ADR 0018: Spring Boot 4 Jackson 3 Alignment & Container Vulnerability Remediation](docs/adr/0018-spring-boot-4-jackson-3-alignment-and-container-vulnerability-remediation.md)** — Alignment with Spring Boot 4's Jackson 3 architecture, Camel Jackson 3 starter migration, and container vulnerability remediation.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 

@@ -9,18 +9,18 @@
 
 ## 1. Executive Summary
 
-A comprehensive dependency lifecycle audit, security review, and upgrade assessment was performed across the `enterprise-command-center` codebase. The application functions as an enterprise REST API Aggregator / Backend-for-Frontend (BFF) leveraging Apache Camel 4.22.1 and Spring Boot 3.5.16 with hybrid Post-Quantum Cryptography (PQC) integration.
+A comprehensive dependency lifecycle audit, security review, and upgrade assessment was performed across the `enterprise-command-center` codebase. The application functions as an enterprise REST API Aggregator / Backend-for-Frontend (BFF) leveraging Apache Camel 4.22.1, Spring Boot 4.2.0-M2, Spring Security 7.2.0-M2, and Jackson 3.2.3 with hybrid Post-Quantum Cryptography (PQC) integration.
 
-All automated guardrails, fork status checks, OKF policy compliances, and test suite verifications passed. One safe property update (`httpcore5.version` from `5.5-beta3` to `5.5-beta4`) was staged, built, and verified against the full suite of unit and integration tests (10/10 passing).
+All automated guardrails, fork status checks, OKF policy compliances, and test suite verifications passed. Safe baseline hardening (`httpcore5.version` 5.5-beta4, `spotbugs` 4.10.5, `asm` 9.11) was executed, followed by migration to Spring Boot `4.2.0-M2`, full alignment of Apache Camel with `camel-jackson3-starter`, and resolution of all Jackson CVEs via `jackson-bom` 3.2.3 and `jackson-2-bom` 2.22.3 (ADR-0017 and ADR-0018). All 10 unit and integration tests execute with zero failures.
 
 ```mermaid
 graph TD
     A[Pre-Flight Guardrail & OKF Audit] -->|Passed - Standalone Repo| B[Dependency Graph Resolution]
-    B -->|295 Resolved Artifacts| C[Security & CBOM Audit]
+    B -->|295 Resolved Artifacts| C[Security, Trivy & CBOM Audit]
     C -->|5 Crypto Assets Scanned| D[Upgrade Classification]
-    D -->|Safe Patch Applied| E[Verification Loop: mvn test 10/10 PASS]
-    D -->|Milestones Deferred| F[Action Plan & Memory Sync]
-    E --> F
+    D -->|Safe Baseline Patches Applied| E[Verification Loop: mvn test 10/10 PASS]
+    D -->|Spring Boot 4 & Jackson 3 Alignment| E
+    E -->|ADR-0017 & ADR-0018 Authored| F[Action Plan & Memory Sync]
 ```
 
 ---
@@ -32,6 +32,7 @@ graph TD
   - `cbom_pqc_migration_and_hybrid_cryptography_standard.md`: Mandatory hybrid PQC tracking (FIPS 203 ML-KEM-768 & FIPS 204 ML-DSA-65).
   - `enterprise_production_security_hardening_standard.md`: Defense-in-depth and environment parity.
   - `github_actions_security_governance_standard.md`: Full SHA-pinning across CI/CD action workflows.
+  - `spring_boot_4_jackson_3_alignment_policy.md`: Mandatory Jackson 3 starters and BOM overrides.
 
 ---
 
@@ -41,9 +42,9 @@ The Maven build resolves **295 total artifacts** across compile, runtime, provid
 
 | Category | Count | Key Baselines |
 | :--- | :--- | :--- |
-| **Framework Parent** | 1 | Spring Boot Starter Parent `3.5.16` |
-| **Direct Dependencies** | 29 | Apache Camel `4.22.1`, Bouncy Castle `1.86`, Bucket4j `8.10.1`, Caffeine `3.2.4`, MapStruct `1.7.0.Beta2` |
-| **DependencyManagement** | 13 | `camel-spring-boot-bom`, `httpclient5`, `httpcore5`, `postgresql`, `commons-io`, `jackson-databind`, `log4j-api`, `lz4-java` |
+| **Framework Parent** | 1 | Spring Boot Starter Parent `4.2.0-M2` |
+| **Direct Dependencies** | 29 | Apache Camel `4.22.1` (`camel-jackson3-starter`), Bouncy Castle `1.86`, Bucket4j `8.10.1`, Caffeine `3.2.4`, MapStruct `1.7.0.Beta2` |
+| **DependencyManagement** | 13 | `camel-spring-boot-bom`, `httpclient5`, `httpcore5`, `postgresql`, `commons-io`, `tools.jackson.core:3.2.3`, `log4j-api`, `lz4-java` |
 | **Total Resolved** | 295 | Headless REST aggregator stack |
 
 ---
@@ -75,27 +76,27 @@ The Maven build resolves **295 total artifacts** across compile, runtime, provid
 ## 5. Upgrade Assessment & Staged Transitions
 
 ### 5.1. Verified & Applied Updates
-- **`httpcore5.version`**: `5.5-beta3` $\rightarrow$ `5.5-beta4`
-  - Scope: `dependencyManagement` property driving `httpcore5` and `httpcore5-h2`.
-  - Verification: Compiles cleanly with Java 25; 10/10 test cases passed with zero regressions.
+- **`httpcore5.version`**: `5.5-beta3` $\rightarrow$ `5.5-beta4` (Safe baseline hardening).
+- **`spotbugs-maven-plugin`**: `4.10.4.1` $\rightarrow$ `4.10.5.0` & `spotbugs`: `4.10.4` $\rightarrow$ `4.10.5`.
+- **`asm`**: `9.10.1` $\rightarrow$ `9.11`.
+- **`org.springframework.boot:spring-boot-starter-parent`**: `3.5.16` $\rightarrow$ `4.2.0-M2` (PR #183, ADR-0017).
+- **`org.springframework.security`**: `7.1.1` $\rightarrow$ `7.2.0-M2` (PR #183, ADR-0017).
+- **`org.assertj:assertj-core`**: `3.27.7` $\rightarrow$ `4.0.0-M1` (PR #183, ADR-0017).
+- **`camel-jackson3-starter`**: Replaced legacy `camel-jackson-starter` with Jackson 3 starter for Apache Camel 4.22.1 (ADR-0018).
+- **`jackson-bom.version`**: `3.2.3` (Patched DoS CVE-2026-89407, CVE-2026-89425, CVE-2026-91776, CVE-2026-91777).
+- **`jackson-2-bom.version`**: `2.22.3` (Remediated transitive OpenAPI Jackson 2 dependencies).
 
-### 5.2. Deferred Major / Pre-Release Milestones
-The following upstream releases were identified by `versions:display-dependency-updates` but intentionally deferred:
-- `org.springframework.boot:spring-boot-starter-parent`: `3.5.16` $\rightarrow$ `4.2.0-M2` (Major milestone; pre-release breaking changes).
-- `org.springframework.security`: `7.1.1` $\rightarrow$ `7.2.0-M2` (Pre-release milestone).
-- `org.assertj:assertj-core`: `3.27.7` $\rightarrow$ `4.0.0-M1` (Major milestone transition).
-- `redis.clients:jedis`: `6.0.0` $\rightarrow$ `8.1.0-beta1` (Major pre-release bump).
-
-### 5.3. Preserved Pinned Baselines
+### 5.2. Preserved Pinned Baselines
 - `camel.version`: `4.22.1` (Current release baseline).
 - `bouncycastle.version`: `1.86` (Authoritative PQC cryptographic engine).
 - `com.giffing.bucket4j.spring.boot.starter`: `0.14.0` (Protected by nightly update exclusion rule).
+- `redis.clients:jedis`: `8.0.1` (Tracking 8.1.0-beta1).
 
 ---
 
-## 6. Action Plan & Next Steps
+## 6. Action Plan & Governance Linkage
 
-1. **Commit Staged Patch**: Commit `httpcore5.version` update (`5.5-beta4`) following standard conventional commit guidelines (`chore(deps): update httpcore5.version to 5.5-beta4`).
+1. **ADR Governance**: Documented in [ADR 0017](adr/0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md) and [ADR 0018](adr/0018-spring-boot-4-jackson-3-alignment-and-container-vulnerability-remediation.md).
 2. **Nightly Automation**: Maintain scheduled updates via `.github/workflows/nightly-dependency-update.yml` with current exclusion rules intact.
-3. **Spring Boot 4.x Migration Planning**: Track general availability of Spring Boot 4.0/4.2 to stage a dedicated migration track (ADR + branch review).
-4. **CBOM Lifecycle**: Continue hybrid PQC migration to retire classical `ECDH-X25519` and `ECDSA-P256` as downstream services adopt ML-KEM and ML-DSA endpoints.
+3. **Security Gatekeeping**: Continuous Trivy container scanning and Syft SBOM generation enforcing 0 High/Critical unsuppressed vulnerabilities.
+4. **CBOM Lifecycle**: Continue hybrid PQC migration to retire classical `ECDH-X25519` and `ECDSA-P256` as downstream services adopt ML-KEM-768 and ML-DSA-65 endpoints.
