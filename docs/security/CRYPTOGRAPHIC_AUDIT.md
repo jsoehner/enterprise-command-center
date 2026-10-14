@@ -39,8 +39,8 @@
 
 | Component Name | Primitive | Key Length | Quantum Resistance Assessment | Provenance / Location(s) |
 |---|---|---|---|---|
-| `key@7f157716-5d2b-4f57-81cd-b5d08611aea9` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
-| `key@543f7f17-4f18-44fa-bc17-941509573555` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| `key@881def7b-fae0-43e1-83d8-b02975e231cb` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| `key@fc8266b8-2fa3-4e14-8036-952aa41066d0` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
 | `AES-256-GCM` | block-cipher | 256 | Quantum-Resistant (Grover's proof) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:111` |
 
 ### ⚠️ Unassimilated Third-Party Binaries & Cryptographic Blind Spots
