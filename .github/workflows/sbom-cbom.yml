@@ -129,7 +129,9 @@ jobs:
               echo "No changes in cryptographic audit report."
             else
               git commit -m "docs(security): update cryptographic audit & PQC migration report [skip ci]"
-              git push
+              for i in {1..5}; do
+                git pull --rebase origin main && git push && break || sleep 2
+              done
             fi
           fi
 
