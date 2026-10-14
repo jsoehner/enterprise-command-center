@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-10-11",
+  "last_updated": "2026-10-14",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 16,
+  "total_records": 17,
   "records": [
     {
       "id": "0001",
@@ -180,6 +180,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "The repository runs an automated nightly dependency update pipeline (`.github/workflows/nightly-dependency-update.yml`) scheduled at 02:00 UTC (approximately 03:00 AM local time). The workflow execute"
+    },
+    {
+      "id": "0017",
+      "title": "Dependency Lifecycle Governance, Safe Baseline Hardening, and Spring Boot 4 Milestone Evaluation",
+      "status": "Accepted",
+      "date": "2026-10-14",
+      "deciders": "Enterprise Command Center Architecture & Operations Governance Team",
+      "file": "docs/adr/0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "The Enterprise Command Center (`rest-api-aggregator`) is an enterprise-grade Backend-for-Frontend (BFF) connecting microservices, Kafka event streams, Redis cache/rate-limiting, and hybrid Post-Quantu"
     }
   ]
 }

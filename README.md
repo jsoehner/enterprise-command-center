@@ -36,7 +36,7 @@ This platform unifies downstream microservices, real-time business telemetry, au
 | **Resilience & SLA** | Resilience4j Circuit Breakers & Micrometer Actuator |
 | **Security & Auth** | Spring Security 7.1.0, HTTP Basic Auth, CSP & HSTS |
 | **Frontend Architecture** | Vanilla HTML5, CSS Design Tokens, WebSockets, Vanilla JS |
-| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.4, OWASP 13.0.0 |
+| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.5, OWASP 13.0.0 |
 | **Containerization** | Multi-stage Dockerfile (Temurin JDK 25 build + Chainguard JRE) |
 
 ---
@@ -101,6 +101,8 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0013: User Entity Instantiation Hardening](docs/adr/0013-auth-entity-instantiation-and-resilience-ui-rebalancing.md)** — User entity instantiation hardening under Java 25 and telemetry layout rebalancing.
 * **[ADR 0014: Security Scan Vulnerability Remediation & SCA Suppression Governance](docs/adr/0014-security-scan-vulnerability-remediation-and-sca-suppression-governance.md)** — OWASP Dependency-Check suppression governance, non-exploitable CVE auditing, and CI notification idempotency.
 * **[ADR 0015: Automated SBOM & CBOM Supply Chain Governance](docs/adr/0015-automated-sbom-cbom-supply-chain-governance.md)** — Dual-engine Software & Cryptographic Bill of Materials generation, AST code analysis, and continuous cryptographic compliance.
+* **[ADR 0016: Automated Nightly Dependency Updates & Unattended Auto-Merge](docs/adr/0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md)** — PAT-authenticated pull request creation, reviewer decoupling, and unattended auto-merging for scheduled dependency updates.
+* **[ADR 0017: Dependency Lifecycle Governance & Spring Boot 4 Milestone Evaluation](docs/adr/0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md)** — Dependency lifecycle orchestration, safe baseline hardening, and isolated Spring Boot 4 / Spring Security 7 milestone migration testing.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
