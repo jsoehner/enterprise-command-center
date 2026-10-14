@@ -8,10 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,8 +32,14 @@ class AggregatorRouteTest {
     @Autowired
     private ProducerTemplate producerTemplate;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+    @LocalServerPort
+    private int port;
+
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+
+    private String basicAuth(String username, String password) {
+        return "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+    }
 
     @Test
     void testAggregationRoute() {
@@ -49,24 +59,34 @@ class AggregatorRouteTest {
     }
 
     @Test
-    void testProtectedEndpointRejectsUnauthenticated() {
-        ResponseEntity<String> response = restTemplate.getForEntity("/camel/orders/summary", String.class);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    void testProtectedEndpointRejectsUnauthenticated() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:" + port + "/camel/orders/summary"))
+                .GET()
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(401, response.statusCode());
     }
 
     @Test
-    void testProtectedEndpointAcceptsValidAdminCredentials() {
-        ResponseEntity<String> response = restTemplate
-                .withBasicAuth("testadmin", "testpassword")
-                .getForEntity("/camel/orders/summary", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+    void testProtectedEndpointAcceptsValidAdminCredentials() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:" + port + "/camel/orders/summary"))
+                .header("Authorization", basicAuth("testadmin", "testpassword"))
+                .GET()
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(200, response.statusCode());
     }
 
     @Test
-    void testProtectedEndpointRejectsInvalidCredentials() {
-        ResponseEntity<String> response = restTemplate
-                .withBasicAuth("testadmin", "wrongpassword")
-                .getForEntity("/camel/orders/summary", String.class);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    void testProtectedEndpointRejectsInvalidCredentials() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:" + port + "/camel/orders/summary"))
+                .header("Authorization", basicAuth("testadmin", "wrongpassword"))
+                .GET()
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(401, response.statusCode());
     }
 }
