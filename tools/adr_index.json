@@ -3,7 +3,7 @@
   "last_updated": "2026-10-14",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 17,
+  "total_records": 18,
   "records": [
     {
       "id": "0001",
@@ -191,6 +191,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "The Enterprise Command Center (`rest-api-aggregator`) is an enterprise-grade Backend-for-Frontend (BFF) connecting microservices, Kafka event streams, Redis cache/rate-limiting, and hybrid Post-Quantu"
+    },
+    {
+      "id": "0018",
+      "title": "Spring Boot 4 Jackson 3 Alignment and Container Vulnerability Remediation",
+      "status": "Accepted",
+      "date": "2026-10-14",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0018-spring-boot-4-jackson-3-alignment-and-container-vulnerability-remediation.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "Following the upgrade to Spring Boot `4.2.0-M2` in PR"
     }
   ]
 }
