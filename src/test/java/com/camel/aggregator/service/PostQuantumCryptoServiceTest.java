@@ -57,6 +57,6 @@ public class PostQuantumCryptoServiceTest {
         Map<String, Object> status = pqcService.getPqcStatus();
         assertThat(status).containsEntry("status", "ACTIVE");
         assertThat(status).containsEntry("defaultKemAlgorithm", "ML-KEM-768");
-        assertThat(status.get("supportedAlgorithms")).asList().isNotEmpty();
+        assertThat((java.util.List<?>) status.get("supportedAlgorithms")).isNotEmpty();
     }
 }

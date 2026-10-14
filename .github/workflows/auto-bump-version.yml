@@ -42,7 +42,9 @@ jobs:
             if [[ -n $(git status -s pom.xml) ]]; then
               git add pom.xml
               git commit -m "chore: auto-bump version to $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) [skip ci]"
-              git push
+              for i in {1..5}; do
+                git pull --rebase origin main && git push && break || sleep 2
+              done
             else
               echo "No version bump needed."
             fi
