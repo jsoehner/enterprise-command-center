@@ -3,7 +3,7 @@
   "last_updated": "2026-10-15",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 19,
+  "total_records": 20,
   "records": [
     {
       "id": "0001",
@@ -213,6 +213,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "Following the comprehensive security posture evaluation of the Enterprise Command Center (documented in `docs/security/SECURITY_POSTURE_EVALUATION.md`), several security defects were identified across"
+    },
+    {
+      "id": "0020",
+      "title": "Jackson 2 BOM Alignment and Spring Data Redis Serialization Remediation",
+      "status": "Accepted",
+      "date": "2026-10-15",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0020-jackson-2-bom-alignment-and-spring-data-redis-serialization.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "During container startup and test execution in the Spring Boot `4.2.0-M2` environment, application context initialization failed during the creation of `cacheService` and `redisTemplate`:"
     }
   ]
 }
