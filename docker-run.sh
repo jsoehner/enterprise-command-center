@@ -5,8 +5,15 @@
 DOCKER_USERNAME="jsoehner"
 IMAGE_NAME="enterprise-command-center"
 TAG="main"
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="admin123"
+
+ADMIN_USERNAME="${ADMIN_USERNAME:-admin}"
+ADMIN_PASSWORD="${ADMIN_PASSWORD:-}"
+
+if [ -z "$ADMIN_PASSWORD" ] || [ "$ADMIN_PASSWORD" = "admin123" ]; then
+    echo "ERROR: Secure ADMIN_PASSWORD must be provided via environment variable."
+    echo "Example: ADMIN_PASSWORD='my_secure_password' ./docker-run.sh"
+    exit 1
+fi
 
 FULL_IMAGE_NAME="${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG}"
 

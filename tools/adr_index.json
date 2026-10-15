@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-10-14",
+  "last_updated": "2026-10-15",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 18,
+  "total_records": 19,
   "records": [
     {
       "id": "0001",
@@ -202,6 +202,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "Following the upgrade to Spring Boot `4.2.0-M2` in PR"
+    },
+    {
+      "id": "0019",
+      "title": "Security Defect Remediation: WebSocket Isolation, CSRF Mitigation, and Automated Pipeline Resilience",
+      "status": "Accepted",
+      "date": "2026-10-15",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0019-security-defect-remediation-websocket-csrf-and-pipeline-resilience.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "Following the comprehensive security posture evaluation of the Enterprise Command Center (documented in `docs/security/SECURITY_POSTURE_EVALUATION.md`), several security defects were identified across"
     }
   ]
 }

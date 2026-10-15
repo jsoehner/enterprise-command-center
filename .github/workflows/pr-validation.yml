@@ -24,5 +24,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Restore NVD Cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.0.0
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: ${{ runner.os }}-owasp-nvd-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-owasp-nvd-
+
       - name: Build and Verify
-        run: mvn clean verify -Ddependency-check.skip=true -Dspotbugs.skip=true
+        run: mvn clean verify -Dspotbugs.skip=true

@@ -49,10 +49,18 @@ jobs:
           echo "Outputting updated dependency tree..."
           mvn dependency:tree
 
-      - name: Build and Verify
+      - name: Restore NVD Cache for SCA
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.0.0
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: ${{ runner.os }}-owasp-nvd-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-owasp-nvd-
+
+      - name: Build and Verify with SCA
         run: |
-          echo "Triggering rebuild with updated dependencies..."
-          mvn clean verify -Ddependency-check.skip=true -Dspotbugs.skip=true
+          echo "Triggering rebuild with updated dependencies and SCA analysis..."
+          mvn clean verify -Dspotbugs.skip=true
 
       - name: Clean generated artifacts from branch
         run: |
@@ -100,8 +108,8 @@ jobs:
         if: steps.create-pr.outputs.pull-request-number
         run: |
           PR_URL="${{ steps.create-pr.outputs.pull-request-url }}"
-          echo "Triggering auto-merge for $PR_URL..."
-          gh pr merge "$PR_URL" --auto --squash --delete-branch || gh pr merge "$PR_URL" --squash --delete-branch || echo "Auto-merge registered or PR queued for checks"
+          echo "Queueing auto-merge for $PR_URL pending status checks..."
+          gh pr merge "$PR_URL" --auto --squash --delete-branch || echo "Auto-merge registered or PR queued for checks"
         env:
           GITHUB_TOKEN: ${{ steps.pr-token.outputs.token }}
 

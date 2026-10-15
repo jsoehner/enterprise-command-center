@@ -43,6 +43,12 @@ public class WorkOrderServiceTest {
     }
 
     @Test
+    void testCreateOrder_WithInvalidCustomId_ThrowsException() {
+        Order order = new Order("INVALID-ID", "Test Corp", 100.0, "PENDING");
+        assertThrows(IllegalArgumentException.class, () -> workOrderService.createOrder(order));
+    }
+
+    @Test
     void testBillOrder_ValidId_TransitionsToBilled() {
         Order order = new Order("ORD-1001", "Acme Global Corp", 4500.00, "PENDING");
         workOrderService.createOrder(order);
@@ -57,7 +63,7 @@ public class WorkOrderServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"INVALID-ID", "ORD-123", "ORD-123456789", ""})
+    @ValueSource(strings = {"INVALID-ID", "ORD-12", "ORD-12345678901234567", ""})
     void testBillOrder_InvalidId_NoChange(String invalidId) {
         workOrderService.billOrder(invalidId);
         // Should not throw exception and should not change anything

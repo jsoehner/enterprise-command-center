@@ -31,10 +31,12 @@ public class WorkOrderService {
     }
 
     public Order createOrder(Order order) {
-        if (order.getId() == null || order.getId().isEmpty()) {
+        if (order.getId() == null || order.getId().trim().isEmpty()) {
             order.setId("ORD-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+        } else if (!order.getId().matches("ORD-[A-Z0-9]{4,16}")) {
+            throw new IllegalArgumentException("Invalid Order ID format: " + order.getId() + ". Expected format 'ORD-[A-Z0-9]{4,16}'.");
         }
-        if (order.getStatus() == null || order.getStatus().isEmpty()) {
+        if (order.getStatus() == null || order.getStatus().trim().isEmpty()) {
             order.setStatus("PENDING");
         }
         orders.put(order.getId(), order);
@@ -52,7 +54,7 @@ public class WorkOrderService {
     }
 
     public void billOrder(@org.apache.camel.Header("id") String id) {
-        if (id == null || !id.matches("ORD-[A-Z0-9]{8}")) {
+        if (id == null || !id.matches("ORD-[A-Z0-9]{4,16}")) {
             log.error("Invalid or null Order ID provided for billing: {}", id);
             return;
         }
@@ -72,7 +74,7 @@ public class WorkOrderService {
     }
 
     public void shipOrder(@org.apache.camel.Header("id") String id) {
-        if (id == null || !id.matches("ORD-[A-Z0-9]{8}")) {
+        if (id == null || !id.matches("ORD-[A-Z0-9]{4,16}")) {
             log.error("Invalid or null Order ID provided for shipping: {}", id);
             return;
         }

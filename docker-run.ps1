@@ -3,8 +3,14 @@
 $DOCKER_USERNAME = "jsoehner"
 $IMAGE_NAME = "enterprise-command-center"
 $TAG = "main"
-$ADMIN_USERNAME = "admin"
-$ADMIN_PASSWORD = "admin123"
+
+$ADMIN_USERNAME = if ($env:ADMIN_USERNAME) { $env:ADMIN_USERNAME } else { "admin" }
+$ADMIN_PASSWORD = if ($env:ADMIN_PASSWORD) { $env:ADMIN_PASSWORD } else { "" }
+
+if (-not $ADMIN_PASSWORD -or $ADMIN_PASSWORD -eq "admin123") {
+    Write-Error "ERROR: Secure ADMIN_PASSWORD must be provided via environment variable."
+    exit 1
+}
 
 $FULL_IMAGE_NAME = "${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG}"
 

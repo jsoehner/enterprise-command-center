@@ -36,3 +36,7 @@ app:
       default-kem: ML-KEM-768
       hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768
 
+websocket:
+  host: ${WEBSOCKET_HOST:0.0.0.0}
+  port: ${WEBSOCKET_PORT:8081}
+

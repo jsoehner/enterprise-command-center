@@ -21,6 +21,9 @@ public class AggregatorRoute extends RouteBuilder {
     @Value("${kafka.enabled:false}")
     private boolean kafkaEnabled;
 
+    @Value("${websocket.host:127.0.0.1}")
+    private String websocketHost;
+
     @Value("${websocket.port:8081}")
     private int websocketPort;
 
@@ -106,10 +109,10 @@ public class AggregatorRoute extends RouteBuilder {
 
         from("direct:broadcast-update")
             .marshal().json()
-            .toF("vertx-websocket:0.0.0.0:%d/aggregated-updates?sendToAll=true", websocketPort);
+            .toF("vertx-websocket:%s:%d/aggregated-updates?sendToAll=true", websocketHost, websocketPort);
 
         // Start the WebSocket server by having at least one consumer
-        fromF("vertx-websocket:0.0.0.0:%d/aggregated-updates", websocketPort)
+        fromF("vertx-websocket:%s:%d/aggregated-updates", websocketHost, websocketPort)
             .log("New WebSocket client connected: ${header.connectionKey}")
             .routeId("websocket-server-start");
 

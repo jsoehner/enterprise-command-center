@@ -24,3 +24,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0016](0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md) | Automated Nightly Dependency Updates and Unattended Auto-Merge Governance | Accepted | 2026-09-27 |
 | [0017](0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md) | Dependency Lifecycle Governance, Safe Baseline Hardening, and Spring Boot 4 Milestone Evaluation | Accepted | 2026-10-14 |
 | [0018](0018-spring-boot-4-jackson-3-alignment-and-container-vulnerability-remediation.md) | Spring Boot 4 Jackson 3 Alignment and Container Vulnerability Remediation | Accepted | 2026-10-14 |
+| [0019](0019-security-defect-remediation-websocket-csrf-and-pipeline-resilience.md) | Security Defect Remediation: WebSocket Isolation, CSRF Mitigation, and Automated Pipeline Resilience | Accepted | 2026-10-15 |
