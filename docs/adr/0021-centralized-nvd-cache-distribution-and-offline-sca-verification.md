@@ -39,19 +39,20 @@ Root cause investigation revealed a three-part failure chain:
 ## 3. Decision Outcome
 
 1. **Centralized NVD Cache Restoration from `jsoehner/nvd-cache`**:
-   - Updated `.github/workflows/nightly-dependency-update.yml`, `.github/workflows/pr-validation.yml`, and `.github/workflows/update-nvd-cache.yml` to download and extract `https://github.com/jsoehner/nvd-cache/releases/download/latest-nvd-data/odc.mv.db.zip` directly into `~/.m2/repository/org/owasp/dependency-check-data/11.0/odc.mv.db` (and `~/.m2/repository/org/owasp/dependency-check-data/odc.mv.db`).
+   - Upgraded `jsoehner/nvd-cache` (`.github/workflows/nvd-cache.yml` and the `latest-nvd-data/odc.mv.db.zip` release asset) from `dependency-check-maven:12.1.0` to `13.0.0` so the H2 database schema matches `dependency-check-maven:13.0.0`, and packaged `publishedSuppressions.xml*` and `jsrepository.json*` alongside `odc.mv.db`.
+   - Updated `.github/workflows/nightly-dependency-update.yml`, `.github/workflows/pr-validation.yml`, and `.github/workflows/update-nvd-cache.yml` to download and extract `https://github.com/jsoehner/nvd-cache/releases/download/latest-nvd-data/odc.mv.db.zip` directly into `~/.m2/repository/org/owasp/dependency-check-data/11.0/` and `~/.m2/repository/org/owasp/dependency-check-data/odc.mv.db`.
    - Hardened `update-nvd-cache.yml` so that `mvn org.owasp:dependency-check-maven:update-only -DautoUpdate=true` is only invoked when `NVD_API_KEY` is configured, retaining the `jsoehner/nvd-cache` snapshot otherwise.
 
-2. **Offline SCA Configuration in `pom.xml`**:
-   - Added `<autoUpdate>false</autoUpdate>` to `dependency-check-maven` configuration in `pom.xml` so `mvn clean verify` evaluates dependencies strictly against the pre-cached H2 database without triggering `NvdApiException` / `UpdateException`.
-   - Added `<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>` to suppress .NET Assembly Analyzer errors on embedded native resources.
+2. **Offline SCA Configuration & Legacy Repository PKIX Mitigation (`pom.xml` & `.mvn/maven.config`)**:
+   - Added `<autoUpdate>false</autoUpdate>`, `<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>`, and `<centralAnalyzerEnabled>false</centralAnalyzerEnabled>` to `dependency-check-maven` configuration in `pom.xml`.
+   - Added `.mvn/maven.config` with `-Daether.remoteRepositoryFilter.prefixes=false` and overrode the legacy `<id>jvnet-nexus-releases</id>` repository in `pom.xml` (`enabled=false`) to prevent Maven Resolver from querying the decommissioned `https://maven.java.net/content/repositories/releases/` endpoint with an invalid SSL certificate (`PKIX path building failed`).
 
 ---
 
 ## 4. Consequences & Verification
 
-- **Positive**: Completely decouples SCA verification in CI from GitHub Actions' 10 GB cache eviction and NVD API unauthenticated rate limits.
-- **Positive**: Reduces NVD cache initialization time in CI to ~3 seconds and total SCA check execution time to ~22 seconds.
+- **Positive**: Completely decouples SCA verification in CI from GitHub Actions' 10 GB cache eviction, NVD API unauthenticated rate limits, and `jvnet-nexus-releases` PKIX warnings.
+- **Positive**: Aligns `jsoehner/nvd-cache` and `enterprise-command-center` on `dependency-check-maven:13.0.0` schema and reduces total SCA check execution time to ~15 seconds.
 - **Verification**:
-  - `mvn clean verify -Dspotbugs.skip=true` passes all 22 unit/integration tests and OWASP Dependency-Check SCA analysis with zero errors.
+  - `mvn clean verify -Dspotbugs.skip=true` passes all 22 unit/integration tests and OWASP Dependency-Check SCA analysis with zero errors or PKIX warnings.
   - `python3 scripts/adr_gatekeeper.py --verify` passes all ADR integrity and section checks.
