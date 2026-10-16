@@ -294,6 +294,8 @@
                 <artifactId>dependency-check-maven</artifactId>
                 <version>13.0.0</version>
                 <configuration>
+                    <autoUpdate>false</autoUpdate>
+                    <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
                     <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
                     <failBuildOnCVSS>7.0</failBuildOnCVSS>
                     <suppressionFiles>

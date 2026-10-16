@@ -24,24 +24,24 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Restore NVD Cache
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.0.0
-        with:
-          path: ~/.m2/repository/org/owasp/dependency-check-data
-          key: ${{ runner.os }}-owasp-nvd-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-owasp-nvd-
+      - name: Restore NVD Cache from jsoehner/nvd-cache
+        run: |
+          mkdir -p ~/.m2/repository/org/owasp/dependency-check-data/11.0
+          curl -fsSL -o /tmp/odc.mv.db.zip \
+            https://github.com/jsoehner/nvd-cache/releases/download/latest-nvd-data/odc.mv.db.zip
+          unzip -q -o /tmp/odc.mv.db.zip -d ~/.m2/repository/org/owasp/dependency-check-data/11.0/
+          cp -f ~/.m2/repository/org/owasp/dependency-check-data/11.0/odc.mv.db ~/.m2/repository/org/owasp/dependency-check-data/odc.mv.db
+          rm -f /tmp/odc.mv.db.zip
 
       - name: Update NVD Database
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: |
           if [ -z "$NVD_API_KEY" ]; then
-            echo "NVD_API_KEY not found. Updating without key..."
-            mvn -B org.owasp:dependency-check-maven:update-only
+            echo "NVD_API_KEY not found. Retaining pre-cached NVD database from jsoehner/nvd-cache."
           else
             echo "Updating NVD database using API key..."
-            mvn -B org.owasp:dependency-check-maven:update-only -DnvdApiKey=$NVD_API_KEY
+            mvn -B org.owasp:dependency-check-maven:update-only -DautoUpdate=true -DnvdApiKey=$NVD_API_KEY
           fi
 
       - name: Save NVD Cache

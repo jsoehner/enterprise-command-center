@@ -26,3 +26,5 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0018](0018-spring-boot-4-jackson-3-alignment-and-container-vulnerability-remediation.md) | Spring Boot 4 Jackson 3 Alignment and Container Vulnerability Remediation | Accepted | 2026-10-14 |
 | [0019](0019-security-defect-remediation-websocket-csrf-and-pipeline-resilience.md) | Security Defect Remediation: WebSocket Isolation, CSRF Mitigation, and Automated Pipeline Resilience | Accepted | 2026-10-15 |
 | [0020](0020-jackson-2-bom-alignment-and-spring-data-redis-serialization.md) | Jackson 2 BOM Alignment and Spring Data Redis Serialization Remediation | Accepted | 2026-10-15 |
+| [0021](0021-centralized-nvd-cache-distribution-and-offline-sca-verification.md) | Centralized NVD Cache Distribution via jsoehner/nvd-cache and Offline SCA Verification | Accepted | 2026-10-16 |
+
