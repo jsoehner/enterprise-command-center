@@ -16,8 +16,8 @@
 | Evaluation Layer | Coverage / Status | Audit Confidence Assessment |
 |---|---|---|
 | **First-Party Code (`src/`)** | **100% Audited** (0 Custom Primitives) | 🟢 **HIGH** (Direct AST & SAST verified clean) |
-| **Third-Party Supply Chain** | **1.1%** (1 of 95 dependencies cataloged) | 🔴 LOW (Known profiles assimilated) |
-| **Overall Audit Confidence Score** | **2.1%** | 🔴 LOW (94 unassimilated supply chain dependencies) |
+| **Third-Party Supply Chain** | **1.1%** (1 of 92 dependencies cataloged) | 🔴 LOW (Known profiles assimilated) |
+| **Overall Audit Confidence Score** | **2.2%** | 🔴 LOW (91 unassimilated supply chain dependencies) |
 
 | **System OS Inventory** | **Pending Update** | 🟡 **Warning** (Local OS crypto components not yet inventoried) |
 
@@ -39,8 +39,8 @@
 
 | Component Name | Primitive | Key Length | Quantum Resistance Assessment | Provenance / Location(s) |
 |---|---|---|---|---|
-| `key@afec109c-bbbb-4af9-b84f-99312c30f64e` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
-| `key@91ddb269-8640-4d29-83f8-c94db7b75bc5` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| `key@eeb7bbbd-7470-4ba8-b8d8-d013e08e16b0` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| `key@ef83aad5-d53f-4e39-80ea-a02b64d5200f` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
 | `AES-256-GCM` | block-cipher | 256 | Quantum-Resistant (Grover's proof) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:111` |
 
 ### ⚠️ Unassimilated Third-Party Binaries & Cryptographic Blind Spots
@@ -49,9 +49,6 @@
 
 | Dependency Name | Version | Package URL (purl) | Status |
 |---|---|---|---|
-| `actions/cache/restore` | v5.0.0 | `pkg:github/actions/cache@v5.0.0#restore` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/cache/restore` | v5.0.0 | `pkg:github/actions/cache@v5.0.0#restore` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/cache/restore` | v5.0.0 | `pkg:github/actions/cache@v5.0.0#restore` | 🟡 Unassimilated (No upstream CBOM) |
 | `actions/cache/save` | v5.0.0 | `pkg:github/actions/cache@v5.0.0#save` | 🟡 Unassimilated (No upstream CBOM) |
 | `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
 | `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
@@ -64,4 +61,7 @@
 | `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
 | `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
 | `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| *... and 79 more unassimilated dependencies* | | | |
+| `actions/github-script` | v8.0.0 | `pkg:github/actions/github-script@v8.0.0` | 🟡 Unassimilated (No upstream CBOM) |
+| `actions/setup-java` | v5.0.0 | `pkg:github/actions/setup-java@v5.0.0` | 🟡 Unassimilated (No upstream CBOM) |
+| `actions/setup-java` | v5.0.0 | `pkg:github/actions/setup-java@v5.0.0` | 🟡 Unassimilated (No upstream CBOM) |
+| *... and 76 more unassimilated dependencies* | | | |
