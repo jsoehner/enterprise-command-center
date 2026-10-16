@@ -47,6 +47,10 @@ Root cause investigation revealed a three-part failure chain:
    - Added `<autoUpdate>false</autoUpdate>`, `<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>`, and `<centralAnalyzerEnabled>false</centralAnalyzerEnabled>` to `dependency-check-maven` configuration in `pom.xml`.
    - Added `.mvn/maven.config` with `-Daether.remoteRepositoryFilter.prefixes=false` and overrode the legacy `<id>jvnet-nexus-releases</id>` repository in `pom.xml` (`enabled=false`) to prevent Maven Resolver from querying the decommissioned `https://maven.java.net/content/repositories/releases/` endpoint with an invalid SSL certificate (`PKIX path building failed`).
 
+3. **`PERSONAL_ACCESS_TOKEN` Secret Rotation & Anti-Recursion Fallback (`nightly-dependency-update.yml`)**:
+   - Rotated `secrets.PERSONAL_ACCESS_TOKEN` with an active token (`HTTP 200`) so PRs created by `peter-evans/create-pull-request` trigger downstream `pull_request` workflows normally.
+   - Guarded `Create Pull Request` with `if: steps.pr-token.outputs.use_pat == 'true'` and added a direct `main` push fallback (`if: steps.pr-token.outputs.use_pat == 'false'`) so that if `PERSONAL_ACCESS_TOKEN` ever expires in the future, the workflow never opens a `GITHUB_TOKEN`-authored PR that triggers 0-job anti-recursion failures.
+
 ---
 
 ## 4. Consequences & Verification
