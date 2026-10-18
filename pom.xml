@@ -30,7 +30,7 @@
         <h2.version>2.5.252</h2.version>
         <lombok.version>1.18.48</lombok.version>
         <jackson-bom.version>3.2.3</jackson-bom.version>
-        <jackson-2-bom.version>2.22.3</jackson-2-bom.version>
+        <jackson-2-bom.version>2.22.4</jackson-2-bom.version>
     </properties>
     
     <dependencyManagement>
