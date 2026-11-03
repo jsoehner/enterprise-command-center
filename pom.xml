@@ -22,7 +22,7 @@
         <camel.version>4.23.0</camel.version>
         <tomcat.version>11.0.25</tomcat.version>
         <spring-security.version>7.2.0-M2</spring-security.version>
-        <netty.version>4.2.19.Final</netty.version>
+        <netty.version>4.2.20.Final</netty.version>
         <kafka.version>4.4.0</kafka.version>
         <httpcore5.version>5.5-beta4</httpcore5.version>
         <postgresql.version>42.7.14</postgresql.version>
@@ -100,7 +100,7 @@
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>2.51.0</version>
+                <version>2.52.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
