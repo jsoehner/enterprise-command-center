@@ -1,6 +1,6 @@
 ## 🛡️ Cryptographic Bill of Materials (CBOM) & PQC Migration Assessment
 
-**Format**: CycloneDX (v1.6) | **First-Party Code Crypto Assets**: 7 | **Total Tracked Crypto Assets**: 7
+**Format**: CycloneDX (v1.7) | **First-Party Code Crypto Assets**: 5 | **Total Tracked Crypto Assets**: 5
 
 ### 📊 Post-Quantum Migration Scorecard
 
@@ -8,16 +8,16 @@
 |---|---|---|
 | **Post-Quantum Ready (PQC)** | **2** | 🟢 Quantum-Resistant (NIST FIPS 203/204/205) |
 | **Quantum-Vulnerable (Backlog)** | **2** | 🔴 At Risk of 'Harvest Now, Decrypt Later' |
-| **Classical Symmetric / Digest** | **3** | 🟡 Classical Security (Requires AES-256 / SHA-256+) |
+| **Classical Symmetric / Digest** | **1** | 🟡 Classical Security (Requires AES-256 / SHA-256+) |
 | **Asymmetric PQC Migration Progress** | **50.0%** | (2 of 4 asymmetric primitives migrated) |
 
 ### 🎯 Cryptographic Supply Chain Coverage & Confidence
 
 | Evaluation Layer | Coverage / Status | Audit Confidence Assessment |
 |---|---|---|
-| **First-Party Code (`src/`)** | **100% Audited** (0 Custom Primitives) | 🟢 **HIGH** (Direct AST & SAST verified clean) |
-| **Third-Party Supply Chain** | **1.1%** (1 of 92 dependencies cataloged) | 🔴 LOW (Known profiles assimilated) |
-| **Overall Audit Confidence Score** | **2.2%** | 🔴 LOW (91 unassimilated supply chain dependencies) |
+| **First-Party Code (`src/`, `scripts/`)** | **100% Audited** (5 Crypto Primitive(s) Inventoried) | 🟢 **HIGH** (Direct AST & SAST verified) |
+| **Third-Party Supply Chain** | **0.0%** (0 of 2 dependencies cataloged) | 🔴 LOW (Known profiles assimilated) |
+| **Overall Audit Confidence Score** | **33.3%** | 🔴 LOW (2 unassimilated supply chain dependencies) |
 
 | **System OS Inventory** | **Pending Update** | 🟡 **Warning** (Local OS crypto components not yet inventoried) |
 
@@ -25,7 +25,7 @@
 
 | Component Name | Primitive | Key/Parameter Set | PQC Standard | Provenance / Location(s) |
 |---|---|---|---|---|
-| `ML-KEM-768` | kem | 768 | ML-KEM-768 (FIPS 203) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:23`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:29`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:59`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:29`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:43`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:45`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:46`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:58`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:61`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:63`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:89`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:92`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:94`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:108`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:113`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:114`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:115`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:119`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:121`<br>`src/main/java/com/camel/aggregator/config/PqcSecurityProviderConfig.java:39`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:33`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:52` |
+| `ML-KEM-768` | kem | N/A | ML-KEM-768 (FIPS 203) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/config/PqcSecurityProviderConfig.java:39`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:33`<br>`src/main/java/com/camel/aggregator/routes/PqcRoute.java:52`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:29`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:43`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:45`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:46`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:58`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:61`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:63`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:89`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:92`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:94`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:108`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:113`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:114`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:115`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:119`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:121`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:23`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:29`<br>`src/test/java/com/camel/aggregator/service/PostQuantumCryptoServiceTest.java:59` |
 | `ML-DSA-65` | signature | N/A | ML-DSA-65 (FIPS 204) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:116`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:117`<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:118` |
 
 ### ⚠️ Quantum-Vulnerable Assets & Remediation Plan
@@ -39,8 +39,6 @@
 
 | Component Name | Primitive | Key Length | Quantum Resistance Assessment | Provenance / Location(s) |
 |---|---|---|---|---|
-| `key@8fdafc4f-5fc6-498d-a6c7-a6073e52b3e6` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
-| `key@b3f6125d-7d86-459f-9a2e-b51d1750c7b3` | unknown | N/A | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
 | `AES-256-GCM` | block-cipher | 256 | Quantum-Resistant (Grover's proof) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:111` |
 
 ### ⚠️ Unassimilated Third-Party Binaries & Cryptographic Blind Spots
@@ -49,19 +47,5 @@
 
 | Dependency Name | Version | Package URL (purl) | Status |
 |---|---|---|---|
-| `actions/cache/save` | v5.0.0 | `pkg:github/actions/cache@v5.0.0#save` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/checkout` | v7.0.1 | `pkg:github/actions/checkout@v7.0.1` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/github-script` | v8.0.0 | `pkg:github/actions/github-script@v8.0.0` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/setup-java` | v5.0.0 | `pkg:github/actions/setup-java@v5.0.0` | 🟡 Unassimilated (No upstream CBOM) |
-| `actions/setup-java` | v5.0.0 | `pkg:github/actions/setup-java@v5.0.0` | 🟡 Unassimilated (No upstream CBOM) |
-| *... and 76 more unassimilated dependencies* | | | |
+| `enterprise-command-center` | N/A | `N/A` | 🟡 Unassimilated (No upstream CBOM) |
+| `enterprise-command-center` | latest | `pkg:container/enterprise-command-center@latest` | 🟡 Unassimilated (No upstream CBOM) |
