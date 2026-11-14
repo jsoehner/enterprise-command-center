@@ -18,8 +18,14 @@ updates:
   open-pull-requests-limit: 1
   assignees:
   - jsoehner
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+- package-ecosystem: github-actions
+  directory: /
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 5
+  assignees:
+  - jsoehner
