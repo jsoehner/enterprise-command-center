@@ -22,7 +22,7 @@
         <camel.version>4.23.0</camel.version>
         <tomcat.version>11.0.25</tomcat.version>
         <spring-security.version>7.2.0-M2</spring-security.version>
-        <netty.version>4.2.20.Final</netty.version>
+        <netty.version>4.2.21.Final</netty.version>
         <kafka.version>4.4.0</kafka.version>
         <httpcore5.version>5.5-beta4</httpcore5.version>
         <postgresql.version>42.7.14</postgresql.version>
@@ -95,7 +95,7 @@
             <dependency>
                 <groupId>at.yawk.lz4</groupId>
                 <artifactId>lz4-java</artifactId>
-                <version>1.14.0</version>
+                <version>1.14.1</version>
             </dependency>
             <dependency>
                 <groupId>com.google.errorprone</groupId>
