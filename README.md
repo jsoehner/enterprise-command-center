@@ -5,6 +5,7 @@
 [![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.22.1-orange.svg)](https://camel.apache.org/)
 [![Java](https://img.shields.io/badge/Java-25%2B-blue.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Build Verification](https://img.shields.io/badge/Build%20Verification-2026--11--20%20PASS-brightgreen.svg)](docs/BUILD_VERIFICATION.md)
 
 A high-performance **Enterprise Command Center** and **REST API Aggregator** built with Apache Camel 4.22, Spring Boot 4, Jackson 3, and a defense-in-depth security posture.
 
