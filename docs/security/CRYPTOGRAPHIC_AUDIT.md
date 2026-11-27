@@ -16,8 +16,8 @@
 | Evaluation Layer | Coverage / Status | Audit Confidence Assessment |
 |---|---|---|
 | **First-Party Code (`src/`, `scripts/`)** | **100% Audited** (13 Crypto Primitive(s) Inventoried across Configuration (11), Java (28)) | 🟢 **HIGH** (Direct AST & SAST verified) |
-| **Third-Party Supply Chain** | **61.9%** (70 of 113 dependencies cataloged) | 🟡 MEDIUM (Known profiles assimilated) |
-| **Overall Audit Confidence Score** | **62.3%** | 🟡 MEDIUM (43 unassimilated supply chain dependencies) |
+| **Third-Party Supply Chain** | **56.6%** (56 of 99 dependencies cataloged) | 🟡 MEDIUM (Known profiles assimilated) |
+| **Overall Audit Confidence Score** | **57.0%** | 🟡 MEDIUM (43 unassimilated supply chain dependencies) |
 
 | **System OS Inventory** | **Pending Update** | 🟡 **Warning** (Local OS crypto components not yet inventoried) |
 
@@ -38,8 +38,8 @@
 
 | Component / Algorithm | Type / Primitive | Key Length / Curve | Recommended Target | Provenance / Context |
 |---|---|---|---|---|
-| **`key@b3524d87-94e1-44a8-8a4c-6ca6651aee37`**<br><sub>key@b3524d87-94e1-44a8-8a4c-6ca6651aee37</sub> | related-crypto-material / secret-key | Key | **ML-DSA-65 / SLH-DSA X.509 Certificate & KMS Key Rotation** | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
-| **`key@a63d038b-edec-4045-a108-7390bedb5dbc`**<br><sub>key@a63d038b-edec-4045-a108-7390bedb5dbc</sub> | related-crypto-material / secret-key | Key | **ML-DSA-65 / SLH-DSA X.509 Certificate & KMS Key Rotation** | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| **`key@9a39e897-663c-4ada-9f62-876aa712cdd4`**<br><sub>key@9a39e897-663c-4ada-9f62-876aa712cdd4</sub> | related-crypto-material / secret-key | Key | **ML-DSA-65 / SLH-DSA X.509 Certificate & KMS Key Rotation** | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
+| **`key@ad6b4c91-1929-4af2-a5f8-626ff53d942d`**<br><sub>key@ad6b4c91-1929-4af2-a5f8-626ff53d942d</sub> | related-crypto-material / secret-key | Key | **ML-DSA-65 / SLH-DSA X.509 Certificate & KMS Key Rotation** | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java` |
 | **`ECDSA-P256`**<br><sub>ECDSA-P256</sub> | algorithm / signature | secp256r1 | **ML-DSA-65 / Dilithium (FIPS 204)** | First-Party Code (SAST/AST)<br>`src/main/resources/application-prod.yml:37`<br><sub><code>hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768</code></sub><br><br>`src/main/resources/application.yml:95`<br><sub><code>hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768</code></sub><br><br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:121`<br><sub><code>status.put("hybridTlsGroups", List.of("X25519+MLKEM768", "SecP256r1+MLKEM768"));</code></sub> |
 | **`ECDH-X25519`**<br><sub>ECDH-X25519</sub> | algorithm / key-agreement | 25519 | **ML-KEM-768 / Kyber (FIPS 203)** | First-Party Code (SAST/AST)<br>`src/main/resources/application-prod.yml:37`<br><sub><code>hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768</code></sub><br><br>`src/main/resources/application.yml:95`<br><sub><code>hybrid-tls-groups: X25519+MLKEM768,SecP256r1+MLKEM768</code></sub><br><br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:119`<br><sub><code>"X25519+MLKEM768 (Hybrid TLS 1.3 Draft Group)"</code></sub><br><br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:121`<br><sub><code>status.put("hybridTlsGroups", List.of("X25519+MLKEM768", "SecP256r1+MLKEM768"));</code></sub> |
 | **`bcpkix-jdk18on (Bouncy Castle Classical Asymmetric & PKIX Suite (RSA / ECDSA / Ed25519))`**<br><sub>RSA-2048 / ECDSA-P256 / Ed25519</sub> | signature / signature | 2048 / 256 | **Transition classical X.509 and CMS signatures to hybrid or pure ML-DSA-65** | Assimilated Upstream CBOM: Legion of the Bouncy Castle JCE & PQC Provider Specification (1.78+)<br>`Dependency: bcpkix-jdk18on@1.87` |
@@ -49,7 +49,7 @@
 
 | Component Name | Primitive | Key Length | Quantum Resistance Assessment | Provenance / Location(s) |
 |---|---|---|---|---|
-| `SHA-256` | hash | 256 | Quantum-Resistant (Grover's proof) | First-Party Code (SAST/AST)<br>`Dockerfile:6`<br>`Dockerfile:26`<br>`Dockerfile:42` |
+| `SHA-256` | hash | 256 | Quantum-Resistant (Grover's proof) | First-Party Code (SAST/AST)<br>`Dockerfile:6`<br>`Dockerfile:46`<br>`Dockerfile:62` |
 | `bcrypt` | kdf | 192 | Quantum-Resistant KDF / Password Hashing (Grover-resistant) | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/config/SecurityConfig.java:11`<br>`src/main/java/com/camel/aggregator/config/SecurityConfig.java:61` |
 | `AES-192` | block-cipher | 192 | Review key length for Grover resistance | First-Party Code (SAST/AST)<br>`src/main/java/com/camel/aggregator/service/PostQuantumCryptoService.java:111` |
 | `postgresql (JVM TLS 1.3 / JSSE / BoringSSL Client Transport)` | protocol | 256 | Quantum-Resistant (Grover's proof) | Assimilated Upstream CBOM: JVM TLS / Database / RPC Transport Security Profile<br>`Dependency: postgresql@42.7.14` |
