@@ -1,13 +1,13 @@
 # Enterprise Command Center (REST API Aggregator)
 
 [![Build & Test](https://github.com/jsoehner/enterprise-command-center/actions/workflows/ci.yml/badge.svg)](https://github.com/jsoehner/enterprise-command-center/actions)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.2.0--M2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.22.1-orange.svg)](https://camel.apache.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.2.0--RC2-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Apache Camel](https://img.shields.io/badge/Apache%20Camel-4.23.0-orange.svg)](https://camel.apache.org/)
 [![Java](https://img.shields.io/badge/Java-25%2B-blue.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Build Verification](https://img.shields.io/badge/Build%20Verification-2026--11--20%20PASS-brightgreen.svg)](docs/BUILD_VERIFICATION.md)
 
-A high-performance **Enterprise Command Center** and **REST API Aggregator** built with Apache Camel 4.22, Spring Boot 4, Jackson 3, and a defense-in-depth security posture.
+A high-performance **Enterprise Command Center** and **REST API Aggregator** built with Apache Camel 4.23, Spring Boot 4, Jackson 3, and a defense-in-depth security posture.
 
 This platform unifies downstream microservices, real-time business telemetry, automated billing & settlement, freight logistics fulfillment, and circuit-breaker resilience into an interactive, high-density command interface.
 
@@ -29,16 +29,16 @@ This platform unifies downstream microservices, real-time business telemetry, au
 
 | Domain | Technology |
 | :--- | :--- |
-| **Framework** | Spring Boot 4.2.0-M2 |
-| **Integration Engine** | Apache Camel 4.22.1 (REST DSL & EIP Aggregator with Jackson 3) |
+| **Framework** | Spring Boot 4.2.0-RC2 |
+| **Integration Engine** | Apache Camel 4.23.0 (REST DSL & EIP Aggregator with Jackson 3) |
 | **Database** | PostgreSQL (Prod) & In-Memory H2 (Dev / Test) |
 | **Caching & Rate Limiting** | Bucket4j 8.10.1, Caffeine Cache & Redis |
-| **Event Streaming** | Apache Kafka 3.9.2 |
+| **Event Streaming** | Apache Kafka 4.4.0 |
 | **Resilience & SLA** | Resilience4j Circuit Breakers & Micrometer Actuator |
 | **Security & Auth** | Spring Security 7.2.0-M2, HTTP Basic Auth, CSP & HSTS |
 | **Frontend Architecture** | Vanilla HTML5, CSS Design Tokens, WebSockets, Vanilla JS |
-| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, SpotBugs 4.10.5, OWASP 13.0.0 |
-| **Containerization** | Multi-stage Dockerfile (Temurin JDK 25 build + Chainguard JRE) |
+| **CI/CD & Security** | GitHub Actions (Node 24, Commit SHA Pinning), Gitleaks, Trivy Config & Image Scans, OWASP 13.0.0 |
+| **Containerization** | 3-stage digest-pinned Dockerfile (Temurin JDK 25 + custom `jlink` JRE + Chainguard `glibc-dynamic` distroless non-root) |
 
 ---
 
@@ -67,10 +67,12 @@ The web interface is modular and accessible at the following endpoints:
 git clone https://github.com/jsoehner/enterprise-command-center.git
 cd enterprise-command-center
 
-# Build and run the container
-./docker-run.sh
+# Start the hardened container (ADMIN_PASSWORD is required; admin123 is rejected)
+ADMIN_PASSWORD='change-me-strong-password' ./docker-run.sh
 ```
-Open your browser at **`http://localhost:8080`** (Default credentials: `admin` / `admin123`).
+`docker-run.sh` binds ports `8080` and `8081` to `127.0.0.1` (`BIND_HOST`) and enforces `--read-only`, `--tmpfs /tmp:rw,noexec,nosuid,size=64m`, `--cap-drop=ALL`, `no-new-privileges`, non-root UID `65532`, and memory/CPU/PID limits. The image runs a stripped Java 25 LTS `jlink` JRE (`68.1 MB`) on Chainguard `glibc-dynamic` (`16.25 MB`) for a `388 MB` total disk footprint (`172 MB` compressed), with zero shell binaries and a built-in Java `HEALTHCHECK`.
+
+Open your browser at **`http://127.0.0.1:8080`** and sign in with `ADMIN_USERNAME` (default `admin`) and your `ADMIN_PASSWORD`.
 
 ### 2. Local Maven Development
 ```bash
@@ -105,6 +107,10 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0016: Automated Nightly Dependency Updates & Unattended Auto-Merge](docs/adr/0016-automated-nightly-dependency-updates-and-unattended-auto-merge.md)** — PAT-authenticated pull request creation, reviewer decoupling, and unattended auto-merging for scheduled dependency updates.
 * **[ADR 0017: Dependency Lifecycle Governance & Spring Boot 4 Milestone Evaluation](docs/adr/0017-dependency-lifecycle-governance-and-spring-boot-4-milestone-evaluation.md)** — Dependency lifecycle orchestration, safe baseline hardening, and isolated Spring Boot 4 / Spring Security 7 milestone migration testing.
 * **[ADR 0018: Spring Boot 4 Jackson 3 Alignment & Container Vulnerability Remediation](docs/adr/0018-spring-boot-4-jackson-3-alignment-and-container-vulnerability-remediation.md)** — Alignment with Spring Boot 4's Jackson 3 architecture, Camel Jackson 3 starter migration, and container vulnerability remediation.
+* **[ADR 0019: Security Defect Remediation: WebSocket Isolation, CSRF Mitigation & Pipeline Resilience](docs/adr/0019-security-defect-remediation-websocket-csrf-and-pipeline-resilience.md)** — Loopback WebSocket binding, stateless API sessions, Order ID regex alignment, and SCA-gated CI merges.
+* **[ADR 0020: Jackson 2 BOM Alignment & Spring Data Redis Serialization](docs/adr/0020-jackson-2-bom-alignment-and-spring-data-redis-serialization.md)** — Transitive Jackson 2 alignment for OpenAPI and Spring Data Redis serialization.
+* **[ADR 0021: Centralized NVD Cache Distribution & Offline SCA Verification](docs/adr/0021-centralized-nvd-cache-distribution-and-offline-sca-verification.md)** — Centralized NVD H2 cache restoration via `jsoehner/nvd-cache` and offline OWASP Dependency-Check execution.
+* **[ADR 0022: Docker Container Hardening & Minimal jlink Distroless Base](docs/adr/0022-docker-container-hardening-and-minimal-jlink-distroless-base.md)** — Digest-pinned Chainguard `glibc-dynamic` base, custom Java 25 `jlink` JRE, layered Spring Boot packaging, distroless `ContainerHealthCheck`, and hardened runtime flags.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 

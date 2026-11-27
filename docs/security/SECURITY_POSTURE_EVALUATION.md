@@ -18,7 +18,7 @@ A comprehensive, defense-in-depth security posture evaluation was executed acros
 | :--- | :---: | :--- |
 | **Cryptographic Posture & PQC** | 🟢 **A** | NIST FIPS 203 ML-KEM-768 and FIPS 204 ML-DSA active via Bouncy Castle 1.86; Hybrid TLS 1.3 draft groups enabled; CBOM AST extraction integrated. |
 | **Secret Detection & Credential Hygiene** | 🟢 **A** | Gitleaks verified 229 commits with **0 leaks**. Zero hardcoded credentials in source code. |
-| **Container & Base Image Security** | 🟢 **A-** | Minimalist Chainguard distroless runtime (`cgr.dev/chainguard/jre`) with zero-vulnerability gatekeeping (`trivy-action`). |
+| **Container & Base Image Security** | 🟢 **A+** | Digest-pinned Chainguard `glibc-dynamic` (`16.25 MB`, 7 Wolfi packages) + custom Java 25.0.5.1 LTS `jlink` JRE (`68.1 MB`), `USER 65532:65532`, distroless `ContainerHealthCheck`, `--read-only`/`--cap-drop=ALL` runtime controls, SLSA provenance + SPDX SBOM, and 0 Trivy config/image findings (see [ADR-0022](../adr/0022-docker-container-hardening-and-minimal-jlink-distroless-base.md)). |
 | **Static Code Analysis (SAST)** | 🟡 **B+** | Parameterized JPA queries, Jackson JSON Redis serialization, SecureRandom RNG. **Flaw identified:** Order ID regex mismatch leading to automated pipeline starvation. |
 | **Application & API Access Control** | 🟡 **B** | Spring Security 7.2 / HTTP Basic on port 8080 with HSTS and CSP. **Flaw identified:** Unauthenticated Vert.x WebSocket broadcast server on `0.0.0.0:8081`. |
 | **CI/CD Supply Chain & Auto-Merge** | 🟠 **C+** | 100% 40-character SHA pinning in GitHub Actions (ADR-0004 compliant). **High Risk:** Nightly automated dependency auto-merge explicitly disables SCA (`-Ddependency-check.skip=true`). |
@@ -154,3 +154,14 @@ Following the audit in [`docs/security/CRYPTOGRAPHIC_AUDIT.md`](file:///Users/js
 | **P2** | Set `SessionCreationPolicy.STATELESS` in Spring Security config | [`SecurityConfig.java`](file:///Users/jsoehner/enterprise-command-center/src/main/java/com/camel/aggregator/config/SecurityConfig.java) | Neutralizes CSRF exposure on stateless API routes. |
 | **P3** | Require `ADMIN_PASSWORD` in `docker-run.sh` / `docker-run.ps1` | `docker-run.sh`, `docker-run.ps1` | Eliminates hardcoded credential vectors. |
 | **P3** | Add `spotbugs-maven-plugin` into `pom.xml` build plugins | [`pom.xml`](file:///Users/jsoehner/enterprise-command-center/pom.xml) | Activates static analysis reporting expected by CI scripts. |
+
+---
+
+## 6. Container Hardening Addendum (2026-11-27 — ADR-0022)
+
+On November 27, 2026, the container build and runtime configuration were hardened to eliminate floating tags, shrink image size, and enforce least-privilege execution:
+
+- **Minimal Base & Custom `jlink` JRE**: Replaced `cgr.dev/chainguard/jre:latest` (`~562 MB` base, drifted to OpenJDK `26.0.2.1`) with digest-pinned `cgr.dev/chainguard/glibc-dynamic` (`16.25 MB`, 7 Wolfi packages, glibc `2.44`) paired with a stripped Java `25.0.5.1` LTS `jlink` JRE (`68.1 MB`) built from digest-pinned `eclipse-temurin:25-jdk-noble` on `$TARGETPLATFORM`.
+- **Footprint & Layer Optimization**: Total disk usage dropped from **696 MB** (`231 MB` compressed content) to **388 MB** (`172 MB` compressed content, `-44.3%` disk / `-25.5%` content). OS + JRE size fell **85.0%** (`~562 MB -> 84.4 MB`). Extracting Spring Boot 4 layers (`chmod -R a-w`) reduced incremental application layers from `134 MB` to `692 kB`, and `.dockerignore` excludes `.env`, `.mvn/`, `docs/`, and governance tooling (`8.97 kB` build context).
+- **Distroless Health Check & Runtime Controls**: Added `ContainerHealthCheck.java` (`java.base`-only HTTP probe) for Docker `HEALTHCHECK`, explicit `USER 65532:65532`, `STOPSIGNAL SIGTERM`, and `-Dvertx.cacheDirBase=/tmp/vertx-cache`. Hardened `docker-run.sh` and `docker-run.ps1` with `--read-only`, `--tmpfs /tmp:rw,noexec,nosuid,size=64m`, `--cap-drop=ALL`, `--security-opt=no-new-privileges:true`, `--user 65532:65532`, `--memory=1g`, `--cpus=2`, `--pids-limit=256`, and loopback `127.0.0.1` port binding.
+- **CI Supply-Chain & Verification Gates**: Added `provenance: mode=max` and `sbom: true` in `.github/workflows/docker-publish.yml`, plus a blocking Trivy `config` scan in `.github/workflows/security-testing.yml`. Local verification confirmed `25/25` `mvn test` passes, `0` Trivy `config` misconfigurations (`LOW..CRITICAL`), `0` Trivy `image` HIGH/CRITICAL CVEs, `/bin/sh` absence, `Health=healthy`, and `200`/`401` responses across `/`, `/camel/orders/summary`, `/camel/pqc/status`, `/camel/pqc/demo-exchange`, and `/actuator/health`.
