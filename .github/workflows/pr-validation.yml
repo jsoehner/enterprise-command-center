@@ -12,11 +12,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up Node.js 24
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.2.0
-        with:
-          node-version: '24'
-
       - name: Set up Java
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.0.0
         with:
@@ -34,4 +29,21 @@ jobs:
           rm -f /tmp/odc.mv.db.zip
 
       - name: Build and Verify
-        run: mvn clean verify -Dspotbugs.skip=true
+        run: |
+          cat <<'EOF' > /tmp/ci-settings.xml
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+            <mirrors>
+              <mirror>
+                <id>gcs-maven-central</id>
+                <name>Google Cloud Storage Maven Central Mirror</name>
+                <url>https://maven-central.storage-download.googleapis.com/maven2</url>
+                <mirrorOf>central</mirrorOf>
+              </mirror>
+            </mirrors>
+          </settings>
+          EOF
+          MVN_OPTS="-B -Daether.connector.basic.threads=2 -Daether.transport.http.retryHandler.count=6 -Daether.transport.http.retryHandler.interval=2000 -Daether.transport.http.retryHandler.intervalMax=15000 -Daether.transport.http.retryHandler.serviceUnavailable=429,500,502,503,504"
+          mvn -s /tmp/ci-settings.xml clean verify -Dspotbugs.skip=true ${MVN_OPTS} || mvn clean verify -Dspotbugs.skip=true ${MVN_OPTS}
+          rm -f /tmp/ci-settings.xml

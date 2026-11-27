@@ -6,11 +6,31 @@
 FROM --platform=$BUILDPLATFORM maven:3.9-eclipse-temurin-25@sha256:93b8a14ea2f412782e4e842651273b4d903e35cc496284f178fbbe2d67d00976 AS build
 WORKDIR /workspace
 
+COPY <<'EOF' /tmp/ci-settings.xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+  <mirrors>
+    <mirror>
+      <id>gcs-maven-central</id>
+      <name>Google Cloud Storage Maven Central Mirror</name>
+      <url>https://maven-central.storage-download.googleapis.com/maven2</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+  </mirrors>
+</settings>
+EOF
+
 COPY pom.xml .
-RUN mvn dependency:go-offline -B -Daether.remoteRepositoryFilter.prefixes=false
+RUN set -eu; \
+    MVN_OPTS="-B -Daether.remoteRepositoryFilter.prefixes=false -Daether.connector.basic.threads=2 -Daether.transport.http.retryHandler.count=6 -Daether.transport.http.retryHandler.interval=2000 -Daether.transport.http.retryHandler.intervalMax=15000 -Daether.transport.http.retryHandler.serviceUnavailable=429,500,502,503,504"; \
+    mvn -s /tmp/ci-settings.xml dependency:go-offline ${MVN_OPTS} || mvn dependency:go-offline ${MVN_OPTS}
 
 COPY src ./src
-RUN mvn package -DskipTests -B -Daether.remoteRepositoryFilter.prefixes=false
+RUN set -eu; \
+    MVN_OPTS="-B -Daether.remoteRepositoryFilter.prefixes=false -Daether.connector.basic.threads=2 -Daether.transport.http.retryHandler.count=6 -Daether.transport.http.retryHandler.interval=2000 -Daether.transport.http.retryHandler.intervalMax=15000 -Daether.transport.http.retryHandler.serviceUnavailable=429,500,502,503,504"; \
+    mvn -s /tmp/ci-settings.xml package -DskipTests ${MVN_OPTS} || mvn package -DskipTests ${MVN_OPTS}; \
+    rm -f /tmp/ci-settings.xml
 
 # Extract Spring Boot 4 layered JAR and lock permissions read-only (dirs 0555, files 0444)
 RUN set -eu; \

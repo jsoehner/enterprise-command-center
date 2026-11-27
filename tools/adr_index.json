@@ -3,7 +3,7 @@
   "last_updated": "2026-11-27",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 22,
+  "total_records": 23,
   "records": [
     {
       "id": "0001",
@@ -246,6 +246,17 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "The prior container build produced a **696 MB** image (`231 MB` compressed content size) on `cgr.dev/chainguard/jre:latest` (`~562 MB` base runtime + `134 MB` fat `app.jar`). Four security and operati"
+    },
+    {
+      "id": "0023",
+      "title": "ADR-0023: GitHub Actions Consolidation, Maven 429 Resilience, and SCA False-Positive Remediation",
+      "status": "Accepted",
+      "date": "2026-11-27",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0023-github-actions-consolidation-maven-429-resilience-and-sca-suppression.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "Review of GitHub Actions runs on `main` revealed three failing workflows and four redundant or non-compliant workflow definitions:"
     }
   ]
 }

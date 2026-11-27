@@ -97,4 +97,28 @@
         <cve>CVE-2026-47834</cve>
     </suppress>
 
+    <!--
+      Apache HttpComponents Core 5.5 GA False-Positive Suppression
+      Rationale: CVE-2026-54399 and CVE-2026-54428 affect <= 5.4.2 and <= 5.5-beta1;
+      Apache fixed both in 5.4.3 and 5.5-beta2. OWASP Dependency-Check 13.0.0 CPE
+      version range matching treats GA "5.5" as <= "5.5-beta1".
+    -->
+    <suppress>
+        <notes><![CDATA[
+        False-positive CPE match on httpcore5/httpcore5-h2 5.5 GA for CVEs fixed in 5.4.3 / 5.5-beta2.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents\.core5/httpcore5(?:-h2)?@5\.5$</packageUrl>
+        <cve>CVE-2026-54399</cve>
+        <cve>CVE-2026-54428</cve>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        CPE-level false-positive suppression strictly pinned to httpcomponents_core 5.5 GA.
+        ]]></notes>
+        <cpe regex="true">cpe:2\.3:a:apache:httpcomponents_core:5\.5:.*$</cpe>
+        <cve>CVE-2026-54399</cve>
+        <cve>CVE-2026-54428</cve>
+    </suppress>
+
 </suppressions>

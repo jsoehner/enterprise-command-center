@@ -93,5 +93,5 @@ Technical insights and operational lessons learned are archived under [`docs/les
 - **[Code Cleanup Lessons Learned](lessons-learned/code-cleanup-lessons.md)** — Strategies for linting, dependency pruning, and codebase health.
 - **[Nightly Dependencies Lessons Learned](lessons-learned/nightly-dependencies-lessons.md)** — Continuous dependency updates, Maven versioning, and CI permission models.
 - **[Spring Boot 4 & Jackson 3 Lessons Learned](lessons-learned/spring-boot-4-jackson-3-lessons.md)** — Framework modernization, Jackson 3 alignment, and container vulnerability remediation.
-- **[Architectural Decision Index](adr/README.md)** — Complete catalog of ADRs 0001 through 0022.
+- **[Architectural Decision Index](adr/README.md)** — Complete catalog of ADRs 0001 through 0023.
 - **[Frequently Asked Questions](FAQ.md)** — Common questions regarding authentication, rate limiting, and API aggregator routes.

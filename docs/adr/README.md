@@ -28,3 +28,4 @@ This directory maintains the Architectural Decision Records (ADRs) for the **Ent
 | [0020](0020-jackson-2-bom-alignment-and-spring-data-redis-serialization.md) | Jackson 2 BOM Alignment and Spring Data Redis Serialization Remediation | Accepted | 2026-10-15 |
 | [0021](0021-centralized-nvd-cache-distribution-and-offline-sca-verification.md) | Centralized NVD Cache Distribution via jsoehner/nvd-cache and Offline SCA Verification | Accepted | 2026-10-16 |
 | [0022](0022-docker-container-hardening-and-minimal-jlink-distroless-base.md) | ADR-0022: Docker Container Hardening and Minimal jlink Distroless Base | Accepted | 2026-11-27 |
+| [0023](0023-github-actions-consolidation-maven-429-resilience-and-sca-suppression.md) | ADR-0023: GitHub Actions Consolidation, Maven 429 Resilience, and SCA False-Positive Remediation | Accepted | 2026-11-27 |

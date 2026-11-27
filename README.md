@@ -111,6 +111,7 @@ All architectural decisions are documented under [`docs/adr/`](docs/adr/):
 * **[ADR 0020: Jackson 2 BOM Alignment & Spring Data Redis Serialization](docs/adr/0020-jackson-2-bom-alignment-and-spring-data-redis-serialization.md)** — Transitive Jackson 2 alignment for OpenAPI and Spring Data Redis serialization.
 * **[ADR 0021: Centralized NVD Cache Distribution & Offline SCA Verification](docs/adr/0021-centralized-nvd-cache-distribution-and-offline-sca-verification.md)** — Centralized NVD H2 cache restoration via `jsoehner/nvd-cache` and offline OWASP Dependency-Check execution.
 * **[ADR 0022: Docker Container Hardening & Minimal jlink Distroless Base](docs/adr/0022-docker-container-hardening-and-minimal-jlink-distroless-base.md)** — Digest-pinned Chainguard `glibc-dynamic` base, custom Java 25 `jlink` JRE, layered Spring Boot packaging, distroless `ContainerHealthCheck`, and hardened runtime flags.
+* **[ADR 0023: GitHub Actions Consolidation, Maven 429 Resilience & SCA Remediation](docs/adr/0023-github-actions-consolidation-maven-429-resilience-and-sca-suppression.md)** — Workflow pruning (11 to 8) via `security-governance.yml`, GCS Maven Central mirror with HTTP 429 retries, and `httpcore5:5.5` false-positive suppression.
 
 See the complete index in [docs/adr/README.md](docs/adr/README.md).
 
