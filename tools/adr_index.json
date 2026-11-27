@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-10-15",
+  "last_updated": "2026-11-27",
   "project": "Enterprise Command Center",
   "adr_directory": "docs/adr",
-  "total_records": 20,
+  "total_records": 22,
   "records": [
     {
       "id": "0001",
@@ -224,6 +224,28 @@
       "supersedes": null,
       "superseded_by": null,
       "summary": "During container startup and test execution in the Spring Boot `4.2.0-M2` environment, application context initialization failed during the creation of `cacheService` and `redisTemplate`:"
+    },
+    {
+      "id": "0021",
+      "title": "Centralized NVD Cache Distribution via jsoehner/nvd-cache and Offline SCA Verification",
+      "status": "Accepted",
+      "date": "2026-10-16",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0021-centralized-nvd-cache-distribution-and-offline-sca-verification.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "In GitHub Actions run [38861380306](https://github.com/jsoehner/enterprise-command-center/actions/runs/38861380306) (Job `update-dependencies`, ID [116908327554](https://github.com/jsoehner/enterprise"
+    },
+    {
+      "id": "0022",
+      "title": "ADR-0022: Docker Container Hardening and Minimal jlink Distroless Base",
+      "status": "Accepted",
+      "date": "2026-11-27",
+      "deciders": "Enterprise Command Center Architecture & Security Governance Team",
+      "file": "docs/adr/0022-docker-container-hardening-and-minimal-jlink-distroless-base.md",
+      "supersedes": null,
+      "superseded_by": null,
+      "summary": "The prior container build produced a **696 MB** image (`231 MB` compressed content size) on `cgr.dev/chainguard/jre:latest` (`~562 MB` base runtime + `134 MB` fat `app.jar`). Four security and operati"
     }
   ]
 }

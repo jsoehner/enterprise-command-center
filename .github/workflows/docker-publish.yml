@@ -73,6 +73,8 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # Security best practices: use buildx cache
+          # Security best practices: use buildx cache and attach SLSA provenance + SPDX SBOM
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          provenance: mode=max
+          sbom: true

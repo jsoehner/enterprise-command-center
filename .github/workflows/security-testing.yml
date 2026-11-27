@@ -19,6 +19,9 @@ on:
       - 'package.json'
       - 'requirements.txt'
       - 'Dockerfile'
+      - '.dockerignore'
+      - 'docker-run.sh'
+      - 'docker-run.ps1'
 
 permissions: read-all
 
@@ -61,6 +64,16 @@ jobs:
       - name: Set up Docker Buildx
         if: steps.check_dockerfile.outputs.exists == 'true'
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
+
+      - name: Scan Dockerfile for misconfigurations (Trivy Config)
+        if: steps.check_dockerfile.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
+        with:
+          scan-type: 'config'
+          scan-ref: 'Dockerfile'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH,MEDIUM'
 
       - name: Build Docker image locally for scanning
         if: steps.check_dockerfile.outputs.exists == 'true'
