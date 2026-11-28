@@ -436,7 +436,7 @@
                     <dependency>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-buildpack-platform</artifactId>
-                        <version>4.2.0-RC2</version>
+                        <version>4.2.0</version>
                         <exclusions>
                             <exclusion>
                                 <groupId>tools.jackson.core</groupId>
